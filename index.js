@@ -17,8 +17,6 @@ const messages = {
   <br/>
   👉🏼 VEGGIE
   <br/>
-  <br/>
-  <br/>
   👉🏼 Healthy
   <br/>
   👉🏼 Normal
@@ -253,20 +251,15 @@ const insertChat = (who, text) => {
 }
 //-- END Helper Functions
 
+// Listener for dynamically created buttons
 $(document).click(function (e) {
-  if ($(e.target).is("button")) {
+  if ($(e.target).is("button")) 
     buttonClicked($(e.target).text())
-  } else {
-    console.log("not clicked (directly) on a button")
-  }
 })
 
-// -- Add 'Enter' key press event listener to text input
-function buttonClicked(value) {
-  console.log('clicked me')
 
+function buttonClicked(value) {
   let text = value.toLowerCase()
-  console.log(text)
   if (text !== '') {
     insertChat('user', text)
     switch (steps[progress]) {
