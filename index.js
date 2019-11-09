@@ -7,7 +7,7 @@ session.consult(subway_program)
 const user_avatar = 'https://image.flaticon.com/icons/svg/1400/1400241.svg'
 const subway_avatar = 'https://image.flaticon.com/icons/svg/1995/1995600.svg'
 const messages = {
-  greetings: `Hello Cheng WU!
+  greetings: `Hello Ben!
   <br/>
   Welcome To Subway!
   <br/>
