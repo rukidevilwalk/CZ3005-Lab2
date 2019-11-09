@@ -446,7 +446,7 @@ const buttonClicked = (value) => {
     //$(this).val('')
   }
 
-})
+}
 
   // ---- Print Messages
   insertChat('subway', messages.greetings)
