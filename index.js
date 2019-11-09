@@ -176,10 +176,8 @@ const formatAMPM = date => {
 }
 
 const insertChat = (who, text) => {
-
+  $("#btn-group").empty()
   session.query("options(meals).")
-  var callback = console.log
-  session.answer(callback)
 
   let date = formatAMPM(new Date())
   let chatLoadingHTML =
