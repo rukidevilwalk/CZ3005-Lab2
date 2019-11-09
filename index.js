@@ -254,7 +254,7 @@ const insertChat = (who, text) => {
 //-- END Helper Functions
 
 // -- Add 'Enter' key press event listener to text input
-const buttonClicked = (value) => {
+function buttonClicked(value) {
   console.log('clicked me')
 
   let text = value
@@ -448,5 +448,5 @@ const buttonClicked = (value) => {
 
 }
 
-  // ---- Print Messages
-  insertChat('subway', messages.greetings)
+// ---- Print Messages
+insertChat('subway', messages.greetings)
