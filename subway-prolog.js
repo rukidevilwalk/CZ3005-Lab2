@@ -50,16 +50,13 @@ ask_sides(X) :- sides(X).
 
 % print_options is used to print the items based on the given list.
 print_options([]). % empty list
-print_options([H]) :- % last item in list
-    write(H), 
-    write('.'). 
 
 print_options([H|T]) :-  % List with items more than one
     write(H), 
     write(', '), 
-    print_options(T), !.% remove the item then print it one by one
+    print_options(T), !. % remove the item then print it one by one
 
-    
+
 options(meals) :- meals(L), print_options(L).
 
 % selected(X,L) :- .
