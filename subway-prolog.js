@@ -49,22 +49,28 @@ ask_topups(X) :- findall(X, (chosen_meals(Y), \\+value_meal(Y) -> (vegan_meal(Y)
 ask_sides(X) :- sides(X).
 
 % print_options is used to print the items based on the given list.
-print_options([]). % empty list
+createDOM([]). % empty list
 
-print_options([H|T]) :-  % List with items more than one
-    write(H), 
-    write(', '), 
-    print_options(T), !. % remove the item then print it one by one
+createDOM([H]) :- % last item in list
+create(button, BUTTON),
+html(BUTTON, H),
+get_by_id('btn-group', Parent),
+append_child(Parent, BUTTON). 
 
- buttonClicked(Text) :-
-    prop(buttonClicked, ButtonClicked),
-    apply(ButtonClicked, [Text], _).
+createDOM([H|T]) :-  % List with items more than one
+create(button, BUTTON),
+html(BUTTON, H),
+get_by_id('btn-group', Parent),
+append_child(Parent, BUTTON), 
+createDOM(T), !. % remove the item then print it one by one
 
-init :-
-buttonClicked('veggie').
+    %'<button type="button" id="veggie" class="btn btn-secondary" >' + 'Veggie' + '</button>' +
 
-options(meals) :- meals(L), print_options(L).
-options(meals1) :- meals(L).
+
+
+
+options(meals) :- meals(L), createDOM(L).
+
 % selected(X,L) :- .
 
 % Get user corresponding choice
