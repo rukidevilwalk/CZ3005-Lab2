@@ -45,7 +45,7 @@ ask_topups(X) :- findall(X, (chosen_meals(Y), \\+value_meal(Y) -> (vegan_meal(Y)
 % Get possible sides
 ask_sides(X) :- sides(X).
 
-options(meals) :- meals(L).
+options(meals) :- meals(L), print_options(L).
 
 % selected(X,L) :- .
 
