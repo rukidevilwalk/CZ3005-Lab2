@@ -192,6 +192,10 @@ const insertChat = (who, text) => {
     '</li>'
   let replyHTML = ''
 
+  let buttonGroup =
+    '  <button type="button" class="btn btn-secondary">' + 'Yes' + '</button>' +
+    ' <button type="button" class="btn btn-secondary">' + 'No' + '</button>'
+
   if (who == 'subway') {
     replyHTML =
       '<li style="width:100%;">' +
@@ -213,6 +217,10 @@ const insertChat = (who, text) => {
     $('ul')
       .append(chatLoadingHTML)
       .scrollTop($('ul').prop('scrollHeight'))
+
+    $("#btn-group")
+      .empty()
+      .append(buttonGroup)
 
     setTimeout(() => {
       $('ul li:last-child').remove()
@@ -250,7 +258,7 @@ $('.glyphicon').click(() => {
 })
 
 // -- Add 'Enter' key press event listener to text input
-$('.mytext').on('keydown', function(e) {
+$('.mytext').on('keydown', function (e) {
   if (e.which == 13) {
     let text = $(this)
       .val()
@@ -288,9 +296,9 @@ $('.mytext').on('keydown', function(e) {
                 insertChat(
                   'subway',
                   `🥖 <b>${user_order.bread.toUpperCase()}</b> was just freshly baked by our 👩‍🍳 Since you chose <b>${
-                    user_order.meal
+                  user_order.meal
                   }</b> meal, no meat options for you. ${
-                    messages.veggie_choices
+                  messages.veggie_choices
                   }`
                 )
                 progress = 3
@@ -299,7 +307,7 @@ $('.mytext').on('keydown', function(e) {
                 insertChat(
                   'subway',
                   `🥖 <b>${user_order.bread.toUpperCase()}</b> was just freshly baked by our 👩‍🍳 ${
-                    messages.meat_choices
+                  messages.meat_choices
                   }`
                 )
                 progress = 2
