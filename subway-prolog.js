@@ -9,8 +9,7 @@ value_meal(value).
 vegan_meal(vegan).
 veggie_meal(veggie).
 
-% Possible choice options for each category
-meals([healthy, normal, value, vegan, veggie]).
+meals([normal, healthy, veggie, vegan, value]).
 breads([wheat, honey_oat, italian, hearty_italian, flatbread]).
 meats([chicken, beef, ham, bacon, salmon, tuna, turkey]).
 veggies([cucumber, green_peppers, lettuce, red_onions, tomatoes]).
@@ -45,6 +44,10 @@ ask_topups(X) :- findall(X, (chosen_meals(Y), \\+value_meal(Y) -> (vegan_meal(Y)
 
 % Get possible sides
 ask_sides(X) :- sides(X).
+
+options(meals) :- meals(L).
+
+% selected(X,L) :- .
 
 % Get user corresponding choice
 % findall(X, pred(X), List) - Find possible values for predicate and add to the List

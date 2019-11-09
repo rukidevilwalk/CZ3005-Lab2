@@ -1,7 +1,7 @@
 //-- Prolog Session
-import subway_program from './subway-prolog.js'
-const session = pl.create()
-session.consult(subway_program)
+import subway_interactor from './subway-prolog.js'
+var session = pl.create()
+session.consult(subway_interactor)
 
 //-- Constants and Variables
 const user_avatar = 'https://image.flaticon.com/icons/svg/1400/1400241.svg'
@@ -175,6 +175,10 @@ const formatAMPM = date => {
 }
 
 const insertChat = (who, text) => {
+
+  session.query("options(bread).")
+  var callback = console.log
+  session.answer(callback)
   let date = formatAMPM(new Date())
   let chatLoadingHTML =
     '<li style="width:100%;">' +
@@ -253,24 +257,23 @@ const insertChat = (who, text) => {
 
 // Listener for dynamically created buttons
 $(document).click(function (e) {
-  if ($(e.target).is("button")) 
+  if ($(e.target).is("button"))
     buttonClicked($(e.target).text())
 })
 
 
 function buttonClicked(value) {
-  let text = value.toLowerCase()
+  let fact = value.toLowerCase()
   if (text !== '') {
-    insertChat('user', text)
+    insertChat('user', fact)
     switch (steps[progress]) {
       case 'meals':
-        user_order.meal = text.toUpperCase()
-        if (user_order.meal == 'VEGAN' || user_order.meal == 'VEGGIE') {
+        if (fact == 'vegan' || fact == 'veggie') {
           user_order.meat = '❌ NO MEAT'
-        } else if (user_order.meal == 'VALUE') {
+        } else if (fact == 'value') {
           user_order.topup = '❌ NO TOPUP'
         }
-        session.query(`asserta(chosen_meals(${text})), show_meals(X).`)
+        session.query(`asserta(chosen_meals(${fact})), show_meals(X).`)
         session.answer(answer => {
           if (pl.type.is_substitution(answer)) {
             insertChat(
@@ -282,8 +285,8 @@ function buttonClicked(value) {
         })
         break
       case 'breads':
-        user_order.bread = text.toUpperCase()
-        session.query(`asserta(chosen_breads(${text.toLowerCase()})).`)
+        user_order.bread = fact.toUpperCase()
+        session.query(`asserta(chosen_breads(${fact.toLowerCase()})).`)
         session.query(`ask_meats(X).`)
         session.answer(answer => {
           if (pl.type.is_substitution(answer)) {
@@ -313,8 +316,8 @@ function buttonClicked(value) {
         })
         break
       case 'meats':
-        user_order.meat = text.toUpperCase()
-        session.query(`asserta(chosen_meats(${text.toLowerCase()})).`)
+        user_order.meat = fact.toUpperCase()
+        session.query(`asserta(chosen_meats(${fact.toLowerCase()})).`)
         session.query(`ask_veggies(X).`)
         session.answer(answer => {
           if (pl.type.is_substitution(answer)) {
@@ -327,8 +330,8 @@ function buttonClicked(value) {
         })
         break
       case 'veggies':
-        user_order.veggie = text.toUpperCase()
-        session.query(`asserta(chosen_veggies(${text.toLowerCase()})).`)
+        user_order.veggie = fact.toUpperCase()
+        session.query(`asserta(chosen_veggies(${fact.toLowerCase()})).`)
         session.query(`ask_sauces(X).`)
         session.answer(answer => {
           if (pl.type.is_substitution(answer)) {
@@ -349,8 +352,8 @@ function buttonClicked(value) {
         progress = 4
         break
       case 'sauces':
-        user_order.sauce = text.toUpperCase()
-        session.query(`asserta(chosen_sauces(${text.toLowerCase()})).`)
+        user_order.sauce = fact.toUpperCase()
+        session.query(`asserta(chosen_sauces(${fact.toLowerCase()})).`)
         session.query(`ask_topups(X).`)
         session.answer(answer => {
           if (pl.type.is_substitution(answer)) {
@@ -378,8 +381,8 @@ function buttonClicked(value) {
         })
         break
       case 'topups':
-        user_order.topup = text.toUpperCase()
-        session.query(`asserta(chosen_topups(${text.toLowerCase()})).`)
+        user_order.topup = fact.toUpperCase()
+        session.query(`asserta(chosen_topups(${fact.toLowerCase()})).`)
         session.query(`ask_sides(X).`)
         session.answer(answer => {
           if (pl.type.is_substitution(answer)) {
@@ -392,8 +395,8 @@ function buttonClicked(value) {
         progress = 6
         break
       case 'sides':
-        user_order.side = text.toUpperCase()
-        session.query(`asserta(chosen_sides(${text.toLowerCase()})).`)
+        user_order.side = fact.toUpperCase()
+        session.query(`asserta(chosen_sides(${fact.toLowerCase()})).`)
         insertChat(
           'subway',
           `Okay! Your order
