@@ -211,11 +211,11 @@ const insertChat = (who, text) => {
       '</li>'
 
     let buttonGroup =
-      '  <button type="button" id="veggie" class="btn btn-secondary">' + 'Veggie' + '</button>' +
-      ' <button type="button" id="vegan" class="btn btn-secondary">' + 'Vegan' + '</button>' +
-      ' <button type="button" id="healthy" class="btn btn-secondary">' + 'Healthy' + '</button>' +
-      ' <button type="button" id="normal" class="btn btn-secondary">' + 'Normal' + '</button>' +
-      ' <button type="button" id="value" class="btn btn-secondary">' + 'Value' + '</button>'
+      '<button type="button" id="veggie" class="btn btn-secondary">' + 'Veggie' + '</button>' +
+      '<button type="button" id="vegan" class="btn btn-secondary">' + 'Vegan' + '</button>' +
+      '<button type="button" id="healthy" class="btn btn-secondary">' + 'Healthy' + '</button>' +
+      '<button type="button" id="normal" class="btn btn-secondary">' + 'Normal' + '</button>' +
+      '<button type="button" id="value" class="btn btn-secondary">' + 'Value' + '</button>'
 
     $('ul')
       .append(chatLoadingHTML)
@@ -257,9 +257,12 @@ const insertChat = (who, text) => {
 
 // -- Add 'Enter' key press event listener to text input
 $('#veggie').on('click', function (e) {
+  console.log('clicked me')
+
   let text = $(this)
     .val()
     .toLowerCase()
+  console.log(text)
   if (text !== '') {
     insertChat('user', text)
     switch (steps[progress]) {
