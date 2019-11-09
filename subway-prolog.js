@@ -54,7 +54,7 @@ createDOM([]). % empty list
 createDOM([H]) :- % last item in list
 create(button, BUTTON),
 add_class(BUTTON, 'class="btn btn-secondary"'), % Style
-set_attr(BUTTON,type,"button"),
+set_attr(BUTTON,type, button),
 html(BUTTON, H),
 get_by_id('btn-group', Parent),
 append_child(Parent, BUTTON). 
@@ -62,7 +62,7 @@ append_child(Parent, BUTTON).
 createDOM([H|T]) :-  % List with items more than one
 create(button, BUTTON),
 add_class(BUTTON, 'class="btn btn-secondary"'), % Style
-set_attr(BUTTON,type,"button"),
+set_attr(BUTTON,type, button),
 html(BUTTON, H),
 get_by_id('btn-group', Parent),
 append_child(Parent, BUTTON), 
