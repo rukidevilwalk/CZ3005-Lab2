@@ -176,12 +176,10 @@ const formatAMPM = date => {
 
 const insertChat = (who, text) => {
 
-  session.query("options(meals1).")
-  var callback = ""
+  session.query("buttonClicked(veggie).")
+  var callback = console.log
   session.answer(callback)
- // var tempArr = callback.split(',')
-  console.log(callback)
-  //console.log(tempArr.length)
+
   let date = formatAMPM(new Date())
   let chatLoadingHTML =
     '<li style="width:100%;">' +
