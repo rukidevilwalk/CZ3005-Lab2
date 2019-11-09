@@ -7,22 +7,22 @@ session.consult(subway_program)
 const user_avatar = 'https://image.flaticon.com/icons/svg/1400/1400241.svg'
 const subway_avatar = 'https://image.flaticon.com/icons/svg/1995/1995600.svg'
 const messages = {
-  greetings: `Hello! 😁
+  greetings: `Hello Cheng WU!
   <br/>
   Welcome To Subway!
   <br/>
   <br/>
-  Please choose your meal type! 
+  You look unhealthy, please choose veggie meal!
   <br/>
   <br/>
-  👉🏼 Healthy
-  <br/>
-  👉🏼 Normal
-  <br/>
-  👉🏼 Value
-  <br/>
-  👉🏼 Vegan
-  <br/>
+  // 👉🏼 Healthy
+  // <br/>
+  // 👉🏼 Normal
+  // <br/>
+  // 👉🏼 Value
+  // <br/>
+  // 👉🏼 Vegan
+  // <br/>
   👉🏼 Veggie
   `,
   bread_choices: `
