@@ -192,10 +192,6 @@ const insertChat = (who, text) => {
     '</li>'
   let replyHTML = ''
 
-  let buttonGroup =
-    '  <button type="button" class="btn btn-secondary">' + 'Yes' + '</button>' +
-    ' <button type="button" class="btn btn-secondary">' + 'No' + '</button>'
-
   if (who == 'subway') {
     replyHTML =
       '<li style="width:100%;">' +
@@ -207,12 +203,13 @@ const insertChat = (who, text) => {
       '<p>' +
       text +
       '</p>' +
-      '<p><small>' +
-      date +
-      '</small></p>' +
       '</div>' +
       '</div>' +
       '</li>'
+
+    let buttonGroup =
+      '  <button type="button" class="btn btn-secondary">' + 'Yes' + '</button>' +
+      ' <button type="button" class="btn btn-secondary">' + 'No' + '</button>'
 
     $('ul')
       .append(chatLoadingHTML)
