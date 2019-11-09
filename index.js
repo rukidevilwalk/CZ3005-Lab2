@@ -252,11 +252,6 @@ const insertChat = (who, text) => {
 }
 //-- END Helper Functions
 
-// -- Add 'Enter' key press event listener to send button
-$('.glyphicon').click(() => {
-  $('.mytext').trigger({ type: 'keydown', which: 13, keyCode: 13 })
-})
-
 // -- Add 'Enter' key press event listener to text input
 $('#veggie').on('click', function (e) {
   let text = $(this)
