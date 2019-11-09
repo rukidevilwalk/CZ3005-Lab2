@@ -178,7 +178,7 @@ const insertChat = (who, text) => {
 
   session.query("options(meals).")
   var callback = console.log
-  session.answer(callback + 'bread')
+  session.answer(callback + 'meals')
   let date = formatAMPM(new Date())
   let chatLoadingHTML =
     '<li style="width:100%;">' +
