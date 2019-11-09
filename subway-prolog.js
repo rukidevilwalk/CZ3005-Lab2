@@ -58,7 +58,7 @@ print_options([H|T]) :-  % List with items more than one
 
 
 options(meals) :- meals(L), print_options(L).
-
+options(meals1) :- meals(L).
 % selected(X,L) :- .
 
 % Get user corresponding choice
