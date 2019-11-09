@@ -264,7 +264,7 @@ $(document).click(function (e) {
 
 function buttonClicked(value) {
   let fact = value.toLowerCase()
-  if (text !== '') {
+  if (fact !== '') {
     insertChat('user', fact)
     switch (steps[progress]) {
       case 'meals':
