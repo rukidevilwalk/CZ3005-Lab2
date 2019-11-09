@@ -211,7 +211,7 @@ const insertChat = (who, text) => {
       '</li>'
 
     let buttonGroup =
-      '<button type="button" id="veggie" class="btn btn-secondary" onClick="buttonClicked(veggie)">' + 'Veggie' + '</button>' +
+      '<button type="button" id="veggie" class="btn btn-secondary" >' + 'Veggie' + '</button>' +
       '<button type="button" id="vegan" class="btn btn-secondary">' + 'Vegan' + '</button>' +
       '<button type="button" id="healthy" class="btn btn-secondary">' + 'Healthy' + '</button>' +
       '<button type="button" id="normal" class="btn btn-secondary">' + 'Normal' + '</button>' +
@@ -252,6 +252,10 @@ const insertChat = (who, text) => {
   }
 }
 //-- END Helper Functions
+
+$(document).on("click", "#veggie", function(){
+  alert (this.val());
+});
 
 // -- Add 'Enter' key press event listener to text input
 function buttonClicked(value) {
