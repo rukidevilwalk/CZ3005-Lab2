@@ -225,7 +225,7 @@ const insertChat = (who, text) => {
       .append(chatLoadingHTML)
       .scrollTop($('ul').prop('scrollHeight'))
 
-    $("#btn-group").empty().append(buttonGroup).end()
+    //$("#btn-group").empty().append(buttonGroup).end()
 
     setTimeout(() => {
       $('ul li:last-child').remove()
