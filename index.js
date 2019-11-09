@@ -178,7 +178,7 @@ const formatAMPM = date => {
 const insertChat = (who, text) => {
   $("#btn-group").empty()
   session.query("options(meals).")
-
+  session.answer()
   let date = formatAMPM(new Date())
   let chatLoadingHTML =
     '<li style="width:100%;">' +
