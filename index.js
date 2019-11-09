@@ -255,7 +255,7 @@ const insertChat = (who, text) => {
 
 $(document).click(function (e) {
   if ($(e.target).is("button")) {
-    console.log($(e.target).text());
+    buttonClicked($(e.target).text())
   } else {
     console.log("not clicked (directly) on a button")
   }
@@ -265,7 +265,7 @@ $(document).click(function (e) {
 function buttonClicked(value) {
   console.log('clicked me')
 
-  let text = value
+  let text = value.toLowerCase()
   console.log(text)
   if (text !== '') {
     insertChat('user', text)
