@@ -1,7 +1,7 @@
 export default `
 
 :- use_module(library(dom)).
-
+:- use_module(library(js)).
 % Set up list methods for appending
 append([], Y, Y).
 append([H|X], Y, [H|Z]) :- append(X, Y, Z).
@@ -56,6 +56,12 @@ print_options([H|T]) :-  % List with items more than one
     write(', '), 
     print_options(T), !. % remove the item then print it one by one
 
+ buttonClicked(Text) :-
+    prop(buttonClicked, ButtonClicked),
+    apply(ButtonClicked, [Text], _).
+
+init :-
+buttonClicked('veggie').
 
 options(meals) :- meals(L), print_options(L).
 options(meals1) :- meals(L).
