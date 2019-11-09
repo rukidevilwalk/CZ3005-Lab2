@@ -180,7 +180,7 @@ const insertChat = (who, text) => {
   var callback = ""
   session.answer(callback)
   var tempArr = callback.split(',')
-  console.log(tempArr.length())
+  console.log(tempArr.length)
   let date = formatAMPM(new Date())
   let chatLoadingHTML =
     '<li style="width:100%;">' +
