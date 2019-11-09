@@ -211,7 +211,7 @@ const insertChat = (who, text) => {
       '</li>'
 
     let buttonGroup =
-      '<button type="button" id="veggie" class="btn btn-secondary">' + 'Veggie' + '</button>' +
+      '<button type="button" id="veggie" class="btn btn-secondary" onClick="buttonClicked(veggie)">' + 'Veggie' + '</button>' +
       '<button type="button" id="vegan" class="btn btn-secondary">' + 'Vegan' + '</button>' +
       '<button type="button" id="healthy" class="btn btn-secondary">' + 'Healthy' + '</button>' +
       '<button type="button" id="normal" class="btn btn-secondary">' + 'Normal' + '</button>' +
@@ -221,9 +221,7 @@ const insertChat = (who, text) => {
       .append(chatLoadingHTML)
       .scrollTop($('ul').prop('scrollHeight'))
 
-    $("#btn-group")
-      .empty()
-      .append(buttonGroup)
+    $("#btn-group").empty().append(buttonGroup).end()
 
     setTimeout(() => {
       $('ul li:last-child').remove()
@@ -256,12 +254,10 @@ const insertChat = (who, text) => {
 //-- END Helper Functions
 
 // -- Add 'Enter' key press event listener to text input
-$('#veggie').on('click', function (e) {
+const buttonClicked = (value) => {
   console.log('clicked me')
 
-  let text = $(this)
-    .val()
-    .toLowerCase()
+  let text = value
   console.log(text)
   if (text !== '') {
     insertChat('user', text)
@@ -452,5 +448,5 @@ $('#veggie').on('click', function (e) {
 
 })
 
-// ---- Print Messages
-insertChat('subway', messages.greetings)
+  // ---- Print Messages
+  insertChat('subway', messages.greetings)
