@@ -253,9 +253,13 @@ const insertChat = (who, text) => {
 }
 //-- END Helper Functions
 
-$(document).on("click", "#veggie", function () {
-  alert(this.val());
-});
+$(document).click(function (e) {
+  if ($(e.target).is("button")) {
+    console.log($(e.target).text());
+  } else {
+    console.log("not clicked (directly) on a button")
+  }
+})
 
 // -- Add 'Enter' key press event listener to text input
 function buttonClicked(value) {
