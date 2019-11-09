@@ -15,15 +15,19 @@ const messages = {
   You look unhealthy, please choose veggie meal!
   <br/>
   <br/>
-  // 👉🏼 Healthy
-  // <br/>
-  // 👉🏼 Normal
-  // <br/>
-  // 👉🏼 Value
-  // <br/>
-  // 👉🏼 Vegan
-  // <br/>
-  👉🏼 Veggie
+  👉🏼 VEGGIE
+  <br/>
+  <br/>
+  <br/>
+  👉🏼 Healthy
+  <br/>
+  👉🏼 Normal
+  <br/>
+  👉🏼 Value
+  <br/>
+  👉🏼 Vegan
+  <br/>
+ 
   `,
   bread_choices: `
   <br/>
