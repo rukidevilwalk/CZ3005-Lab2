@@ -188,6 +188,10 @@ const insertChat = (who, text) => {
     '<p>' +
     '<div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>' +
     '</p>' +
+    '<p><small>' +
+    date +
+    '</small></p>' +
+    '</div>' +
     '</div>' +
     '</li>'
   let replyHTML = ''
