@@ -97,7 +97,7 @@ set_attr(BUTTON,value, H),
 html(BUTTON, H),
 get_by_id('btn-group', Parent),
 append_child(Parent, BUTTON), 
-createDOMV2(T), !. % remove the item then print it one by one
+createDOMV2([T]), !. % remove the item then print it one by one
 
 options(meals) :- ask_meals(L), createDOMV1(L).
 options(sauces) :- ask_sauces(L), createDOMV2(L).
