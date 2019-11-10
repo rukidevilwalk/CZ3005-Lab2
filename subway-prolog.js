@@ -99,13 +99,13 @@ get_by_id('btn-group', Parent),
 append_child(Parent, BUTTON), 
 createDOMV2(T), !. % remove the item then print it one by one
 
-options(meals) :- ask_meals(L), createDOM(L).
+options(meals) :- ask_meals(L), createDOMV1(L).
 options(sauces) :- ask_sauces(L), createDOMV2(L).
-options(breads) :- ask_breads(L), createDOM(L).
+options(breads) :- ask_breads(L), createDOMV1(L).
 options(meats) :- ask_meats(L), createDOMV2(L).
-options(veggies) :- ask_veggies(L), createDOM(L).
+options(veggies) :- ask_veggies(L), createDOMV1(L).
 options(topups) :- ask_topups(L), createDOMV2(L).
-options(sides) :- ask_sides(L), createDOM(L).
+options(sides) :- ask_sides(L), createDOMV1(L).
 
 %selected(X,breads) :- asserta(bread(X)).
 %selected(X,meats) :- asserta(meat(X)).
