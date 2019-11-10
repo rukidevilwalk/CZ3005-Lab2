@@ -55,37 +55,33 @@ ask_topups(X) :- findall(X, (chosen_meals(Y), \\+value_meal(Y) -> (vegan_meal(Y)
 % Get possible sides
 ask_sides(X) :- sides(X).
 
-% createDOMV1 is used to create the HTML DOM for the front end based on current list
-
-createDOMV1([]). % empty list
-
-createDOMV1([H]) :- % last item in list
-create(button, BUTTON),
-    add_class(BUTTON, 'btn btn-outline-success btn-sm'), % Creating a button for item
-    set_attr(BUTTON,type, button),
-    set_attr(BUTTON,value, H),
-    html(BUTTON, H),
-    get_by_id('btn-group', Parent),
-    append_child(Parent, BUTTON),
-create(li, LI),                                          % Putting item into a list
+% create list item for GUI
+createListItem(H) :-                                    
+create(li, LI),                                         
     add_class(LI, 'list-group-item'), % Style
     html(LI, H),
     get_by_id('item-list', Parent),
     append_child(Parent, LI).
 
-createDOMV1([H|T]) :-  % List with items more than one
-create(button, BUTTON),
-    add_class(BUTTON, 'btn btn-outline-success btn-sm'), % Creating a button for item
+% Creating a GUI button for item
+createButton(H) :-    
+create(button, BUTTON),           
+add_class(BUTTON, 'btn btn-outline-success btn-sm'), 
     set_attr(BUTTON,type, button),
     set_attr(BUTTON,value, H),
     html(BUTTON, H),
     get_by_id('btn-group', Parent),
-    append_child(Parent, BUTTON), 
-create(li, LI),                                          % Putting item into a list
-    add_class(LI, 'list-group-item'), 
-    html(LI, H),
-    get_by_id('item-list', Parent),
-    append_child(Parent, LI),
+    append_child(Parent, BUTTON).
+
+% createDOMV1 is used to create the HTML DOM for the front end based on current list
+
+createDOMV1([]). % empty list
+
+createDOMV1([H]) :- % last item in list
+createButton(H).
+    
+createDOMV1([H|T]) :-  % List with items more than one
+createButton(H),
 createDOMV1(T), !. % remove item in list and call the function again
 
 % createDOMV2 is the same as createDOMV1 except it's for nested lists
@@ -93,33 +89,11 @@ createDOMV1(T), !. % remove item in list and call the function again
 createDOMV2([[]]). % empty list
 
 createDOMV2([[H]]) :- % last item in list
-create(button, BUTTON),
-    add_class(BUTTON, 'btn btn-outline-success btn-sm'), % Creating a button for item   
-    set_attr(BUTTON,type, button),
-    set_attr(BUTTON,value, H),
-    html(BUTTON, H),
-    get_by_id('btn-group', Parent),
-    append_child(Parent, BUTTON),
-create(li, LI),                                          % Putting item into a list
-    add_class(LI, 'list-group-item'), % Style
-    html(LI, H),
-    get_by_id('item-list', Parent),
-    append_child(Parent, LI). 
+createButton(H).
 
 % List contains more than 1 item
 createDOMV2([[H|T]]) :-  
-create(button, BUTTON), 
-    add_class(BUTTON, 'btn btn-outline-success btn-sm'), % Creating a button for item
-    set_attr(BUTTON,type, button),
-    set_attr(BUTTON,value, H),
-    html(BUTTON, H),
-    get_by_id('btn-group', Parent),
-    append_child(Parent, BUTTON), 
-create(li, LI),                                          % Putting item into a list
-    add_class(LI, 'list-group-item'), % Style
-    html(LI, H),
-    get_by_id('item-list', Parent),
-    append_child(Parent, LI),
+createButton(H),
 createDOMV2([T]), !. % remove item in list and call the function again
 
 % options is used get the list based on current arguments and creates the relevant HTML DOMs for GUI
