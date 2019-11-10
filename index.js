@@ -177,55 +177,18 @@ const formatAMPM = date => {
 
 const insertChat = (who, text) => {
 
-  let date = formatAMPM(new Date())
+if (who=='subway'){
+  $('#subway-contents')
+  .empty()
+  .append(text)
+  .end()
+} else {
+  $('#user-contents')
+  .empty()
+  .append(text)
+  .end()
+}
 
-  let replyHTML = ''
-
-  if (who == 'subway') {
-    replyHTML =
-      '<li style="width:100%;">' +
-      '<div class="msj macro">' +
-      '<div class="avatar"><img class="img-square" style="width:100%;" src="' +
-      subway_avatar +
-      '" /></div>' +
-      '<div class="text text-l">' +
-      '<p id = "contents">' +
-      text +
-      '</p>' +
-      '<p><small>' +
-      date +
-      '</small></p>' +
-      '</div>' +
-      '</div>' +
-      '</li>'
-
-      $('ul')
-        .empty()
-        .append(replyHTML)
-        .scrollTop($('ul').prop('scrollHeight'))
-
-  } else {
-    replyHTML =
-      '<li style="width:100%;">' +
-      '<div class="msj-rta macro">' +
-      '<div class="text text-r">' +
-      '<p> I would like ' +
-      text +
-      '</p>' +
-      '<p><small>' +
-      date +
-      '.</small></p>' +
-      '</div>' +
-      '<div class="avatar" style="padding:0px 0px 0px 10px !important"><img class="img-square" style="width:100%;" src="' +
-      user_avatar +
-      '" /></div>' +
-      '</li>'
-
-    $('ul')
-      .empty()
-      .append(replyHTML)
-      .scrollTop($('ul').prop('scrollHeight'))
-  }
 }
 
 // Listener for dynamically created buttons
@@ -241,174 +204,174 @@ function buttonClicked(fact) {
   $("#btn-group").empty()
 
   // Add user's response
-    insertChat('user', fact)
+  insertChat('user', fact)
 
-    // Carry out functions based on current progress
-    switch (steps[progress]) {
-      case 'meals':
-        user_order.meal = fact
-        if (fact == 'vegan' || fact == 'veggie') {
-          user_order.meat = '❌ NO MEAT'
-        } else if (fact == 'value') {
-          user_order.topup = '❌ NO TOPUP'
+  // Carry out functions based on current progress
+  switch (steps[progress]) {
+    case 'meals':
+      user_order.meal = fact
+      if (fact == 'vegan' || fact == 'veggie') {
+        user_order.meat = '❌ NO MEAT'
+      } else if (fact == 'value') {
+        user_order.topup = '❌ NO TOPUP'
+      }
+      session.query(`selected(${fact},meals), show_meals(X).`)
+      session.answer(answer => {
+        if (pl.type.is_substitution(answer)) {
+          insertChat(
+            'subway',
+            `Going for <b>${user_order.meal}</b> meal alrighty! ${messages.bread_choices}`
+          )
+          session.query("options(breads).")
+          session.answer()
         }
-        session.query(`selected(${fact},meals), show_meals(X).`)
-        session.answer(answer => {
-          if (pl.type.is_substitution(answer)) {
+        progress = 1
+      })
+
+      break
+    case 'breads':
+      user_order.bread = fact.toUpperCase()
+      session.query(`selected(${fact},breads).`)
+      session.query(`ask_meats(X).`)
+      session.answer(answer => {
+        if (pl.type.is_substitution(answer)) {
+          let result = answer.lookup('X')
+          if (result == '[]') {
+            // vegan or vegie
             insertChat(
               'subway',
-              `Going for <b>${user_order.meal}</b> meal alrighty! ${messages.bread_choices}`
+              `<b>${user_order.bread.toUpperCase()}</b> was just freshly baked by our chef Since you chose <b>${
+              user_order.meal
+              }</b> meal, no meat options for you. ${
+              messages.veggie_choices
+              }`
             )
-            session.query("options(breads).")
-            session.answer()
-          }
-          progress = 1
-        })
-
-        break
-      case 'breads':
-        user_order.bread = fact.toUpperCase()
-        session.query(`selected(${fact},breads).`)
-        session.query(`ask_meats(X).`)
-        session.answer(answer => {
-          if (pl.type.is_substitution(answer)) {
-            let result = answer.lookup('X')
-            if (result == '[]') {
-              // vegan or vegie
-              insertChat(
-                'subway',
-                `<b>${user_order.bread.toUpperCase()}</b> was just freshly baked by our chef Since you chose <b>${
-                user_order.meal
-                }</b> meal, no meat options for you. ${
-                messages.veggie_choices
-                }`
-              )
-              console.log('creating veggie buttons')
-              session.query("options(veggies).")
-              session.answer()
-              progress = 3
-            } else {
-              // meat
-              insertChat(
-                'subway',
-                `<b>${user_order.bread.toUpperCase()}</b> was just freshly baked by our chef${
-                messages.meat_choices
-                }`
-              )
-console.log('creating meat buttons')
-              session.query("options(meats).")
-              session.answer()
-              progress = 2
-            }
-          }
-        })
-        break
-      case 'meats':
-        user_order.meat = fact.toUpperCase()
-        session.query(`selected(${fact},meats).`)
-        session.query(`ask_veggies(X).`)
-        session.answer(answer => {
-          if (pl.type.is_substitution(answer)) {
-            insertChat(
-              'subway',
-              `Juicy and tender <b>${user_order.meat}</b>! ${messages.veggie_choices}`
-            )
-
+            console.log('creating veggie buttons')
             session.query("options(veggies).")
             session.answer()
-          }
-          progress = 3
-        })
-        break
-      case 'veggies':
-        user_order.veggie = fact.toUpperCase()
-        session.query(`selected(${fact},veggies).`)
-        session.query(`ask_sauces(X).`)
-        session.answer(answer => {
-          if (pl.type.is_substitution(answer)) {
-            let result = answer.lookup('X')
-            if (result == '[[honey_mustard, sweet_onion]]') {
-              insertChat(
-                'subway',
-                `<b>${user_order.veggie}</b> just arrived today morning from New Zealands! and  becuase you chose <b>${user_order.meal}</b> ${messages.non_fat_sauce_choices}`
-              )
-              console.log('generating non fat sauces')
-              session.query("options(sauces).")
-              session.answer()
-            } else {
-              insertChat(
-                'subway',
-                `<b>${user_order.veggie}</b> just arrived today morning from New Zealands! ${messages.all_sauce_choices}</b>`
-              )
-              console.log('generating all sauces')
-              session.query("options(sauces).")
-              session.answer()
-            }
-          }
-        })
-        progress = 4
-        break
-      case 'sauces':
-        user_order.sauce = fact.toUpperCase()
-        session.query(`selected(${fact},sauces).`)
-        session.query(`ask_topups(X).`)
-        session.answer(answer => {
-          if (pl.type.is_substitution(answer)) {
-            let result = answer.lookup('X')
-            if (result == '[]') {
-              insertChat(
-                'subway',
-                `<b>${user_order.sauce}</b> is our crowd favourite <br/> Becuase you chose <b>${user_order.meal}</b> meal, no top-up options for you ${messages.side_choices}`
-              )
-
-              session.query("options(sides).")
-              session.answer()
-              progress = 6
-            } else if (result == '[[avocado, egg_mayo]]') {
-              insertChat(
-                'subway',
-                `<b>${user_order.sauce}</b> is our crowd favourite <br/> Becuase you chose <b>${user_order.meal}</b> meal, no cheese top-up for you ${messages.non_cheese_topup_choices}`
-              )
-
-              session.query("options(topups).")
-              session.answer()
-              progress = 5
-            } else {
-              insertChat(
-                'subway',
-                `<b>${user_order.sauce}</b> is our crowd favourite ${messages.all_top_up_choices}`
-              )
-
-              session.query("options(topups).")
-              session.answer()
-              progress = 5
-            }
-          }
-        })
-        break
-      case 'topups':
-        user_order.topup = fact.toUpperCase()
-        session.query(`selected(${fact},topups).`)
-        session.query(`ask_sides(X).`)
-        session.answer(answer => {
-          if (pl.type.is_substitution(answer)) {
+            progress = 3
+          } else {
+            // meat
             insertChat(
               'subway',
-              ` <b>${user_order.topup}</b>? Good choice ${messages.side_choices}`
+              `<b>${user_order.bread.toUpperCase()}</b> was just freshly baked by our chef${
+              messages.meat_choices
+              }`
+            )
+            console.log('creating meat buttons')
+            session.query("options(meats).")
+            session.answer()
+            progress = 2
+          }
+        }
+      })
+      break
+    case 'meats':
+      user_order.meat = fact.toUpperCase()
+      session.query(`selected(${fact},meats).`)
+      session.query(`ask_veggies(X).`)
+      session.answer(answer => {
+        if (pl.type.is_substitution(answer)) {
+          insertChat(
+            'subway',
+            `Juicy and tender <b>${user_order.meat}</b>! ${messages.veggie_choices}`
+          )
+
+          session.query("options(veggies).")
+          session.answer()
+        }
+        progress = 3
+      })
+      break
+    case 'veggies':
+      user_order.veggie = fact.toUpperCase()
+      session.query(`selected(${fact},veggies).`)
+      session.query(`ask_sauces(X).`)
+      session.answer(answer => {
+        if (pl.type.is_substitution(answer)) {
+          let result = answer.lookup('X')
+          if (result == '[[honey_mustard, sweet_onion]]') {
+            insertChat(
+              'subway',
+              `<b>${user_order.veggie}</b> just arrived today morning from New Zealands! and  becuase you chose <b>${user_order.meal}</b> ${messages.non_fat_sauce_choices}`
+            )
+            console.log('generating non fat sauces')
+            session.query("options(sauces).")
+            session.answer()
+          } else {
+            insertChat(
+              'subway',
+              `<b>${user_order.veggie}</b> just arrived today morning from New Zealands! ${messages.all_sauce_choices}</b>`
+            )
+            console.log('generating all sauces')
+            session.query("options(sauces).")
+            session.answer()
+          }
+        }
+      })
+      progress = 4
+      break
+    case 'sauces':
+      user_order.sauce = fact.toUpperCase()
+      session.query(`selected(${fact},sauces).`)
+      session.query(`ask_topups(X).`)
+      session.answer(answer => {
+        if (pl.type.is_substitution(answer)) {
+          let result = answer.lookup('X')
+          if (result == '[]') {
+            insertChat(
+              'subway',
+              `<b>${user_order.sauce}</b> is our crowd favourite <br/> Becuase you chose <b>${user_order.meal}</b> meal, no top-up options for you ${messages.side_choices}`
             )
 
             session.query("options(sides).")
             session.answer()
+            progress = 6
+          } else if (result == '[[avocado, egg_mayo]]') {
+            insertChat(
+              'subway',
+              `<b>${user_order.sauce}</b> is our crowd favourite <br/> Becuase you chose <b>${user_order.meal}</b> meal, no cheese top-up for you ${messages.non_cheese_topup_choices}`
+            )
+
+            session.query("options(topups).")
+            session.answer()
+            progress = 5
+          } else {
+            insertChat(
+              'subway',
+              `<b>${user_order.sauce}</b> is our crowd favourite ${messages.all_top_up_choices}`
+            )
+
+            session.query("options(topups).")
+            session.answer()
+            progress = 5
           }
-        })
-        progress = 6
-        break
-      case 'sides':
-        user_order.side = fact.toUpperCase()
-        session.query(`selected(${fact},sides).`)
-        insertChat(
-          'subway',
-          `Okay! Your order
+        }
+      })
+      break
+    case 'topups':
+      user_order.topup = fact.toUpperCase()
+      session.query(`selected(${fact},topups).`)
+      session.query(`ask_sides(X).`)
+      session.answer(answer => {
+        if (pl.type.is_substitution(answer)) {
+          insertChat(
+            'subway',
+            ` <b>${user_order.topup}</b>? Good choice ${messages.side_choices}`
+          )
+
+          session.query("options(sides).")
+          session.answer()
+        }
+      })
+      progress = 6
+      break
+    case 'sides':
+      user_order.side = fact.toUpperCase()
+      session.query(`selected(${fact},sides).`)
+      insertChat(
+        'subway',
+        `Okay! Your order
           <br/>
           <br/>
           Meal
@@ -449,14 +412,14 @@ console.log('creating meat buttons')
           is being prepared.Thank you for choosing Subway!
           If you would like to make new order, refresh the page 
           `
-        )
-        break
-      case 'end':
-        break
-      default:
-        break
-    }
-  
+      )
+      break
+    case 'end':
+      break
+    default:
+      break
+  }
+
 
 }
 
