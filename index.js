@@ -272,15 +272,19 @@ function buttonClicked(fact) {
         } else if (fact == 'value') {
           user_order.topup = '❌ NO TOPUP'
         }
-        session.query(`asserta(chosen_meals(${fact})).`)
-        insertChat(
-          'subway',
-          `Going for <b>${user_order.meal}</b> meal alrighty! ${messages.bread_choices}`
-        )
+        session.query(`asserta(chosen_meals(${text})), show_meals(X).`)
+        session.answer(answer => {
+          if (pl.type.is_substitution(answer)) {
+            insertChat(
+              'subway',
+              `Going for <b>${user_order.meal}</b> meal alrighty! ${messages.bread_choices}`
+            )
+            session.query("options(breads).")
+            session.answer()
+          }
+          progress = 1
+        })
 
-        session.query("options(breads).")
-        session.answer()
-        progress = 1
         break
       case 'breads':
         user_order.bread = fact.toUpperCase()
