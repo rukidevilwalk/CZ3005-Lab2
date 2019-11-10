@@ -30,7 +30,7 @@ ask_breads(X) :- breads(X).
 
 % Get possible meats
 % Vegan and Veggie meals do not have meat options
-ask_meats(X) :- findall(X, (chosen_meals(Y), \\+vegan_meal(Y), \\+veggie_meal(Y), meats(X)), X).
+ask_meats(X) :- findall(X, (chosen_meals(Y), \\+vegan_meal(Y), \\+veggie_meal(Y), meats(X)), createDOM(X)).
 
 % Get possible veggies
 ask_veggies(X) :- veggies(X).
@@ -38,12 +38,12 @@ ask_veggies(X) :- veggies(X).
 % Get possible  sauces.
 % Healthy meals do not have fatty sauces
 ask_sauces(X) :- findall(X, (chosen_meals(Y), healthy_meal(Y) -> non_fatty_sauces(X);
-                 fatty_sauces(L1), non_fatty_sauces(L2), append(L1, L2, X)), X).
+                 fatty_sauces(L1), non_fatty_sauces(L2), append(L1, L2, X)), createDOM(X)).
 
 % Get possible topups
 % Value meal does not have topup and  Vegan meal does not have cheese topup.
 ask_topups(X) :- findall(X, (chosen_meals(Y), \\+value_meal(Y) -> (vegan_meal(Y) -> non_cheese_topups(X);
-                 cheese_topups(L1), non_cheese_topups(L2), append(L1, L2, X))), X).
+                 cheese_topups(L1), non_cheese_topups(L2), append(L1, L2, X))), createDOM(X)).
 
 % Get possible sides
 ask_sides(X) :- sides(X).
@@ -73,7 +73,7 @@ createDOM(T), !. % remove the item then print it one by one
 options(meals) :- ask_meals(L), createDOM(L).
 options(sauces) :- ask_sauces(L), createDOM(L).
 options(breads) :- ask_breads(L), createDOM(L).
-options(meats) :- ask_meats(L), createDOM(L).
+options(meats) :- ask_meats(L).
 options(veggies) :- ask_veggies(L), createDOM(L).
 options(topups) :- ask_topups(L), createDOM(L).
 options(sides) :- ask_sides(L), createDOM(L).
