@@ -59,7 +59,13 @@ const messages = {
   <br/>
   `
 }
-let orderContents = {}
+let orderContents = {
+  meat: ``,
+  veggie: ``,
+  sauce: ``,
+  topup: ``,
+  side: ``,
+}
 
 let currentProgress = 'meals'
 
@@ -359,7 +365,7 @@ function buttonClicked(fact) {
               `
         )
       } else {
-        orderContents.side = fact.toUpperCase()
+        orderContents.side = orderContents.side + ' , ' + fact.toUpperCase()
         session.query(`selected(${fact},sides).`)
       }
 
