@@ -272,7 +272,7 @@ function buttonClicked(fact) {
         } else if (fact == 'value') {
           user_order.topup = '❌ NO TOPUP'
         }
-        session.query(`asserta(chosen_meals(${text})), show_meals(X).`)
+        session.query(`asserta(chosen_meals(${fact})), show_meals(X).`)
         session.answer(answer => {
           if (pl.type.is_substitution(answer)) {
             insertChat(
