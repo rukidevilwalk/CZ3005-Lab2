@@ -41,7 +41,6 @@
 .macro {
   margin-top: 5px;
   width: 85%;
-  height: fit-content;
   border-radius: 5px;
   padding: 5px;
   display: flex;
