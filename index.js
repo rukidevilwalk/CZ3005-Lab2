@@ -183,9 +183,13 @@ if (who=='subway'){
   .append(date)
   .end()
 
-  $('#subway-contents')
+  $('#subway-header')
   .empty()
   .append(text)
+  .end()
+
+  $('#subway-contents')
+  .empty()
   .end()
 } else {
   $('#user-date')
