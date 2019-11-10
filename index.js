@@ -65,7 +65,6 @@ let currentProgress = 'meals'
 
 let nextItem = false
 
-$('#nextItem').hide()
 
 const updateDialogueBox = (type, contents) => {
 
