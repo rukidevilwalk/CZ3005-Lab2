@@ -176,8 +176,12 @@ const formatAMPM = date => {
 }
 
 const insertChat = (who, text) => {
-
+  let date = formatAMPM(new Date())
 if (who=='subway'){
+  $('#subway-date')
+  .empty()
+  .append(date)
+  .end()
   $('#subway-contents')
   .empty()
   .append(text)
