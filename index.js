@@ -273,6 +273,7 @@ function buttonClicked(fact) {
           user_order.topup = '❌ NO TOPUP'
         }
         session.query(`asserta(chosen_meals(${fact})).`)
+        session.answer()
         insertChat(
           'subway',
           `Going for <b>${user_order.meal}</b> meal alrighty! ${messages.bread_choices}`
