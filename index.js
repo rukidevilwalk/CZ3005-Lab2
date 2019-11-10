@@ -257,8 +257,12 @@ const insertChat = (who, text) => {
 
 // Listener for dynamically created buttons
 $(document).click(function (e) {
-  if ($(e.target).is("button"))
+  if ($(e.target).is("button")){
+    console.log('Text: ' + $(e.target).text())
+    console.log('Value: ' + $(e.target).val())
     buttonClicked($(e.target).text())
+  }
+
 })
 
 
