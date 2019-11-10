@@ -200,6 +200,7 @@ const insertChat = (who, text) => {
       '</li>'
 
       $('ul')
+        .empty()
         .append(replyHTML)
         .scrollTop($('ul').prop('scrollHeight'))
 
@@ -221,6 +222,7 @@ const insertChat = (who, text) => {
       '</li>'
 
     $('ul')
+      .empty()
       .append(replyHTML)
       .scrollTop($('ul').prop('scrollHeight'))
   }
