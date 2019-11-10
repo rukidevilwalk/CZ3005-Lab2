@@ -257,21 +257,18 @@ const insertChat = (who, text) => {
 
 // Listener for dynamically created buttons
 $(document).click(function (e) {
-  if ($(e.target).is("button")){
-    console.log('Text: ' + $(e.target).text())
-    console.log('Value: ' + $(e.target).val())
+  if ($(e.target).is("button"))
     buttonClicked($(e.target).text())
-  }
-
 })
 
 
-function buttonClicked(value) {
-  let fact = value.toLowerCase()
+function buttonClicked(fact) {
+
   if (fact !== '') {
     insertChat('user', fact)
     switch (steps[progress]) {
       case 'meals':
+        user_order.meal = fact
         if (fact == 'vegan' || fact == 'veggie') {
           user_order.meat = '❌ NO MEAT'
         } else if (fact == 'value') {
