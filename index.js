@@ -275,6 +275,8 @@ function buttonClicked(fact) {
         session.query(`asserta(chosen_meals(${fact})), show_meals(X).`)
         session.answer(answer => {
           if (pl.type.is_substitution(answer)) {
+            let result = answer.lookup('X')
+            console.log(result)
             insertChat(
               'subway',
               `Going for <b>${user_order.meal}</b> meal alrighty! ${messages.bread_choices}`
