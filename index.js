@@ -129,7 +129,7 @@ const messages = {
   non_cheese_topup_choices: `
   <br/>
   <br/>
-  One of cheese free top-ups 🔝
+  One of cheese free top-ups
   <br/>
   <br/>
    Avocado
@@ -178,18 +178,7 @@ const formatAMPM = date => {
 const insertChat = (who, text) => {
 
   let date = formatAMPM(new Date())
-  let chatLoadingHTML =
-    '<li style="width:100%;">' +
-    '<div class="msj macro">' +
-    '<div class="avatar"><img class="img-square" style="width:100%;" src="' +
-    subway_avatar +
-    '" /></div>' +
-    '<div class="text text-l">' +
-    '<p>' +
-    '<div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>' +
-    '</p>' +
-    '</div>' +
-    '</li>'
+
   let replyHTML = ''
 
   if (who == 'subway') {
@@ -200,7 +189,7 @@ const insertChat = (who, text) => {
       subway_avatar +
       '" /></div>' +
       '<div class="text text-l">' +
-      '<p>' +
+      '<p id = "contents">' +
       text +
       '</p>' +
       '<p><small>' +
@@ -210,25 +199,22 @@ const insertChat = (who, text) => {
       '</div>' +
       '</li>'
 
-    $('ul')
-      .append(chatLoadingHTML)
-      .scrollTop($('ul').prop('scrollHeight'))
 
-    setTimeout(() => {
-      $('ul li:last-child').remove()
+
+
       $('ul')
         .append(replyHTML)
         .scrollTop($('ul').prop('scrollHeight'))
-    }, 700)
+
   } else {
     replyHTML =
       '<li style="width:100%;">' +
       '<div class="msj-rta macro">' +
       '<div class="text text-r">' +
-      '<p>' +
+      '<p> I would like ' +
       text +
       '</p>' +
-      '<p><small> I would like ' +
+      '<p><small>' +
       date +
       '.</small></p>' +
       '</div>' +

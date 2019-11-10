@@ -56,48 +56,71 @@ ask_topups(X) :- findall(X, (chosen_meals(Y), \\+value_meal(Y) -> (vegan_meal(Y)
 ask_sides(X) :- sides(X).
 
 % createDOMV1 is used to create the HTML DOM for the front end based on current list
+
 createDOMV1([]). % empty list
 
 createDOMV1([H]) :- % last item in list
 create(button, BUTTON),
-add_class(BUTTON, 'btn btn-outline-success btn-sm'), % Style
-set_attr(BUTTON,type, button),
-set_attr(BUTTON,value, H),
-html(BUTTON, H),
-get_by_id('btn-group', Parent),
-append_child(Parent, BUTTON). 
+    add_class(BUTTON, 'btn btn-outline-success btn-sm'), % Creating a button for item
+    set_attr(BUTTON,type, button),
+    set_attr(BUTTON,value, H),
+    html(BUTTON, H),
+    get_by_id('btn-group', Parent),
+    append_child(Parent, BUTTON),
+create(li, LI),                                          % Putting item into a list
+    add_class(LI, 'list-group-item'), % Style
+    html(LI, H),
+    get_by_id('item-list', Parent),
+    append_child(Parent, LI).
 
 createDOMV1([H|T]) :-  % List with items more than one
 create(button, BUTTON),
-add_class(BUTTON, 'btn btn-outline-success btn-sm'), % Style
-set_attr(BUTTON,type, button),
-set_attr(BUTTON,value, H),
-html(BUTTON, H),
-get_by_id('btn-group', Parent),
-append_child(Parent, BUTTON), 
-createDOMV1(T), !. % remove the item then print it one by one
+    add_class(BUTTON, 'btn btn-outline-success btn-sm'), % Creating a button for item
+    set_attr(BUTTON,type, button),
+    set_attr(BUTTON,value, H),
+    html(BUTTON, H),
+    get_by_id('btn-group', Parent),
+    append_child(Parent, BUTTON), 
+create(li, LI),                                          % Putting item into a list
+    add_class(LI, 'list-group-item'), % Style
+    html(LI, H),
+    get_by_id('item-list', Parent),
+    append_child(Parent, LI),
+createDOMV1(T), !. % remove item in list and call the function again
 
 % createDOMV2 is the same as createDOMV1 except it's for nested lists
+
 createDOMV2([[]]). % empty list
 
 createDOMV2([[H]]) :- % last item in list
 create(button, BUTTON),
-add_class(BUTTON, 'btn btn-outline-success btn-sm'), % Style
-set_attr(BUTTON,type, button),
-set_attr(BUTTON,value, H),
-html(BUTTON, H),
-get_by_id('btn-group', Parent),
-append_child(Parent, BUTTON). 
+    add_class(BUTTON, 'btn btn-outline-success btn-sm'), % Creating a button for item   
+    set_attr(BUTTON,type, button),
+    set_attr(BUTTON,value, H),
+    html(BUTTON, H),
+    get_by_id('btn-group', Parent),
+    append_child(Parent, BUTTON),
+create(li, LI),                                          % Putting item into a list
+    add_class(LI, 'list-group-item'), % Style
+    html(LI, H),
+    get_by_id('item-list', Parent),
+    append_child(Parent, LI). 
 
-createDOMV2([[H|T]]) :-  % List with items more than one
-create(button, BUTTON),
-add_class(BUTTON, 'btn btn-outline-success btn-sm'), % Style
-set_attr(BUTTON,type, button),
-set_attr(BUTTON,value, H),
-html(BUTTON, H),
-get_by_id('btn-group', Parent),
-append_child(Parent, BUTTON), 
-createDOMV2([T]), !. % remove the item then print it one by one
+% List contains more than 1 item
+createDOMV2([[H|T]]) :-  
+create(button, BUTTON), 
+    add_class(BUTTON, 'btn btn-outline-success btn-sm'), % Creating a button for item
+    set_attr(BUTTON,type, button),
+    set_attr(BUTTON,value, H),
+    html(BUTTON, H),
+    get_by_id('btn-group', Parent),
+    append_child(Parent, BUTTON), 
+create(li, LI),                                          % Putting item into a list
+    add_class(LI, 'list-group-item'), % Style
+    html(LI, H),
+    get_by_id('item-list', Parent),
+    append_child(Parent, LI),
+createDOMV2([T]), !. % remove item in list and call the function again
 
 % options is used get the list based on current arguments and creates the relevant HTML DOMs for GUI
 options(meals) :- ask_meals(L), createDOMV1(L).
