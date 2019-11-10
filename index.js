@@ -279,6 +279,7 @@ function buttonClicked(fact) {
         )
 
         session.query("options(breads).")
+        session.answer()
         progress = 1
         break
       case 'breads':
