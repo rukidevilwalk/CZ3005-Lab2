@@ -76,20 +76,10 @@ const messages = {
   <br/>
   `
 }
-const user_order = {}
-const steps = [
-  'meals',
-  'breads',
-  'meats',
-  'veggies',
-  'sauces',
-  'topups',
-  'sides',
-  'end'
-]
-let progress = 0
+const orderContents = {}
+const currentProgress = 'meals'
 
-const updateChat = (type, contents) => {
+const updateDialogueBox = (type, contents) => {
 
   if (type == 'staff') {
     $('#subway-header')
@@ -117,49 +107,50 @@ $(document).click(function (e) {
     buttonClicked($(e.target).text())
 })
 
+// Carry out logic whenever an item button is clicked
 function buttonClicked(fact) {
 
   // Remove current buttons
   $("#btn-group").empty()
 
   // Add user's response
-  updateChat('user', fact)
+  updateDialogueBox('user', fact)
 
-  // Carry out functions based on current progress
-  switch (steps[progress]) {
+  // Carry out functions based on current counter
+  switch (currentProgress) {
     case 'meals':
-      user_order.meal = fact
+      orderContents.meal = fact
       if (fact == 'vegan' || fact == 'veggie') {
-        user_order.meat = 'NO MEAT'
+        orderContents.meat = 'NO MEAT'
       } else if (fact == 'value') {
-        user_order.topup = 'NO TOPUP'
+        orderContents.topup = 'NO TOPUP'
       }
       session.query(`selected(${fact},meals), show_meals(X).`)
       session.answer(answer => {
         if (pl.type.is_substitution(answer)) {
-          updateChat(
+          updateDialogueBox(
             'staff',
-            `Going for <b>${user_order.meal}</b> meal alrighty! ${messages.bread_choices}`
+            `Going for <b>${orderContents.meal}</b> meal alrighty! ${messages.bread_choices}`
           )
           session.query("options(breads).")
           session.answer()
         }
-        progress = 1
+        currentProgress = 'breads'
       })
 
       break
     case 'breads':
-      user_order.bread = fact.toUpperCase()
+      orderContents.bread = fact.toUpperCase()
       session.query(`selected(${fact},breads).`)
       session.query(`ask_meats(X).`)
       session.answer(answer => {
         if (pl.type.is_substitution(answer)) {
           let result = answer.lookup('X')
           if (result == '[]') {
-            updateChat(
+            updateDialogueBox(
               'staff',
-              `<b>${user_order.bread}</b> was just freshly baked by our chef Since you chose <b>${
-              user_order.meal
+              `<b>${orderContents.bread}</b> was just freshly baked by our chef Since you chose <b>${
+              orderContents.meal
               }</b> meal, no meat options for you. ${
               messages.veggie_choices
               }`
@@ -167,59 +158,59 @@ function buttonClicked(fact) {
             console.log('creating veggie buttons')
             session.query("options(veggies).")
             session.answer()
-            progress = 3
+            currentProgress = 'veggies'
           } else {
             // meat
-            updateChat(
+            updateDialogueBox(
               'staff',
-              `<b>${user_order.bread}</b> was just freshly baked by our chef${
+              `<b>${orderContents.bread}</b> was just freshly baked by our chef${
               messages.meat_choices
               }`
             )
             console.log('creating meat buttons')
             session.query("options(meats).")
             session.answer()
-            progress = 2
+            currentProgress = 'meats'
           }
         }
       })
       break
     case 'meats':
-      user_order.meat = fact.toUpperCase()
+      orderContents.meat = fact.toUpperCase()
       session.query(`selected(${fact},meats).`)
       session.query(`ask_veggies(X).`)
       session.answer(answer => {
         if (pl.type.is_substitution(answer)) {
-          updateChat(
+          updateDialogueBox(
             'staff',
-            `Juicy and tender <b>${user_order.meat}</b>! ${messages.veggie_choices}`
+            `Juicy and tender <b>${orderContents.meat}</b>! ${messages.veggie_choices}`
           )
 
           session.query("options(veggies).")
           session.answer()
         }
-        progress = 3
+        currentProgress = 'veggies'
       })
       break
     case 'veggies':
-      user_order.veggie = fact.toUpperCase()
+      orderContents.veggie = fact.toUpperCase()
       session.query(`selected(${fact},veggies).`)
       session.query(`ask_sauces(X).`)
       session.answer(answer => {
         if (pl.type.is_substitution(answer)) {
           let result = answer.lookup('X')
           if (result == '[[honey_mustard, sweet_onion]]') {
-            updateChat(
+            updateDialogueBox(
               'staff',
-              `<b>${user_order.veggie}</b> just arrived today morning from New Zealands! and  becuase you chose <b>${user_order.meal}</b> ${messages.non_fat_sauce_choices}`
+              `<b>${orderContents.veggie}</b> just arrived today morning from New Zealands! and  becuase you chose <b>${orderContents.meal}</b> ${messages.non_fat_sauce_choices}`
             )
             console.log('generating non fat sauces')
             session.query("options(sauces).")
             session.answer()
           } else {
-            updateChat(
+            updateDialogueBox(
               'staff',
-              `<b>${user_order.veggie}</b> just arrived today morning from New Zealands! ${messages.all_sauce_choices}</b>`
+              `<b>${orderContents.veggie}</b> just arrived today morning from New Zealands! ${messages.all_sauce_choices}</b>`
             )
             console.log('generating all sauces')
             session.query("options(sauces).")
@@ -227,104 +218,104 @@ function buttonClicked(fact) {
           }
         }
       })
-      progress = 4
+      currentProgress = 'sauces'
       break
     case 'sauces':
-      user_order.sauce = fact.toUpperCase()
+      orderContents.sauce = fact.toUpperCase()
       session.query(`selected(${fact},sauces).`)
       session.query(`ask_topups(X).`)
       session.answer(answer => {
         if (pl.type.is_substitution(answer)) {
           let result = answer.lookup('X')
           if (result == '[]') {
-            updateChat(
+            updateDialogueBox(
               'staff',
-              `<b>${user_order.sauce}</b> is our crowd favourite <br/> Becuase you chose <b>${user_order.meal}</b> meal, no top-up options for you ${messages.side_choices}`
+              `<b>${orderContents.sauce}</b> is our crowd favourite <br/> Becuase you chose <b>${orderContents.meal}</b> meal, no top-up options for you ${messages.side_choices}`
             )
 
             session.query("options(sides).")
             session.answer()
-            progress = 6
+            currentProgress = 'sauces'
           } else if (result == '[[avocado, egg_mayo]]') {
-            updateChat(
+            updateDialogueBox(
               'staff',
-              `<b>${user_order.sauce}</b> is our crowd favourite <br/> Becuase you chose <b>${user_order.meal}</b> meal, no cheese top-up for you ${messages.non_cheese_topup_choices}`
+              `<b>${orderContents.sauce}</b> is our crowd favourite <br/> Becuase you chose <b>${orderContents.meal}</b> meal, no cheese top-up for you ${messages.non_cheese_topup_choices}`
             )
 
             session.query("options(topups).")
             session.answer()
-            progress = 5
+            currentProgress = 'topups'
           } else {
-            updateChat(
+            updateDialogueBox(
               'staff',
-              `<b>${user_order.sauce}</b> is our crowd favourite ${messages.all_top_up_choices}`
+              `<b>${orderContents.sauce}</b> is our crowd favourite ${messages.all_top_up_choices}`
             )
 
             session.query("options(topups).")
             session.answer()
-            progress = 5
+            currentProgress = 'topups'
           }
         }
       })
       break
     case 'topups':
-      user_order.topup = fact.toUpperCase()
+      orderContents.topup = fact.toUpperCase()
       session.query(`selected(${fact},topups).`)
       session.query(`ask_sides(X).`)
       session.answer(answer => {
         if (pl.type.is_substitution(answer)) {
-          updateChat(
+          updateDialogueBox(
             'staff',
-            ` <b>${user_order.topup}</b>? Good choice ${messages.side_choices}`
+            ` <b>${orderContents.topup}</b>? Good choice ${messages.side_choices}`
           )
 
           session.query("options(sides).")
           session.answer()
         }
       })
-      progress = 6
+      currentProgress = 'sides'
       break
     case 'sides':
-      user_order.side = fact.toUpperCase()
+      orderContents.side = fact.toUpperCase()
       session.query(`selected(${fact},sides).`)
-      updateChat(
+      updateDialogueBox(
         'staff',
         `Okay! Your order
           <br/>
           <br/>
           Meal
           <br/>
-          <b>${user_order.meal}</b>
+          <b>${orderContents.meal}</b>
           <br/>
           <br/>
           Bread
           <br/>
-          <b>${user_order.bread}</b>
+          <b>${orderContents.bread}</b>
           <br/>
           <br/>
           Meat
           <br/>
-          <b>${user_order.meat}</b>
+          <b>${orderContents.meat}</b>
           <br/>
           <br/>
           Veggie
           <br/>
-          <b>${user_order.veggie}</b>
+          <b>${orderContents.veggie}</b>
           <br/>
           <br/>
           Sauce
           <br/>
-          <b>${user_order.sauce}</b> 
+          <b>${orderContents.sauce}</b> 
           <br/>
           <br/>
           Topup
           <br/>
-          <b>${user_order.topup}</b>
+          <b>${orderContents.topup}</b>
           <br/>
           <br/>
           Side
           <br/>
-          <b>${user_order.side}</b>
+          <b>${orderContents.side}</b>
           <br/>
           <br/>
           is being prepared.Thank you for choosing Subway!
@@ -342,7 +333,7 @@ function buttonClicked(fact) {
 }
 
 // ---- Print Messages
-updateChat('staff', messages.greetings)
+updateDialogueBox('staff', messages.greetings)
 $("#btn-group").empty()
 session.query("options(meals).")
 session.answer()
