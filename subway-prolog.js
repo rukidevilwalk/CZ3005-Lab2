@@ -77,7 +77,7 @@ options(meats) :- ask_meats(L).
 options(veggies) :- ask_veggies(L), createDOM(L).
 options(topups) :- ask_topups(L).
 options(sides) :- ask_sides(L), createDOM(L).
-% selected(X,L) :- .
+% selected(X,L) :- asserta(bread(X)).
 
 % Get user corresponding choice
 % findall(X, pred(X), List) - Find possible values for predicate and add to the List
