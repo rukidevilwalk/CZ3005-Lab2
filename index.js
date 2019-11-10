@@ -14,41 +14,30 @@ const messages = {
   <br/>
   What kind of meal would you like?
   <br/>
-  <br/>
   `,
   bread_choices: `
   <br/>
-  <br/>
   What about your bread?
-  <br/>
   <br/>
   `,
   meat_choices: `
   <br/>
-  <br/>
   Meat meat? One meat
-  <br/>
   <br/>
   `,
   veggie_choices: `
   <br/>
-  <br/>
   Time for some greens! One for now
-  <br/>
   <br/>
   `,
   all_sauce_choices: `
   <br/>
-  <br/>
   Choose one of our tasty sauces
-  <br/>
   <br/>
   `,
   non_fat_sauce_choices: `
   <br/>
-  <br/>
   Chose one of our fat-free sauces
-  <br/>
   <br/>
   Honey_Mustard
   <br/>
@@ -56,23 +45,17 @@ const messages = {
   `,
   all_top_up_choices: `
   <br/>
-  <br/>
   One of top-ups
-  <br/>
   <br/>
   `,
   non_cheese_topup_choices: `
   <br/>
-  <br/>
   One of cheese free top-ups
-  <br/>
   <br/>
   `,
   side_choices: `
   <br/>
-  <br/>
   Finally, choose one side
-  <br/>
   <br/>
   `
 }
@@ -172,13 +155,17 @@ console.log(currentProgress)
             session.query("options(meats).")
             session.answer()
             currentProgress = 'meats'
+           
           }
+          $('#nextItem').show()
         }
       })
       break
     case 'meats':
       orderContents.meat = fact.toUpperCase()
       session.query(`selected(${fact},meats).`)
+
+
       session.query(`ask_veggies(X).`)
       session.answer(answer => {
         if (pl.type.is_substitution(answer)) {

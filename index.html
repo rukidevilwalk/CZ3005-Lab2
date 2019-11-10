@@ -37,7 +37,6 @@
 
     <!-- Import local css -->
     <link href="./styles.css" rel="stylesheet" />
-
   </head>
   <body>
     <div class="container-fluid">
@@ -74,27 +73,36 @@
               role="group"
               aria-label="Basic example"
             ></div>
+            <div>
+              <button
+                id="nextItem"
+                type="button"
+                style="visibility: hidden;"
+                class="btn btn-outline-success"
+              >
+                Next Ingredient
+              </button>
+            </div>
           </div>
         </div>
         <div class="col-sm-9 frame">
           <ul>
-
-                 <!-- User Dialogue Box -->
-                 <li style="width:100%; ">
-                    <div class="msj-rta macro">
-                      <div class="text text-r">
-                        <p><H3  id="user-contents">Hello!</H3></p>
-                        <p></p>
-                      </div>
-                      <div class="avatar" style="padding:0px 0px 0px 10px">
-                        <img
-                          class="img-square"
-                          style="width:100%;"
-                          src="https://www.pinclipart.com/picdir/big/34-345142_suit-boys-avatar-icon-png-clipart.png"
-                        />
-                      </div>
-                    </div>
-                  </li>
+            <!-- User Dialogue Box -->
+            <li style="width:100%; ">
+              <div class="msj-rta macro">
+                <div class="text text-r">
+                  <H3 id="user-contents">Hello!</H3>
+                  <p></p>
+                </div>
+                <div class="avatar" style="padding:0px 0px 0px 10px">
+                  <img
+                    class="img-square"
+                    style="width:100%;"
+                    src="https://www.pinclipart.com/picdir/big/34-345142_suit-boys-avatar-icon-png-clipart.png"
+                  />
+                </div>
+              </div>
+            </li>
 
             <!-- Subway Dialogue Box -->
             <li style="width:100%; height: 400px;">
@@ -107,19 +115,16 @@
                   />
                 </div>
                 <div class="text text-l">
-                    <p id="subway-header">
-                        What kind of meal would you like?
-                        <br/>
-                      </p>
+                  <p id="subway-header">
+                    <br />
+                  </p>
                   <p id="subway-contents">
-                      What kind of meal would you like?
-                      <br/>
+                    <br />
                   </p>
                   <p></p>
                 </div>
               </div>
             </li>
-       
           </ul>
         </div>
       </div>
