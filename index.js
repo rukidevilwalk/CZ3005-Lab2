@@ -104,10 +104,6 @@ $(document).click(function (e) {
 // Carry out logic whenever an item button is clicked
 function buttonClicked(fact) {
 
-
-
-
-
   // Carry out functions based on current progress
   switch (currentProgress) {
     case 'meals':
