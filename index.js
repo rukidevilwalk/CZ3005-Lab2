@@ -161,12 +161,13 @@ function buttonClicked(fact) {
               }`
             )
             console.log('creating meat buttons')
+            $('#nextItem').show()
             session.query("options(meats).")
             session.answer()
             currentProgress = 'meats'
 
           }
-          $('#nextItem').show()
+        
         }
       })
       break
