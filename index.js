@@ -326,7 +326,7 @@ function buttonClicked(fact) {
         session.query(`ask_veggies(X).`)
         session.answer(answer => {
           if (pl.type.is_substitution(answer)) {
-            insertChat( 
+            insertChat(
               'subway',
               `Juicy and tender <b>${user_order.meat}</b>! 😋 ${messages.veggie_choices}`
             )
@@ -349,7 +349,7 @@ function buttonClicked(fact) {
                 'subway',
                 `<b>${user_order.veggie}</b> just arrived today morning from New Zealands! 🛬 and  becuase you chose <b>${user_order.meal}</b> ${messages.non_fat_sauce_choices}`
               )
-
+              console.log('generating non fat sauces')
               session.query("options(sauces).")
               session.answer()
             } else {
@@ -357,7 +357,7 @@ function buttonClicked(fact) {
                 'subway',
                 `<b>${user_order.veggie}</b> just arrived today morning from New Zealands! 🛬 ${messages.all_sauce_choices}</b>`
               )
-
+              console.log('generating all sauces')
               session.query("options(sauces).")
               session.answer()
             }
