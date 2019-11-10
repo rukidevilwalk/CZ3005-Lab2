@@ -115,7 +115,7 @@ function buttonClicked(fact) {
     case 'meals':
       // Add user's response
       updateDialogueBox('user', fact)
-      orderContents.meal = fact
+      orderContents.meal = fact.toUpperCase()
       if (fact == 'vegan' || fact == 'veggie') {
         orderContents.meat = 'NO MEAT'
       } else if (fact == 'value') {
