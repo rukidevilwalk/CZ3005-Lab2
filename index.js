@@ -287,7 +287,9 @@ function buttonClicked(fact) {
         console.log('Bread')
         user_order.bread = fact.toUpperCase()
         session.query(`asserta(chosen_breads(${fact.toLowerCase()})).`)
+        console.log('Bread')
         session.query(`ask_meats(X).`)
+        console.log('Bread')
         session.answer(answer => {
           if (pl.type.is_substitution(answer)) {
             let result = answer.lookup('X')
