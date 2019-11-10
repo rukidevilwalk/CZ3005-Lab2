@@ -11,7 +11,8 @@ export default `
 :- dynamic(chosen_sauces/1).
 :- dynamic(options/1).
 :- dynamic(createDOM/1).
-
+:- dynamic(ask_meats/1).
+:- dynamic(ask_topups/1).
 % Set up list methods for appending
 append([], Y, Y).
 append([H|X], Y, [H|Z]) :- append(X, Y, Z).
