@@ -1,7 +1,4 @@
 export default `
-
-:- use_module(library(dom)).
-:- use_module(library(js)).
 :- dynamic(chosen_meals/1).
 :- dynamic(chosen_meats/1).
 :- dynamic(chosen_sides/1).
