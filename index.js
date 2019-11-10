@@ -16,17 +16,16 @@ const messages = {
   You look unhealthy, please choose veggie meal!
   <br/>
   <br/>
-  VEGGIE
-  <br/>
-  Healthy
-  <br/>
-  Normal
-  <br/>
-  Value
-  <br/>
-  Vegan
-  <br/>
- 
+  <li class="list-group-item">Veggie
+  </li>
+  <li class="list-group-item">Healthy
+  </li>
+  <li class="list-group-item">Normal
+  </li>
+  <li class="list-group-item">Value
+  </li>
+  <li class="list-group-item">  Vegan
+  </li>
   `,
   bread_choices: `
   <br/>
@@ -177,27 +176,27 @@ const formatAMPM = date => {
 
 const updateChat = (who, text) => {
   let date = formatAMPM(new Date())
-if (who=='subway'){
-  $('#subway-date')
-  .empty()
-  .append(date)
-  .end()
+  if (who == 'subway') {
+    $('#subway-date')
+      .empty()
+      .append(date)
+      .end()
 
-  $('#subway-contents')
-  .empty()
-  .append(text)
-  .end()
-} else {
-  $('#user-date')
-  .empty()
-  .append(date)
-  .end()
+    $('#subway-contents')
+      .empty()
+      .append(text)
+      .end()
+  } else {
+    $('#user-date')
+      .empty()
+      .append(date)
+      .end()
 
-  $('#user-contents')
-  .empty()
-  .append('I would like '+ text)
-  .end()
-}
+    $('#user-contents')
+      .empty()
+      .append('I would like ' + text)
+      .end()
+  }
 
 }
 
