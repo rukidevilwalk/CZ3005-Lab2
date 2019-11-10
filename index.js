@@ -98,12 +98,7 @@ $(document).click(function (e) {
     } else {
       buttonClicked($(e.target).text())
     }
-
-
-
-
   }
-
 })
 
 // Carry out logic whenever an item button is clicked
@@ -112,7 +107,7 @@ function buttonClicked(fact) {
 
 
   // Add user's response
-  if (!nextItem)
+  if (nextItem)
     updateDialogueBox('user', fact)
 
   // Carry out functions based on current progress
