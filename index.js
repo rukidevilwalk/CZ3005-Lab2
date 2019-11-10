@@ -346,7 +346,7 @@ function buttonClicked(fact) {
           <b>${user_order.topup}</b>
           <br/>
           <br/>
-          Side 🍴
+          Side
           <br/>
           <b>${user_order.side}</b>
           <br/>

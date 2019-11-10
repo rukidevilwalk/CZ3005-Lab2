@@ -57,10 +57,13 @@ ask_sides(X) :- sides(X).
 
 % create list item for GUI
 createListItem(H) :-                                    
-create(p, P),                                         
-    html(P, H),
+create(a, A),                                         
+    html(A, H),
+create(br, BR),                                         
+    html(BR,),
     get_by_id('subway-contents', Parent),
-    append_child(Parent, P).
+    append_child(Parent, BR),
+    append_child(Parent, A).
 
 % Creating a GUI button for item
 createButton(H) :-    
