@@ -176,10 +176,10 @@ const formatAMPM = date => {
 }
 
 const insertChat = (who, text) => {
-
+  let replyHTML=''
   let date = formatAMPM(new Date())
   if (who == 'subway') {
-    let replyHTML =
+     replyHTML =
       '<li style="width:100%;">' +
       '<div class="msj macro">' +
       '<div class="avatar"><img class="img-square" style="width:100%;" src="' +
