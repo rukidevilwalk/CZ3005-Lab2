@@ -284,7 +284,7 @@ function buttonClicked(fact) {
         break
       case 'breads':
         user_order.bread = fact.toUpperCase()
-        session.query(`asserta(chosen_breads(${fact.toLowerCase()})).`)
+        session.query(`asserta(chosen_breads(${fact})).`)
         session.query(`ask_meats(X).`)
         session.answer(answer => {
           if (pl.type.is_substitution(answer)) {
