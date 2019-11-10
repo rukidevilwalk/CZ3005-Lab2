@@ -13,7 +13,7 @@ const messages = {
   Welcome To Subway!
   <br/>
   <br/>
-  You look unhealthy, please choose veggie meal!
+  What kind of meal would you like?
   <br/>
   <br/>
   `,

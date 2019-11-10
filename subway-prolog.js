@@ -90,11 +90,13 @@ createListItem(H), !. % remove item in list and call the function again
 createDOMV2([[]]). % empty list
 
 createDOMV2([[H]]) :- % last item in list
-createButton(H).
+createButton(H),
+createListItem(H).
 
 % List contains more than 1 item
 createDOMV2([[H|T]]) :-  
 createButton(H),
+createListItem(H),
 createDOMV2([T]), !. % remove item in list and call the function again
 
 % options is used get the list based on current arguments and creates the relevant HTML DOMs for GUI
