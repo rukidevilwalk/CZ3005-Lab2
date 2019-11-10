@@ -94,6 +94,7 @@ $(document).click(function (e) {
 
     if ($(e.target).text() == 'Next Ingredient') {
       nextItem = true
+      buttonClicked($(e.target).text())
     } else {
       buttonClicked($(e.target).text())
     }
