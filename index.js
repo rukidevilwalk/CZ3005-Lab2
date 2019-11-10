@@ -78,7 +78,7 @@ const messages = {
 }
 const orderContents = {}
 
-const currentProgress = 'meals'
+let currentProgress = 'meals'
 
 const updateDialogueBox = (type, contents) => {
 
