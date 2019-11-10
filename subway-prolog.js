@@ -65,6 +65,7 @@ options(topups) :- ask_topups(L), createDOMV2(L).
 options(sides) :- ask_sides(L), createDOMV1(L).
 
 % selected is used to assert facts based on the given argument
+% only will assert if X is not already in chose list
 selected(X,meals) :- \\+check_selection(X, meals) -> asserta(chosen_meals(X)).
 selected(X,breads) :- \\+check_selection(X, breads) -> asserta(chosen_breads(X)).
 selected(X,meats) :- \\+check_selection(X, meats) ->asserta(chosen_meats(X)).
