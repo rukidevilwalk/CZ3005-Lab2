@@ -60,7 +60,7 @@ createDOMV1([]). % empty list
 
 createDOMV1([H]) :- % last item in list
 create(button, BUTTON),
-add_class(BUTTON, 'btn btn-secondary btn-sm'), % Style
+add_class(BUTTON, 'btn btn-outline-success btn-sm'), % Style
 set_attr(BUTTON,type, button),
 set_attr(BUTTON,value, H),
 html(BUTTON, H),
@@ -69,7 +69,7 @@ append_child(Parent, BUTTON).
 
 createDOMV1([H|T]) :-  % List with items more than one
 create(button, BUTTON),
-add_class(BUTTON, 'btn btn-secondary btn-sm'), % Style
+add_class(BUTTON, 'btn btn-outline-success btn-sm'), % Style
 set_attr(BUTTON,type, button),
 set_attr(BUTTON,value, H),
 html(BUTTON, H),
@@ -82,7 +82,7 @@ createDOMV2([[]]). % empty list
 
 createDOMV2([[H]]) :- % last item in list
 create(button, BUTTON),
-add_class(BUTTON, 'btn btn-secondary btn-sm'), % Style
+add_class(BUTTON, 'btn btn-outline-success btn-sm'), % Style
 set_attr(BUTTON,type, button),
 set_attr(BUTTON,value, H),
 html(BUTTON, H),
@@ -91,7 +91,7 @@ append_child(Parent, BUTTON).
 
 createDOMV2([[H|T]]) :-  % List with items more than one
 create(button, BUTTON),
-add_class(BUTTON, 'btn btn-secondary btn-sm'), % Style
+add_class(BUTTON, 'btn btn-outline-success btn-sm'), % Style
 set_attr(BUTTON,type, button),
 set_attr(BUTTON,value, H),
 html(BUTTON, H),
