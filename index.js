@@ -63,6 +63,8 @@ let orderContents = {}
 
 let currentProgress = 'meals'
 
+let nextItem = false
+
 const updateDialogueBox = (type, contents) => {
 
   if (type == 'staff') {
@@ -87,8 +89,15 @@ const updateDialogueBox = (type, contents) => {
 
 // Listener for dynamically created buttons
 $(document).click(function (e) {
-  if ($(e.target).is("button"))
+  if ($(e.target).is("button")) {
+
+    if ($(e.target).text() == 'Next Ingredient')
+      nextItem = true
+
     buttonClicked($(e.target).text())
+
+  }
+
 })
 
 // Carry out logic whenever an item button is clicked
@@ -99,7 +108,7 @@ function buttonClicked(fact) {
 
   // Add user's response
   updateDialogueBox('user', fact)
-console.log(currentProgress)
+  console.log(currentProgress)
   // Carry out functions based on current progress
   switch (currentProgress) {
     case 'meals':
@@ -155,113 +164,137 @@ console.log(currentProgress)
             session.query("options(meats).")
             session.answer()
             currentProgress = 'meats'
-           
+
           }
           $('#nextItem').show()
         }
       })
       break
     case 'meats':
-      orderContents.meat = fact.toUpperCase()
-      session.query(`selected(${fact},meats).`)
 
 
-      session.query(`ask_veggies(X).`)
-      session.answer(answer => {
-        if (pl.type.is_substitution(answer)) {
-          updateDialogueBox(
-            'staff',
-            `Juicy and tender <b>${orderContents.meat}</b>! ${messages.veggie_choices}`
-          )
+      if (nextItem) {
+        session.query(`ask_veggies(X).`)
+        session.answer(answer => {
+          if (pl.type.is_substitution(answer)) {
+            updateDialogueBox(
+              'staff',
+              `Juicy and tender <b>${orderContents.meat}</b>! ${messages.veggie_choices}`
+            )
+            nextItem = false;
+            session.query("options(veggies).")
+            session.answer()
+          }
 
-          session.query("options(veggies).")
-          session.answer()
-        }
-        currentProgress = 'veggies'
-      })
+          currentProgress = 'veggies'
+        })
+      } else {
+        orderContents.meat = fact.toUpperCase()
+        session.query(`selected(${fact},meats).`)
+      }
+
+
       break
     case 'veggies':
-      orderContents.veggie = fact.toUpperCase()
-      session.query(`selected(${fact},veggies).`)
-      session.query(`ask_sauces(X).`)
-      session.answer(answer => {
-        if (pl.type.is_substitution(answer)) {
-          let result = answer.lookup('X')
-          if (result == '[[honey_mustard, sweet_onion]]') {
-            updateDialogueBox(
-              'staff',
-              `<b>${orderContents.veggie}</b> just arrived today morning from New Zealands! and  becuase you chose <b>${orderContents.meal}</b> ${messages.non_fat_sauce_choices}`
-            )
-            console.log('generating non fat sauces')
-            session.query("options(sauces).")
-            session.answer()
-          } else {
-            updateDialogueBox(
-              'staff',
-              `<b>${orderContents.veggie}</b> just arrived today morning from New Zealands! ${messages.all_sauce_choices}</b>`
-            )
-            console.log('generating all sauces')
-            session.query("options(sauces).")
-            session.answer()
+      if (nextItem) {
+        session.query(`ask_sauces(X).`)
+        session.answer(answer => {
+          if (pl.type.is_substitution(answer)) {
+            let result = answer.lookup('X')
+            if (result == '[[honey_mustard, sweet_onion]]') {
+              updateDialogueBox(
+                'staff',
+                `<b>${orderContents.veggie}</b> just arrived today morning from New Zealands! and  becuase you chose <b>${orderContents.meal}</b> ${messages.non_fat_sauce_choices}`
+              )
+              console.log('generating non fat sauces')
+              session.query("options(sauces).")
+              session.answer()
+            } else {
+              updateDialogueBox(
+                'staff',
+                `<b>${orderContents.veggie}</b> just arrived today morning from New Zealands! ${messages.all_sauce_choices}</b>`
+              )
+              console.log('generating all sauces')
+              session.query("options(sauces).")
+              session.answer()
+            }
+            nextItem = false
           }
-        }
-      })
-      currentProgress = 'sauces'
+        })
+        currentProgress = 'sauces'
+      } else {
+        orderContents.veggie = fact.toUpperCase()
+        session.query(`selected(${fact},veggies).`)
+      }
+
+
       break
     case 'sauces':
-      orderContents.sauce = fact.toUpperCase()
-      session.query(`selected(${fact},sauces).`)
-      session.query(`ask_topups(X).`)
-      session.answer(answer => {
-        if (pl.type.is_substitution(answer)) {
-          let result = answer.lookup('X')
-          if (result == '[]') {
-            updateDialogueBox(
-              'staff',
-              `<b>${orderContents.sauce}</b> is our crowd favourite <br/> Becuase you chose <b>${orderContents.meal}</b> meal, no top-up options for you ${messages.side_choices}`
-            )
+      if (nextItem) {
 
-            session.query("options(sides).")
-            session.answer()
-            currentProgress = 'sauces'
-          } else if (result == '[[avocado, egg_mayo]]') {
-            updateDialogueBox(
-              'staff',
-              `<b>${orderContents.sauce}</b> is our crowd favourite <br/> Becuase you chose <b>${orderContents.meal}</b> meal, no cheese top-up for you ${messages.non_cheese_topup_choices}`
-            )
+        session.query(`ask_topups(X).`)
+        session.answer(answer => {
+          if (pl.type.is_substitution(answer)) {
+            let result = answer.lookup('X')
+            if (result == '[]') {
+              updateDialogueBox(
+                'staff',
+                `<b>${orderContents.sauce}</b> is our crowd favourite <br/> Becuase you chose <b>${orderContents.meal}</b> meal, no top-up options for you ${messages.side_choices}`
+              )
 
-            session.query("options(topups).")
-            session.answer()
-            currentProgress = 'topups'
-          } else {
-            updateDialogueBox(
-              'staff',
-              `<b>${orderContents.sauce}</b> is our crowd favourite ${messages.all_top_up_choices}`
-            )
+              session.query("options(sides).")
+              session.answer()
+              currentProgress = 'sauces'
+            } else if (result == '[[avocado, egg_mayo]]') {
+              updateDialogueBox(
+                'staff',
+                `<b>${orderContents.sauce}</b> is our crowd favourite <br/> Becuase you chose <b>${orderContents.meal}</b> meal, no cheese top-up for you ${messages.non_cheese_topup_choices}`
+              )
 
-            session.query("options(topups).")
-            session.answer()
-            currentProgress = 'topups'
+              session.query("options(topups).")
+              session.answer()
+              currentProgress = 'topups'
+            } else {
+              updateDialogueBox(
+                'staff',
+                `<b>${orderContents.sauce}</b> is our crowd favourite ${messages.all_top_up_choices}`
+              )
+
+              session.query("options(topups).")
+              session.answer()
+              currentProgress = 'topups'
+            }
+            nextItem = false
           }
-        }
-      })
+        })
+      } else {
+        orderContents.sauce = fact.toUpperCase()
+        session.query(`selected(${fact},sauces).`)
+      }
+
       break
     case 'topups':
-      orderContents.topup = fact.toUpperCase()
-      session.query(`selected(${fact},topups).`)
-      session.query(`ask_sides(X).`)
-      session.answer(answer => {
-        if (pl.type.is_substitution(answer)) {
-          updateDialogueBox(
-            'staff',
-            ` <b>${orderContents.topup}</b>? Good choice ${messages.side_choices}`
-          )
+      if (nextItem) {
+        session.query(`ask_sides(X).`)
+        session.answer(answer => {
+          if (pl.type.is_substitution(answer)) {
+            updateDialogueBox(
+              'staff',
+              ` <b>${orderContents.topup}</b>? Good choice ${messages.side_choices}`
+            )
+            nextItem = false
+            session.query("options(sides).")
+            session.answer()
+          }
+        })
+        currentProgress = 'sides'
+      } else {
+        orderContents.topup = fact.toUpperCase()
+        session.query(`selected(${fact},topups).`)
+      }
 
-          session.query("options(sides).")
-          session.answer()
-        }
-      })
-      currentProgress = 'sides'
+
+
       break
     case 'sides':
       orderContents.side = fact.toUpperCase()
