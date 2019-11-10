@@ -42,20 +42,20 @@
 }
 .msj-rta {
   float: right;
-  background: yellow;
+  background: #f1b700;
 }
 .msj {
   float: left;
-  background: yellow;
+  background: #f1b700;
 }
 .frame {
-  background: green;
+  background: #008838;
   overflow: hidden;
   padding: 0;
 }
 
 body > div > div > div:nth-child(2) > span {
-  background: green;
+  background: #008838;
   padding: 10px;
   font-size: 21px;
   border-radius: 50%;
