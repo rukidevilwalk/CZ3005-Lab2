@@ -260,7 +260,7 @@ function buttonClicked(fact) {
               $("#btn-group").empty()
               session.query("options(sides).")
               session.answer()
-              $("#nextItem").prop('value', 'Confirm Order');
+              $("#nextItem").html('Confirm Order');
               currentProgress = 'sides'
             } else if (result == '[[avocado, egg_mayo]]') {
               updateDialogueBox(
@@ -306,7 +306,7 @@ function buttonClicked(fact) {
             session.answer()
           }
         })
-        $("#nextItem").prop('value', 'Confirm Order');
+        $("#nextItem").html('Confirm Order');
         currentProgress = 'sides'
       } else {
         orderContents.topup = orderContents.topup + ' , ' + fact.toUpperCase()
