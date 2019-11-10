@@ -48,12 +48,12 @@ ask_topups(X) :- findall(X, (chosen_meals(Y), \\+value_meal(Y) -> (vegan_meal(Y)
 % Get possible sides
 ask_sides(X) :- sides(X).
 
-% print_options is used to print the items based on the given list.
+% createDOM is used to create the HTML DOM for the front end based on current list
 createDOM([]). % empty list
 
 createDOM([H]) :- % last item in list
 create(button, BUTTON),
-add_class(BUTTON, 'class="btn btn-secondary"'), % Style
+add_class(BUTTON, 'btn btn-secondary'), % Style
 set_attr(BUTTON,type, button),
 html(BUTTON, H),
 get_by_id('btn-group', Parent),
@@ -61,17 +61,12 @@ append_child(Parent, BUTTON).
 
 createDOM([H|T]) :-  % List with items more than one
 create(button, BUTTON),
-add_class(BUTTON, "btn btn-secondary"), % Style
+add_class(BUTTON, 'btn btn-secondary'), % Style
 set_attr(BUTTON,type, button),
 html(BUTTON, H),
 get_by_id('btn-group', Parent),
 append_child(Parent, BUTTON), 
 createDOM(T), !. % remove the item then print it one by one
-
-    %'<button type="button" id="veggie" class="btn btn-secondary" >' + 'Veggie' + '</button>' +
-
-
-
 
 options(meals) :- meals(L), createDOM(L).
 
