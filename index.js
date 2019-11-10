@@ -175,7 +175,7 @@ const formatAMPM = date => {
   return strTime
 }
 
-const insertChat = (who, text) => {
+const updateChat = (who, text) => {
   let date = formatAMPM(new Date())
 if (who=='subway'){
   $('#subway-date')
@@ -214,7 +214,7 @@ function buttonClicked(fact) {
   $("#btn-group").empty()
 
   // Add user's response
-  insertChat('user', fact)
+  updateChat('user', fact)
 
   // Carry out functions based on current progress
   switch (steps[progress]) {
@@ -228,7 +228,7 @@ function buttonClicked(fact) {
       session.query(`selected(${fact},meals), show_meals(X).`)
       session.answer(answer => {
         if (pl.type.is_substitution(answer)) {
-          insertChat(
+          updateChat(
             'subway',
             `Going for <b>${user_order.meal}</b> meal alrighty! ${messages.bread_choices}`
           )
@@ -248,7 +248,7 @@ function buttonClicked(fact) {
           let result = answer.lookup('X')
           if (result == '[]') {
             // vegan or vegie
-            insertChat(
+            updateChat(
               'subway',
               `<b>${user_order.bread.toUpperCase()}</b> was just freshly baked by our chef Since you chose <b>${
               user_order.meal
@@ -262,7 +262,7 @@ function buttonClicked(fact) {
             progress = 3
           } else {
             // meat
-            insertChat(
+            updateChat(
               'subway',
               `<b>${user_order.bread.toUpperCase()}</b> was just freshly baked by our chef${
               messages.meat_choices
@@ -282,7 +282,7 @@ function buttonClicked(fact) {
       session.query(`ask_veggies(X).`)
       session.answer(answer => {
         if (pl.type.is_substitution(answer)) {
-          insertChat(
+          updateChat(
             'subway',
             `Juicy and tender <b>${user_order.meat}</b>! ${messages.veggie_choices}`
           )
@@ -301,7 +301,7 @@ function buttonClicked(fact) {
         if (pl.type.is_substitution(answer)) {
           let result = answer.lookup('X')
           if (result == '[[honey_mustard, sweet_onion]]') {
-            insertChat(
+            updateChat(
               'subway',
               `<b>${user_order.veggie}</b> just arrived today morning from New Zealands! and  becuase you chose <b>${user_order.meal}</b> ${messages.non_fat_sauce_choices}`
             )
@@ -309,7 +309,7 @@ function buttonClicked(fact) {
             session.query("options(sauces).")
             session.answer()
           } else {
-            insertChat(
+            updateChat(
               'subway',
               `<b>${user_order.veggie}</b> just arrived today morning from New Zealands! ${messages.all_sauce_choices}</b>`
             )
@@ -329,7 +329,7 @@ function buttonClicked(fact) {
         if (pl.type.is_substitution(answer)) {
           let result = answer.lookup('X')
           if (result == '[]') {
-            insertChat(
+            updateChat(
               'subway',
               `<b>${user_order.sauce}</b> is our crowd favourite <br/> Becuase you chose <b>${user_order.meal}</b> meal, no top-up options for you ${messages.side_choices}`
             )
@@ -338,7 +338,7 @@ function buttonClicked(fact) {
             session.answer()
             progress = 6
           } else if (result == '[[avocado, egg_mayo]]') {
-            insertChat(
+            updateChat(
               'subway',
               `<b>${user_order.sauce}</b> is our crowd favourite <br/> Becuase you chose <b>${user_order.meal}</b> meal, no cheese top-up for you ${messages.non_cheese_topup_choices}`
             )
@@ -347,7 +347,7 @@ function buttonClicked(fact) {
             session.answer()
             progress = 5
           } else {
-            insertChat(
+            updateChat(
               'subway',
               `<b>${user_order.sauce}</b> is our crowd favourite ${messages.all_top_up_choices}`
             )
@@ -365,7 +365,7 @@ function buttonClicked(fact) {
       session.query(`ask_sides(X).`)
       session.answer(answer => {
         if (pl.type.is_substitution(answer)) {
-          insertChat(
+          updateChat(
             'subway',
             ` <b>${user_order.topup}</b>? Good choice ${messages.side_choices}`
           )
@@ -379,7 +379,7 @@ function buttonClicked(fact) {
     case 'sides':
       user_order.side = fact.toUpperCase()
       session.query(`selected(${fact},sides).`)
-      insertChat(
+      updateChat(
         'subway',
         `Okay! Your order
           <br/>
@@ -434,7 +434,7 @@ function buttonClicked(fact) {
 }
 
 // ---- Print Messages
-insertChat('subway', messages.greetings)
+updateChat('subway', messages.greetings)
 $("#btn-group").empty()
 session.query("options(meals).")
 session.answer()
