@@ -76,7 +76,7 @@ const messages = {
   <br/>
   `
 }
-const orderContents = {}
+let orderContents = {}
 
 let currentProgress = 'meals'
 
