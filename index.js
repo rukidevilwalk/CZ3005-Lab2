@@ -210,12 +210,12 @@ const insertChat = (who, text) => {
       '</div>' +
       '</li>'
 
-    let buttonGroup =
-      '<button type="button" id="veggie" class="btn btn-secondary" >' + 'Veggie' + '</button>' +
-      '<button type="button" id="vegan" class="btn btn-secondary">' + 'Vegan' + '</button>' +
-      '<button type="button" id="healthy" class="btn btn-secondary">' + 'Healthy' + '</button>' +
-      '<button type="button" id="normal" class="btn btn-secondary">' + 'Normal' + '</button>' +
-      '<button type="button" id="value" class="btn btn-secondary">' + 'Value' + '</button>'
+    // let buttonGroup =
+    //   '<button type="button" id="veggie" class="btn btn-secondary" >' + 'Veggie' + '</button>' +
+    //   '<button type="button" id="vegan" class="btn btn-secondary">' + 'Vegan' + '</button>' +
+    //   '<button type="button" id="healthy" class="btn btn-secondary">' + 'Healthy' + '</button>' +
+    //   '<button type="button" id="normal" class="btn btn-secondary">' + 'Normal' + '</button>' +
+    //   '<button type="button" id="value" class="btn btn-secondary">' + 'Value' + '</button>'
 
     $('ul')
       .append(chatLoadingHTML)
@@ -251,7 +251,6 @@ const insertChat = (who, text) => {
       .scrollTop($('ul').prop('scrollHeight'))
   }
 }
-//-- END Helper Functions
 
 // Listener for dynamically created buttons
 $(document).click(function (e) {
@@ -261,9 +260,14 @@ $(document).click(function (e) {
 
 
 function buttonClicked(fact) {
+
+  // Remove current buttons
   $("#btn-group").empty()
-  if (fact !== '') {
+
+  // Add user's response
     insertChat('user', fact)
+
+    // Carry out functions based on current progress
     switch (steps[progress]) {
       case 'meals':
         user_order.meal = fact
@@ -272,7 +276,7 @@ function buttonClicked(fact) {
         } else if (fact == 'value') {
           user_order.topup = '❌ NO TOPUP'
         }
-        session.query(`asserta(chosen_meals(${fact})), show_meals(X).`)
+        session.query(`selected(${fact},meals), show_meals(X).`)
         session.answer(answer => {
           if (pl.type.is_substitution(answer)) {
             insertChat(
@@ -288,7 +292,7 @@ function buttonClicked(fact) {
         break
       case 'breads':
         user_order.bread = fact.toUpperCase()
-        session.query(`asserta(chosen_breads(${fact})).`)
+        session.query(`selected(${fact},breads).`)
         session.query(`ask_meats(X).`)
         session.answer(answer => {
           if (pl.type.is_substitution(answer)) {
@@ -325,7 +329,7 @@ console.log('creating meat buttons')
         break
       case 'meats':
         user_order.meat = fact.toUpperCase()
-        session.query(`asserta(chosen_meats(${fact.toLowerCase()})).`)
+        session.query(`selected(${fact},meats).`)
         session.query(`ask_veggies(X).`)
         session.answer(answer => {
           if (pl.type.is_substitution(answer)) {
@@ -342,7 +346,7 @@ console.log('creating meat buttons')
         break
       case 'veggies':
         user_order.veggie = fact.toUpperCase()
-        session.query(`asserta(chosen_veggies(${fact.toLowerCase()})).`)
+        session.query(`selected(${fact},veggies).`)
         session.query(`ask_sauces(X).`)
         session.answer(answer => {
           if (pl.type.is_substitution(answer)) {
@@ -370,7 +374,7 @@ console.log('creating meat buttons')
         break
       case 'sauces':
         user_order.sauce = fact.toUpperCase()
-        session.query(`asserta(chosen_sauces(${fact.toLowerCase()})).`)
+        session.query(`selected(${fact},sauces).`)
         session.query(`ask_topups(X).`)
         session.answer(answer => {
           if (pl.type.is_substitution(answer)) {
@@ -408,7 +412,7 @@ console.log('creating meat buttons')
         break
       case 'topups':
         user_order.topup = fact.toUpperCase()
-        session.query(`asserta(chosen_topups(${fact.toLowerCase()})).`)
+        session.query(`selected(${fact},topups).`)
         session.query(`ask_sides(X).`)
         session.answer(answer => {
           if (pl.type.is_substitution(answer)) {
@@ -425,7 +429,7 @@ console.log('creating meat buttons')
         break
       case 'sides':
         user_order.side = fact.toUpperCase()
-        session.query(`asserta(chosen_sides(${fact.toLowerCase()})).`)
+        session.query(`selected(${fact},sides).`)
         insertChat(
           'subway',
           `Okay! Your order
@@ -476,8 +480,7 @@ console.log('creating meat buttons')
       default:
         break
     }
-    //$(this).val('')
-  }
+  
 
 }
 
