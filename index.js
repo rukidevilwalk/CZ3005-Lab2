@@ -112,8 +112,9 @@ function buttonClicked(fact) {
 
 
   // Add user's response
-  updateDialogueBox('user', fact)
-  console.log(currentProgress)
+  if (!nextItem)
+    updateDialogueBox('user', fact)
+
   // Carry out functions based on current progress
   switch (currentProgress) {
     case 'meals':
