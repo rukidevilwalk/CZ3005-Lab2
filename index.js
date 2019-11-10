@@ -273,10 +273,6 @@ function buttonClicked(fact) {
           user_order.topup = '❌ NO TOPUP'
         }
         session.query(`asserta(chosen_meals(${fact})), show_meals(X).`)
-        session.answer(answer => {
-          if (pl.type.is_substitution(answer)) {
-            let result = answer.lookup('X')
-            console.log(result)
             insertChat(
               'subway',
               `Going for <b>${user_order.meal}</b> meal alrighty! ${messages.bread_choices}`
@@ -284,10 +280,9 @@ function buttonClicked(fact) {
             $("#btn-group").empty()
             session.query("options(breads).")
             session.answer()
-          }
           progress = 1
-        })
         break
+        
       case 'breads':
         user_order.bread = fact.toUpperCase()
         session.query(`asserta(chosen_breads(${fact.toLowerCase()})).`)
