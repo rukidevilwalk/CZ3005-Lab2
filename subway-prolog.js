@@ -60,7 +60,6 @@ createListItem(H) :-
 create(a, A),                                         
     html(A, H),
 create(br, BR),                                         
-    html(BR,),
     get_by_id('subway-contents', Parent),
     append_child(Parent, BR),
     append_child(Parent, A).
