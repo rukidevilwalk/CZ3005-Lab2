@@ -176,10 +176,24 @@ const formatAMPM = date => {
 }
 
 const insertChat = (who, text) => {
-  let replyHTML=''
+
   let date = formatAMPM(new Date())
+  let chatLoadingHTML =
+    '<li style="width:100%;">' +
+    '<div class="msj macro">' +
+    '<div class="avatar"><img class="img-square" style="width:100%;" src="' +
+    subway_avatar +
+    '" /></div>' +
+    '<div class="text text-l">' +
+    '<p>' +
+    '<div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>' +
+    '</p>' +
+    '</div>' +
+    '</li>'
+  let replyHTML = ''
+
   if (who == 'subway') {
-     replyHTML =
+    replyHTML =
       '<li style="width:100%;">' +
       '<div class="msj macro">' +
       '<div class="avatar"><img class="img-square" style="width:100%;" src="' +
@@ -196,17 +210,26 @@ const insertChat = (who, text) => {
       '</div>' +
       '</li>'
 
-    // let buttonGroup =
-    //   '<button type="button" id="veggie" class="btn btn-secondary" >' + 'Veggie' + '</button>' +
-    //   '<button type="button" id="vegan" class="btn btn-secondary">' + 'Vegan' + '</button>' +
-    //   '<button type="button" id="healthy" class="btn btn-secondary">' + 'Healthy' + '</button>' +
-    //   '<button type="button" id="normal" class="btn btn-secondary">' + 'Normal' + '</button>' +
-    //   '<button type="button" id="value" class="btn btn-secondary">' + 'Value' + '</button>'
+    let buttonGroup =
+      '<button type="button" id="veggie" class="btn btn-secondary" >' + 'Veggie' + '</button>' +
+      '<button type="button" id="vegan" class="btn btn-secondary">' + 'Vegan' + '</button>' +
+      '<button type="button" id="healthy" class="btn btn-secondary">' + 'Healthy' + '</button>' +
+      '<button type="button" id="normal" class="btn btn-secondary">' + 'Normal' + '</button>' +
+      '<button type="button" id="value" class="btn btn-secondary">' + 'Value' + '</button>'
+
+    $('ul')
+      .append(chatLoadingHTML)
+      .scrollTop($('ul').prop('scrollHeight'))
+
     //$("#btn-group").empty().append(buttonGroup).end()
 
-  }
-
-  if (who == 'user') {
+    setTimeout(() => {
+      $('ul li:last-child').remove()
+      $('ul')
+        .append(replyHTML)
+        .scrollTop($('ul').prop('scrollHeight'))
+    }, 700)
+  } else {
     replyHTML =
       '<li style="width:100%;">' +
       '<div class="msj-rta macro">' +
