@@ -328,7 +328,7 @@ function buttonClicked(fact) {
         session.query(`ask_veggies(X).`)
         session.answer(answer => {
           if (pl.type.is_substitution(answer)) {
-            insertChat(
+            insertChat( 
               'subway',
               `Juicy and tender <b>${user_order.meat}</b>! 😋 ${messages.veggie_choices}`
             )
