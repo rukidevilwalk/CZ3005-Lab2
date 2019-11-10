@@ -57,11 +57,10 @@ ask_sides(X) :- sides(X).
 
 % create list item for GUI
 createListItem(H) :-                                    
-create(li, LI),                                         
-    add_class(LI, 'list-group-item'), % Style
-    html(LI, H),
-    get_by_id('item-list', Parent),
-    append_child(Parent, LI).
+create(p, P),                                         
+    html(P, H),
+    get_by_id('subway-contents', Parent),
+    append_child(Parent, P).
 
 % Creating a GUI button for item
 createButton(H) :-    
@@ -78,11 +77,13 @@ add_class(BUTTON, 'btn btn-outline-success btn-sm'),
 createDOMV1([]). % empty list
 
 createDOMV1([H]) :- % last item in list
-createButton(H).
+createButton(H),
+createListItem(H).
     
 createDOMV1([H|T]) :-  % List with items more than one
 createButton(H),
-createDOMV1(T), !. % remove item in list and call the function again
+createDOMV1(T),
+createListItem(H), !. % remove item in list and call the function again
 
 % createDOMV2 is the same as createDOMV1 except it's for nested lists
 
