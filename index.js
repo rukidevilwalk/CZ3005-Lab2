@@ -176,9 +176,7 @@ const formatAMPM = date => {
 }
 
 const insertChat = (who, text) => {
-  $("#btn-group").empty()
-  session.query("options(meals).")
-  session.answer()
+
   let date = formatAMPM(new Date())
   let chatLoadingHTML =
     '<li style="width:100%;">' +
@@ -281,6 +279,9 @@ function buttonClicked(fact) {
               'subway',
               `Going for <b>${user_order.meal}</b> meal alrighty! ${messages.bread_choices}`
             )
+            $("#btn-group").empty()
+            session.query("options(bread).")
+            session.answer()
           }
           progress = 1
         })
@@ -302,6 +303,9 @@ function buttonClicked(fact) {
                 messages.veggie_choices
                 }`
               )
+              $("#btn-group").empty()
+              session.query("options(veggies).")
+              session.answer()
               progress = 3
             } else {
               // meat
@@ -311,6 +315,9 @@ function buttonClicked(fact) {
                 messages.meat_choices
                 }`
               )
+              $("#btn-group").empty()
+              session.query("options(meats).")
+              session.answer()
               progress = 2
             }
           }
@@ -326,6 +333,9 @@ function buttonClicked(fact) {
               'subway',
               `Juicy and tender <b>${user_order.meat}</b>! 😋 ${messages.veggie_choices}`
             )
+            $("#btn-group").empty()
+            session.query("options(veggies).")
+            session.answer()
           }
           progress = 3
         })
@@ -342,11 +352,17 @@ function buttonClicked(fact) {
                 'subway',
                 `<b>${user_order.veggie}</b> just arrived today morning from New Zealands! 🛬 and  becuase you chose <b>${user_order.meal}</b> ${messages.non_fat_sauce_choices}`
               )
+              $("#btn-group").empty()
+              session.query("options(non_fatty_sauces).")
+              session.answer()
             } else {
               insertChat(
                 'subway',
                 `<b>${user_order.veggie}</b> just arrived today morning from New Zealands! 🛬 ${messages.all_sauce_choices}</b>`
               )
+              $("#btn-group").empty()
+              session.query("options(fatty_sauces).")
+              session.answer()
             }
           }
         })
@@ -364,18 +380,27 @@ function buttonClicked(fact) {
                 'subway',
                 `<b>${user_order.sauce}</b> is our crowd favourite <br/> Becuase you chose <b>${user_order.meal}</b> meal, no top-up options for you ${messages.side_choices}`
               )
+              $("#btn-group").empty()
+              session.query("options(sides).")
+              session.answer()
               progress = 6
             } else if (result == '[[avocado, egg_mayo]]') {
               insertChat(
                 'subway',
                 `<b>${user_order.sauce}</b> is our crowd favourite <br/> Becuase you chose <b>${user_order.meal}</b> meal, no cheese top-up for you ${messages.non_cheese_topup_choices}`
               )
+              $("#btn-group").empty()
+              session.query("options(non_cheese_topups).")
+              session.answer()
               progress = 5
             } else {
               insertChat(
                 'subway',
                 `<b>${user_order.sauce}</b> is our crowd favourite ${messages.all_top_up_choices}`
               )
+              $("#btn-group").empty()
+              session.query("options(non_cheese_topups).")
+              session.answer()
               progress = 5
             }
           }
@@ -391,6 +416,9 @@ function buttonClicked(fact) {
               'subway',
               ` <b>${user_order.topup}</b>? Good choice 👍🏻 ${messages.side_choices}`
             )
+            $("#btn-group").empty()
+            session.query("options(sides).")
+            session.answer()
           }
         })
         progress = 6
@@ -455,3 +483,6 @@ function buttonClicked(fact) {
 
 // ---- Print Messages
 insertChat('subway', messages.greetings)
+$("#btn-group").empty()
+session.query("options(meals).")
+session.answer()
