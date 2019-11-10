@@ -92,10 +92,14 @@ const updateDialogueBox = (type, contents) => {
 $(document).click(function (e) {
   if ($(e.target).is("button")) {
 
-    if ($(e.target).text() == 'Next Ingredient')
+    if ($(e.target).text() == 'Next Ingredient') {
       nextItem = true
+    } else {
+      buttonClicked($(e.target).text())
+    }
 
-    buttonClicked($(e.target).text())
+
+
 
   }
 
@@ -104,8 +108,7 @@ $(document).click(function (e) {
 // Carry out logic whenever an item button is clicked
 function buttonClicked(fact) {
 
-  // Remove current buttons
-  $("#btn-group").empty()
+
 
   // Add user's response
   updateDialogueBox('user', fact)
@@ -126,6 +129,7 @@ function buttonClicked(fact) {
             'staff',
             `Going for <b>${orderContents.meal}</b> meal alrighty! ${messages.bread_choices}`
           )
+          $("#btn-group").empty()
           session.query("options(breads).")
           session.answer()
         }
@@ -150,6 +154,7 @@ function buttonClicked(fact) {
               }`
             )
             console.log('creating veggie buttons')
+            $("#btn-group").empty()
             session.query("options(veggies).")
             session.answer()
             currentProgress = 'veggies'
@@ -164,12 +169,13 @@ function buttonClicked(fact) {
             console.log('creating meat buttons')
             console.log('setting next item to visible')
             $('#nextItem').show()
+            $("#btn-group").empty()
             session.query("options(meats).")
             session.answer()
             currentProgress = 'meats'
 
           }
-        
+
         }
       })
       break
@@ -185,6 +191,7 @@ function buttonClicked(fact) {
               `Juicy and tender <b>${orderContents.meat}</b>! ${messages.veggie_choices}`
             )
             nextItem = false;
+            $("#btn-group").empty()
             session.query("options(veggies).")
             session.answer()
           }
@@ -210,6 +217,7 @@ function buttonClicked(fact) {
                 `<b>${orderContents.veggie}</b> just arrived today morning from New Zealands! and  becuase you chose <b>${orderContents.meal}</b> ${messages.non_fat_sauce_choices}`
               )
               console.log('generating non fat sauces')
+              $("#btn-group").empty()
               session.query("options(sauces).")
               session.answer()
             } else {
@@ -218,6 +226,7 @@ function buttonClicked(fact) {
                 `<b>${orderContents.veggie}</b> just arrived today morning from New Zealands! ${messages.all_sauce_choices}</b>`
               )
               console.log('generating all sauces')
+              $("#btn-group").empty()
               session.query("options(sauces).")
               session.answer()
             }
@@ -244,7 +253,7 @@ function buttonClicked(fact) {
                 'staff',
                 `<b>${orderContents.sauce}</b> is our crowd favourite <br/> Becuase you chose <b>${orderContents.meal}</b> meal, no top-up options for you ${messages.side_choices}`
               )
-
+              $("#btn-group").empty()
               session.query("options(sides).")
               session.answer()
               currentProgress = 'sauces'
@@ -253,7 +262,7 @@ function buttonClicked(fact) {
                 'staff',
                 `<b>${orderContents.sauce}</b> is our crowd favourite <br/> Becuase you chose <b>${orderContents.meal}</b> meal, no cheese top-up for you ${messages.non_cheese_topup_choices}`
               )
-
+              $("#btn-group").empty()
               session.query("options(topups).")
               session.answer()
               currentProgress = 'topups'
@@ -262,7 +271,7 @@ function buttonClicked(fact) {
                 'staff',
                 `<b>${orderContents.sauce}</b> is our crowd favourite ${messages.all_top_up_choices}`
               )
-
+              $("#btn-group").empty()
               session.query("options(topups).")
               session.answer()
               currentProgress = 'topups'
@@ -286,6 +295,7 @@ function buttonClicked(fact) {
               ` <b>${orderContents.topup}</b>? Good choice ${messages.side_choices}`
             )
             nextItem = false
+            $("#btn-group").empty()
             session.query("options(sides).")
             session.answer()
           }
