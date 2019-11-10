@@ -80,3 +80,7 @@ ul {
   top: 0;
   overflow-y: hidden;
 }
+
+#subway-contents {
+  font-style: oblique;
+}
