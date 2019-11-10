@@ -204,18 +204,6 @@ const insertChat = (who, text) => {
     //   '<button type="button" id="value" class="btn btn-secondary">' + 'Value' + '</button>'
     //$("#btn-group").empty().append(buttonGroup).end()
 
-    $('ul')
-      .append(chatLoadingHTML)
-      .scrollTop($('ul').prop('scrollHeight'))
-
-
-
-    setTimeout(() => {
-      $('ul li:last-child').remove()
-      $('ul')
-        .append(replyHTML)
-        .scrollTop($('ul').prop('scrollHeight'))
-    }, 700)
   }
 
   if (who == 'user') {
