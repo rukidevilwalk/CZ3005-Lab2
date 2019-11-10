@@ -272,20 +272,7 @@ function buttonClicked(fact) {
         } else if (fact == 'value') {
           user_order.topup = '❌ NO TOPUP'
         }
-        session.query(`asserta(chosen_meals(${fact})), show_meals(X).`)
-        session.answers(show())
-        function show() {
-          // Return callback function
-          return function (answer) {
-            // Valid answer
-            console.log(answer);
-            if (pl.type.is_substitution(answer)) {
-              // Get the value of the food
-              var output = answer.lookup("X");
-              console.log(output);
-            }
-          };
-        }
+        session.query(`asserta(chosen_meals(${fact})).`)
         insertChat(
           'subway',
           `Going for <b>${user_order.meal}</b> meal alrighty! ${messages.bread_choices}`
