@@ -178,20 +178,6 @@ const formatAMPM = date => {
 const insertChat = (who, text) => {
 
   let date = formatAMPM(new Date())
-  let chatLoadingHTML =
-    '<li style="width:100%;">' +
-    '<div class="msj macro">' +
-    '<div class="avatar"><img class="img-square" style="width:100%;" src="' +
-    subway_avatar +
-    '" /></div>' +
-    '<div class="text text-l">' +
-    '<p>' +
-    '<div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>' +
-    '</p>' +
-    '</div>' +
-    '</li>'
-  let replyHTML = ''
-
   if (who == 'subway') {
     replyHTML =
       '<li style="width:100%;">' +
@@ -229,7 +215,9 @@ const insertChat = (who, text) => {
         .append(replyHTML)
         .scrollTop($('ul').prop('scrollHeight'))
     }, 700)
-  } else {
+  }
+
+  if (who == 'user') {
     replyHTML =
       '<li style="width:100%;">' +
       '<div class="msj-rta macro">' +
