@@ -92,7 +92,7 @@ const updateDialogueBox = (type, contents) => {
 $(document).click(function (e) {
   if ($(e.target).is("button")) {
 
-    if ($(e.target).text() == 'Next Ingredient') {
+    if ($(e.target).text() == 'Next Ingredient' || $(e.target).text() == 'Confirm Order') {
       nextItem = true
       buttonClicked($(e.target).text())
     } else {
