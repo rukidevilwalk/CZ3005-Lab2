@@ -1,12 +1,9 @@
-//-- Prolog Session
 import subway_interactor from './subway-prolog.js'
 var session = pl.create()
 session.consult(subway_interactor)
 session.consult(":- use_module(library(dom)).");
 session.consult(":- use_module(library(js)).");
-//-- Constants and Variables
-const user_avatar = 'https://image.flaticon.com/icons/svg/1400/1400241.svg'
-const subway_avatar = 'https://image.flaticon.com/icons/svg/1995/1995600.svg'
+
 const messages = {
   greetings: `
   Welcome To Subway!
