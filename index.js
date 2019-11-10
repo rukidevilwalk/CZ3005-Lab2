@@ -260,7 +260,7 @@ function buttonClicked(fact) {
               $("#btn-group").empty()
               session.query("options(sides).")
               session.answer()
-              $("#nextItem").attr('value', 'Confirm Order');
+              $("#nextItem").prop('value', 'Confirm Order');
               currentProgress = 'sides'
             } else if (result == '[[avocado, egg_mayo]]') {
               updateDialogueBox(
@@ -306,7 +306,7 @@ function buttonClicked(fact) {
             session.answer()
           }
         })
-        $("#nextItem").attr('value', 'Confirm Order');
+        $("#nextItem").prop('value', 'Confirm Order');
         currentProgress = 'sides'
       } else {
         orderContents.topup = orderContents.topup + ' , ' + fact.toUpperCase()
@@ -318,6 +318,8 @@ function buttonClicked(fact) {
       break
     case 'sides':
       if (nextItem) {
+        $('#nextItem').hide()
+        $('#selection-area').hide()
         updateDialogueBox(
           'staff',
           `Okay! Your order
