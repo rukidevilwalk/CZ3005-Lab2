@@ -353,7 +353,7 @@ function buttonClicked(fact) {
                 `<b>${user_order.veggie}</b> just arrived today morning from New Zealands! 🛬 and  becuase you chose <b>${user_order.meal}</b> ${messages.non_fat_sauce_choices}`
               )
               $("#btn-group").empty()
-              session.query("options(non_fatty_sauces).")
+              session.query("options(sauces).")
               session.answer()
             } else {
               insertChat(
@@ -361,7 +361,7 @@ function buttonClicked(fact) {
                 `<b>${user_order.veggie}</b> just arrived today morning from New Zealands! 🛬 ${messages.all_sauce_choices}</b>`
               )
               $("#btn-group").empty()
-              session.query("options(fatty_sauces).")
+              session.query("options(sauces).")
               session.answer()
             }
           }
@@ -390,7 +390,7 @@ function buttonClicked(fact) {
                 `<b>${user_order.sauce}</b> is our crowd favourite <br/> Becuase you chose <b>${user_order.meal}</b> meal, no cheese top-up for you ${messages.non_cheese_topup_choices}`
               )
               $("#btn-group").empty()
-              session.query("options(non_cheese_topups).")
+              session.query("options(topups).")
               session.answer()
               progress = 5
             } else {
@@ -399,7 +399,7 @@ function buttonClicked(fact) {
                 `<b>${user_order.sauce}</b> is our crowd favourite ${messages.all_top_up_choices}`
               )
               $("#btn-group").empty()
-              session.query("options(non_cheese_topups).")
+              session.query("options(topups).")
               session.answer()
               progress = 5
             }

@@ -70,15 +70,13 @@ get_by_id('btn-group', Parent),
 append_child(Parent, BUTTON), 
 createDOM(T), !. % remove the item then print it one by one
 
-options(meals) :- meals(L), createDOM(L).
-options(non_fatty_sauces) :- meals(L), createDOM(L).
-options(fatty_sauces) :- meals(L), createDOM(L).
-options(breads) :- meals(L), createDOM(L).
-options(meats) :- meals(L), createDOM(L).
-options(veggies) :- meals(L), createDOM(L).
-options(cheese_topup) :- meals(L), createDOM(L).
-options(non_cheese_topup) :- meals(L), createDOM(L).
-options(sides) :- meals(L), createDOM(L).
+options(meals) :- ask_meals(L), createDOM(L).
+options(sauces) :- ask_sauces(L), createDOM(L).
+options(breads) :- ask_breads(L), createDOM(L).
+options(meats) :- ask_meats(L), createDOM(L).
+options(veggies) :- ask_veggies(L), createDOM(L).
+options(topups) :- ask_topups(L), createDOM(L).
+options(sides) :- ask_sides(L), createDOM(L).
 % selected(X,L) :- .
 
 % Get user corresponding choice
