@@ -304,7 +304,7 @@ function buttonClicked(fact) {
                 messages.veggie_choices
                 }`
               )
-
+              console.log('creating veggie buttons')
               session.query("options(veggies).")
               session.answer()
               progress = 3
@@ -316,7 +316,7 @@ function buttonClicked(fact) {
                 messages.meat_choices
                 }`
               )
-
+console.log('creating meat buttons')
               session.query("options(meats).")
               session.answer()
               progress = 2
