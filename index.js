@@ -273,7 +273,7 @@ function buttonClicked(fact) {
           user_order.topup = '❌ NO TOPUP'
         }
         session.query(`asserta(chosen_meals(${fact})).`)
-        session.answer()
+        session.answer() 
         insertChat(
           'subway',
           `Going for <b>${user_order.meal}</b> meal alrighty! ${messages.bread_choices}`
@@ -284,6 +284,7 @@ function buttonClicked(fact) {
         progress = 1
         break
       case 'breads':
+        console.log('Bread')
         user_order.bread = fact.toUpperCase()
         session.query(`asserta(chosen_breads(${fact.toLowerCase()})).`)
         session.query(`ask_meats(X).`)
