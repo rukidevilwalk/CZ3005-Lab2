@@ -282,7 +282,7 @@ function buttonClicked(fact) {
             if (pl.type.is_substitution(answer)) {
               // Get the value of the food
               var output = answer.lookup("X");
-              console.log(output[0].id);
+              console.log(output);
             }
           };
         }
