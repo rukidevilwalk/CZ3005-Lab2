@@ -81,11 +81,11 @@ append_child(Parent, BUTTON),
 createDOM(T), !. % remove the item then print it one by one
 
 options(meals) :- ask_meals(L), createDOM(L).
-options(sauces) :- ask_sauces(L), createDOM(L).
+options(sauces) :- ask_sauces(L),   flatten(L, L1),createDOM(L1).
 options(breads) :- ask_breads(L), createDOM(L).
-options(meats) :- ask_meats(L), createDOM(L).
+options(meats) :- ask_meats(L),flatten(L, L1),createDOM(L1).
 options(veggies) :- ask_veggies(L), createDOM(L).
-options(topups) :- ask_topups(L), createDOM(L).
+options(topups) :- ask_topups(L),   flatten(L, L1),createDOM(L1).
 options(sides) :- ask_sides(L), createDOM(L).
 
 %selected(X,breads) :- asserta(bread(X)).
