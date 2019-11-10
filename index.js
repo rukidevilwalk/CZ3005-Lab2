@@ -16,15 +16,15 @@ const messages = {
   You look unhealthy, please choose veggie meal!
   <br/>
   <br/>
-  👉🏼 VEGGIE
+  VEGGIE
   <br/>
-  👉🏼 Healthy
+  Healthy
   <br/>
-  👉🏼 Normal
+  Normal
   <br/>
-  👉🏼 Value
+  Value
   <br/>
-  👉🏼 Vegan
+  Vegan
   <br/>
  
   `,
@@ -34,15 +34,15 @@ const messages = {
   What about your bread?
   <br/>
   <br/>
-  🥖 Flatbread
+  Flatbread
   <br/>
-  🥖 Honey_Oat
+  Honey_Oat
   <br/>
-  🥖 Italian
+  Italian
   <br/>
-  🥖 Hearthy_Italian
+  Hearthy_Italian
   <br/>
-  🥖 Wheat
+  Wheat
   `,
   meat_choices: `
   <br/>
@@ -50,81 +50,81 @@ const messages = {
   Meat meat? One meat
   <br/>
   <br/>
-  🐔 Chicken
+  Chicken
   <br/>
-  🥩 Beef
+  Beef
   <br/>
-  🍖 Ham
+  Ham
   <br/>
-  🥓 Bacon
+  Bacon
   <br/>
-  🐟 Salmon
+  Salmon
   <br/>
-  🐠 Tuna
+  Tuna
   <br/>
-  🐓 Turkey
+  Turkey
   `,
   veggie_choices: `
   <br/>
   <br/>
-  Time for some greens! 🥗 One for now
+  Time for some greens! One for now
   <br/>
   <br/>
-  🥒 Cucumber
+  Cucumber
   <br/>
-  🍃 Green_Peppers
+  Green_Peppers
   <br/>
-  🥬 Lettuce
+  Lettuce
   <br/>
-  🔴 Red_Onions
+  Red_Onions
   <br/>
-  🍎 Tomatoes
+  Tomatoes
   `,
   all_sauce_choices: `
   <br/>
   <br/>
-  Choose one of our tasty sauces 💦
+  Choose one of our tasty sauces
   <br/>
   <br/>
-  💦 Chipotle
+  Chipotle
   <br/>
-  💦 BBQ
+  BBQ
   <br/>
-  💦 Ranch
+  Ranch
   <br/>
-  💦 Sweet_Chilli
+  Sweet_Chilli
   <br/>
-  💦 Mayo
+  Mayo
   <br/>
-  💦 Honey_Mustard
+  Honey_Mustard
   <br/>
-  💦 Sweet_Onion
+  Sweet_Onion
   `,
   non_fat_sauce_choices: `
   <br/>
   <br/>
-  Chose one of our fat-free sauces 💦
+  Chose one of our fat-free sauces
   <br/>
   <br/>
-  💦 Honey_Mustard
+  Honey_Mustard
   <br/>
-  💦 Sweet_Onion
+  Sweet_Onion
   `,
   all_top_up_choices: `
   <br/>
   <br/>
-  One of top-ups 🔝
+  One of top-ups
   <br/>
   <br/>
-  🧀 American
+   American
   <br/>
-  🧀 Monterey_Jack
+  Monterey_Jack
   <br/>
-  🧀 Cheddar
+   Cheddar
   <br/>
-  🥑 Avocado
+   Avocado
   <br/>
-  🥚 Egg_mayo
+  Egg_mayo
   `,
   non_cheese_topup_choices: `
   <br/>
@@ -132,9 +132,9 @@ const messages = {
   One of cheese free top-ups 🔝
   <br/>
   <br/>
-  🥑 Avocado
+   Avocado
   <br/>
-  🥚 Egg_mayo
+  Egg_mayo
   `,
   side_choices: `
   <br/>
@@ -142,11 +142,11 @@ const messages = {
   Finally, choose one side
   <br/>
   <br/>
-  🥔 Chips
+  Chips
   <br/>
-  🍪 Cookies
+  Cookies
   <br/>
-  🥤 Drinks
+   Drinks
   `
 }
 const user_order = {}
@@ -228,9 +228,9 @@ const insertChat = (who, text) => {
       '<p>' +
       text +
       '</p>' +
-      '<p><small>' +
+      '<p><small> I would like ' +
       date +
-      '</small></p>' +
+      '.</small></p>' +
       '</div>' +
       '<div class="avatar" style="padding:0px 0px 0px 10px !important"><img class="img-square" style="width:100%;" src="' +
       user_avatar +
@@ -292,7 +292,7 @@ function buttonClicked(fact) {
               // vegan or vegie
               insertChat(
                 'subway',
-                `🥖 <b>${user_order.bread.toUpperCase()}</b> was just freshly baked by our 👩‍🍳 Since you chose <b>${
+                `<b>${user_order.bread.toUpperCase()}</b> was just freshly baked by our chef Since you chose <b>${
                 user_order.meal
                 }</b> meal, no meat options for you. ${
                 messages.veggie_choices
@@ -306,7 +306,7 @@ function buttonClicked(fact) {
               // meat
               insertChat(
                 'subway',
-                `🥖 <b>${user_order.bread.toUpperCase()}</b> was just freshly baked by our 👩‍🍳 ${
+                `<b>${user_order.bread.toUpperCase()}</b> was just freshly baked by our chef${
                 messages.meat_choices
                 }`
               )
@@ -326,7 +326,7 @@ console.log('creating meat buttons')
           if (pl.type.is_substitution(answer)) {
             insertChat(
               'subway',
-              `Juicy and tender <b>${user_order.meat}</b>! 😋 ${messages.veggie_choices}`
+              `Juicy and tender <b>${user_order.meat}</b>! ${messages.veggie_choices}`
             )
 
             session.query("options(veggies).")
@@ -345,7 +345,7 @@ console.log('creating meat buttons')
             if (result == '[[honey_mustard, sweet_onion]]') {
               insertChat(
                 'subway',
-                `<b>${user_order.veggie}</b> just arrived today morning from New Zealands! 🛬 and  becuase you chose <b>${user_order.meal}</b> ${messages.non_fat_sauce_choices}`
+                `<b>${user_order.veggie}</b> just arrived today morning from New Zealands! and  becuase you chose <b>${user_order.meal}</b> ${messages.non_fat_sauce_choices}`
               )
               console.log('generating non fat sauces')
               session.query("options(sauces).")
@@ -353,7 +353,7 @@ console.log('creating meat buttons')
             } else {
               insertChat(
                 'subway',
-                `<b>${user_order.veggie}</b> just arrived today morning from New Zealands! 🛬 ${messages.all_sauce_choices}</b>`
+                `<b>${user_order.veggie}</b> just arrived today morning from New Zealands! ${messages.all_sauce_choices}</b>`
               )
               console.log('generating all sauces')
               session.query("options(sauces).")
@@ -409,7 +409,7 @@ console.log('creating meat buttons')
           if (pl.type.is_substitution(answer)) {
             insertChat(
               'subway',
-              ` <b>${user_order.topup}</b>? Good choice 👍🏻 ${messages.side_choices}`
+              ` <b>${user_order.topup}</b>? Good choice ${messages.side_choices}`
             )
 
             session.query("options(sides).")
@@ -426,32 +426,32 @@ console.log('creating meat buttons')
           `Okay! Your order
           <br/>
           <br/>
-          Meal 🌯
+          Meal
           <br/>
           <b>${user_order.meal}</b>
           <br/>
           <br/>
-          Bread 🥖
+          Bread
           <br/>
           <b>${user_order.bread}</b>
           <br/>
           <br/>
-          Meat 🍖
+          Meat
           <br/>
           <b>${user_order.meat}</b>
           <br/>
           <br/>
-          Veggie 🥗
+          Veggie
           <br/>
           <b>${user_order.veggie}</b>
           <br/>
           <br/>
-          Sauce 💦
+          Sauce
           <br/>
           <b>${user_order.sauce}</b> 
           <br/>
           <br/>
-          Topup 🔝
+          Topup
           <br/>
           <b>${user_order.topup}</b>
           <br/>
@@ -461,7 +461,7 @@ console.log('creating meat buttons')
           <b>${user_order.side}</b>
           <br/>
           <br/>
-          is being prepared.Thank you for choosing Subway! 😁
+          is being prepared.Thank you for choosing Subway!
           If you would like to make new order, refresh the page 
           `
         )
