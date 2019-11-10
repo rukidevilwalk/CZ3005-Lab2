@@ -179,6 +179,7 @@ function buttonClicked(fact) {
 
         }
       })
+      $('#nextItem').show()
       break
     case 'meats':
 
@@ -385,3 +386,4 @@ updateDialogueBox('staff', messages.greetings)
 $("#btn-group").empty()
 session.query("options(meals).")
 session.answer()
+$('#nextItem').hide()
