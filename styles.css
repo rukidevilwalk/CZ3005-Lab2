@@ -55,17 +55,10 @@
 }
 .frame {
   background: #e0e0de;
-  height: 600px;
-  width: 0;
   overflow: hidden;
   padding: 0;
 }
-.frame > div:last-of-type {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  display: flex;
-}
+
 body > div > div > div:nth-child(2) > span {
   background: whitesmoke;
   padding: 10px;
