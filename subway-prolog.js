@@ -2,6 +2,16 @@ export default `
 
 :- use_module(library(dom)).
 :- use_module(library(js)).
+:- dynamic(chosen_meals/1).
+:- dynamic(chosen_meats/1).
+:- dynamic(chosen_sides/1).
+:- dynamic(chosen_topups/1).
+:- dynamic(chosen_veggies/1).
+:- dynamic(chosen_breads/1).
+:- dynamic(chosen_sauces/1).
+:- dynamic(options/1).
+:- dynamic(createDOM/1).
+
 % Set up list methods for appending
 append([], Y, Y).
 append([H|X], Y, [H|Z]) :- append(X, Y, Z).
@@ -75,7 +85,7 @@ options(sauces) :- ask_sauces(L), createDOM(L).
 options(breads) :- ask_breads(L), createDOM(L).
 options(meats) :- ask_meats(L), createDOM(L).
 options(veggies) :- ask_veggies(L), createDOM(L).
-options(topups) :- ask_topups(L), createDOM(L)
+options(topups) :- ask_topups(L), createDOM(L).
 options(sides) :- ask_sides(L), createDOM(L).
 
 %selected(X,breads) :- asserta(bread(X)).
