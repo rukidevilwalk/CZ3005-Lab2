@@ -16,17 +16,6 @@ const messages = {
   You look unhealthy, please choose veggie meal!
   <br/>
   <br/>
-  VEGGIE
-  <br/>
-  Healthy
-  <br/>
-  Normal
-  <br/>
-  Value
-  <br/>
-  Vegan
-  <br/>
- 
   `,
   bread_choices: `
   <br/>
@@ -34,15 +23,6 @@ const messages = {
   What about your bread?
   <br/>
   <br/>
-  Flatbread
-  <br/>
-  Honey_Oat
-  <br/>
-  Italian
-  <br/>
-  Hearthy_Italian
-  <br/>
-  Wheat
   `,
   meat_choices: `
   <br/>
@@ -50,19 +30,6 @@ const messages = {
   Meat meat? One meat
   <br/>
   <br/>
-  Chicken
-  <br/>
-  Beef
-  <br/>
-  Ham
-  <br/>
-  Bacon
-  <br/>
-  Salmon
-  <br/>
-  Tuna
-  <br/>
-  Turkey
   `,
   veggie_choices: `
   <br/>
@@ -70,15 +37,6 @@ const messages = {
   Time for some greens! One for now
   <br/>
   <br/>
-  Cucumber
-  <br/>
-  Green_Peppers
-  <br/>
-  Lettuce
-  <br/>
-  Red_Onions
-  <br/>
-  Tomatoes
   `,
   all_sauce_choices: `
   <br/>
@@ -86,19 +44,6 @@ const messages = {
   Choose one of our tasty sauces
   <br/>
   <br/>
-  Chipotle
-  <br/>
-  BBQ
-  <br/>
-  Ranch
-  <br/>
-  Sweet_Chilli
-  <br/>
-  Mayo
-  <br/>
-  Honey_Mustard
-  <br/>
-  Sweet_Onion
   `,
   non_fat_sauce_choices: `
   <br/>
@@ -116,15 +61,6 @@ const messages = {
   One of top-ups
   <br/>
   <br/>
-   American
-  <br/>
-  Monterey_Jack
-  <br/>
-   Cheddar
-  <br/>
-   Avocado
-  <br/>
-  Egg_mayo
   `,
   non_cheese_topup_choices: `
   <br/>
@@ -132,9 +68,6 @@ const messages = {
   One of cheese free top-ups
   <br/>
   <br/>
-   Avocado
-  <br/>
-  Egg_mayo
   `,
   side_choices: `
   <br/>
@@ -142,11 +75,6 @@ const messages = {
   Finally, choose one side
   <br/>
   <br/>
-  Chips
-  <br/>
-  Cookies
-  <br/>
-   Drinks
   `
 }
 const user_order = {}
