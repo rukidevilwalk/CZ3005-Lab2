@@ -1,5 +1,5 @@
 .btn-group {
-  overflow: auto;
+  display: flex;
 }
 .mytext {
   border: 0;
