@@ -7,8 +7,8 @@ export default `
 :- dynamic(chosen_breads/1).
 :- dynamic(chosen_sauces/1).
 :- dynamic(options/1).
-:- dynamic(createDOM/1).
-
+:- dynamic(createDOMV2/1).
+:- dynamic(createDOMV1/1).
 % Set up list methods for appending
 append([], Y, Y).
 append([H|X], Y, [H|Z]) :- append(X, Y, Z).
@@ -82,7 +82,7 @@ create(button, BUTTON),
     get_by_id('btn-group', Parent),
     append_child(Parent, BUTTON), 
 create(li, LI),                                          % Putting item into a list
-    add_class(LI, 'list-group-item'), % Style
+    add_class(LI, 'list-group-item'), 
     html(LI, H),
     get_by_id('item-list', Parent),
     append_child(Parent, LI),

@@ -199,9 +199,6 @@ const insertChat = (who, text) => {
       '</div>' +
       '</li>'
 
-
-
-
       $('ul')
         .append(replyHTML)
         .scrollTop($('ul').prop('scrollHeight'))
