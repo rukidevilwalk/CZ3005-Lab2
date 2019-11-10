@@ -195,7 +195,7 @@ if (who=='subway'){
 
   $('#user-contents')
   .empty()
-  .append(text)
+  .append('I would like '+ text)
   .end()
 }
 
