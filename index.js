@@ -280,7 +280,7 @@ function buttonClicked(fact) {
               `Going for <b>${user_order.meal}</b> meal alrighty! ${messages.bread_choices}`
             )
             $("#btn-group").empty()
-            session.query("options(bread).")
+            session.query("options(breads).")
             session.answer()
           }
           progress = 1
