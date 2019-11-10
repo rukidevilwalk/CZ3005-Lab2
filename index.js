@@ -293,7 +293,6 @@ function buttonClicked(fact) {
         session.answer(answer => {
           if (pl.type.is_substitution(answer)) {
             let result = answer.lookup('X')
-            console.log(result)
             if (result == '[]') {
               // vegan or vegie
               insertChat(

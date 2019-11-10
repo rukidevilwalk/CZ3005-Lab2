@@ -55,10 +55,10 @@ ask_topups(X) :- findall(X, (chosen_meals(Y), \\+value_meal(Y) -> (vegan_meal(Y)
 % Get possible sides
 ask_sides(X) :- sides(X).
 
-% createDOM is used to create the HTML DOM for the front end based on current list
-createDOM([]). % empty list
+% createDOMV1 is used to create the HTML DOM for the front end based on current list
+createDOMV1([]). % empty list
 
-createDOM([H]) :- % last item in list
+createDOMV1([H]) :- % last item in list
 create(button, BUTTON),
 add_class(BUTTON, 'btn btn-secondary'), % Style
 set_attr(BUTTON,type, button),
@@ -67,7 +67,7 @@ html(BUTTON, H),
 get_by_id('btn-group', Parent),
 append_child(Parent, BUTTON). 
 
-createDOM([H|T]) :-  % List with items more than one
+createDOMV1([H|T]) :-  % List with items more than one
 create(button, BUTTON),
 add_class(BUTTON, 'btn btn-secondary'), % Style
 set_attr(BUTTON,type, button),
@@ -75,14 +75,36 @@ set_attr(BUTTON,value, H),
 html(BUTTON, H),
 get_by_id('btn-group', Parent),
 append_child(Parent, BUTTON), 
-createDOM(T), !. % remove the item then print it one by one
+createDOMV1(T), !. % remove the item then print it one by one
+
+% createDOMV2 is the same as createDOMV1 except it's for nested lists
+createDOMV2([]). % empty list
+
+createDOMV2([H]) :- % last item in list
+create(button, BUTTON),
+add_class(BUTTON, 'btn btn-secondary'), % Style
+set_attr(BUTTON,type, button),
+set_attr(BUTTON,value, H),
+html(BUTTON, H),
+get_by_id('btn-group', Parent),
+append_child(Parent, BUTTON). 
+
+createDOMV2([H|T]) :-  % List with items more than one
+create(button, BUTTON),
+add_class(BUTTON, 'btn btn-secondary'), % Style
+set_attr(BUTTON,type, button),
+set_attr(BUTTON,value, H),
+html(BUTTON, H),
+get_by_id('btn-group', Parent),
+append_child(Parent, BUTTON), 
+createDOMV2(T), !. % remove the item then print it one by one
 
 options(meals) :- ask_meals(L), createDOM(L).
-options(sauces) :- ask_sauces(L), flatten(L, L1), createDOM(L1).
+options(sauces) :- ask_sauces(L), createDOMV2(L).
 options(breads) :- ask_breads(L), createDOM(L).
-options(meats) :- ask_meats(L), flatten(L, L1), createDOM(L1).
+options(meats) :- ask_meats(L), createDOMV2(L).
 options(veggies) :- ask_veggies(L), createDOM(L).
-options(topups) :- ask_topups(L), flatten(L, L1), createDOM(L1).
+options(topups) :- ask_topups(L), createDOMV2(L).
 options(sides) :- ask_sides(L), createDOM(L).
 
 %selected(X,breads) :- asserta(bread(X)).
