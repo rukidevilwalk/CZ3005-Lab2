@@ -88,28 +88,10 @@ const steps = [
   'end'
 ]
 let progress = 0
-//-- END Constants and Variables
-
-//-- Helper Functions
-const formatAMPM = date => {
-  let hours = date.getHours()
-  let minutes = date.getMinutes()
-  let ampm = hours >= 12 ? 'PM' : 'AM'
-  hours = hours % 12
-  hours = hours ? hours : 12 // the hour '0' should be '12'
-  minutes = minutes < 10 ? '0' + minutes : minutes
-  let strTime = hours + ':' + minutes + ' ' + ampm
-  return strTime
-}
 
 const updateChat = (who, text) => {
   let date = formatAMPM(new Date())
 if (who=='subway'){
-  $('#subway-date')
-  .empty()
-  .append(date)
-  .end()
-
   $('#subway-header')
   .empty()
   .append(text)
@@ -119,11 +101,6 @@ if (who=='subway'){
   .empty()
   .end()
 } else {
-  $('#user-date')
-  .empty()
-  .append(date)
-  .end()
-
   $('#user-contents')
   .empty()
   .append('I would like '+ text)
