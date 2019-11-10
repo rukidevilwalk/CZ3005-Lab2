@@ -55,6 +55,80 @@ ask_topups(X) :- findall(X, (chosen_meals(Y), \\+value_meal(Y) -> (vegan_meal(Y)
 % Get possible sides
 ask_sides(X) :- sides(X).
 
+% options is used get the list based on current arguments and creates the relevant HTML DOMs for GUI
+options(meals) :- ask_meals(L), createDOMV1(L).
+options(sauces) :- ask_sauces(L), createDOMV2(L).
+options(breads) :- ask_breads(L), createDOMV1(L).
+options(meats) :- ask_meats(L), createDOMV2(L).
+options(veggies) :- ask_veggies(L), createDOMV1(L).
+options(topups) :- ask_topups(L), createDOMV2(L).
+options(sides) :- ask_sides(L), createDOMV1(L).
+
+% selected is used to assert facts based on the given argument
+selected(X,meals) :- \\+check_selection(X, meals) -> asserta(chosen_meals(X)).
+selected(X,breads) :- \\+check_selection(X, breads) -> asserta(chosen_breads(X)).
+selected(X,meats) :- \\+check_selection(X, meats) ->asserta(chosen_meats(X)).
+selected(X,veggies) :- \\+check_selection(X, veggies) ->asserta(chosen_veggies(X)).
+selected(X,sauces) :- \\+check_selection(X, sauces) ->asserta(chosen_sauces(X)).
+selected(X,topups) :- \\+check_selection(X, topups) ->asserta(chosen_topups(X)).
+selected(X,sides) :- \\+check_selection(X, sides) ->asserta(chosen_sides(X)).
+
+% Check if X is already in chosen list
+check_selection(X, breads):- 
+chosen_breads(L), member(X,L). 
+
+check_selection(X, meats):- 
+chosen_meats(L), member(X,L).
+
+check_selection(X, meals):- 
+chosen_meals(L), member(X,L).
+
+check_selection(X, veggies):- 
+chosen_veggies(L), member(X,L).
+
+check_selection(X, sauces):-
+chosen_sauces(L), member(X,L).
+
+check_selection(X, topups):- 
+chosen_topups(L), member(X,L).
+
+check_selection(X, sides):- 
+chosen_sides(L), member(X,L).
+
+% Check if X is already in chosen list
+check_selection(X, breads):- 
+chosen_breads(L), member(X,L),!. 
+
+check_selection(X, meats):- 
+chosen_meats(L), member(X,L),!.
+
+check_selection(X, meals):- 
+chosen_meals(L), member(X,L),!.
+
+check_selection(X, veggies):- 
+chosen_veggies(L), member(X,L),!.
+
+check_selection(X, sauces):-
+chosen_sauces(L), member(X,L),!.
+
+check_selection(X, topups):- 
+chosen_topups(L), member(X,L),!.
+
+check_selection(X, sides):- 
+chosen_sides(L), member(X,L),!.
+
+% Get user corresponding choice
+% findall(X, pred(X), List) - Find possible values for predicate and add to the List
+show_meals(Meals) :- findall(X, chosen_meals(X), Meals).
+show_breads(Breads) :- findall(X, chosen_breads(X), Breads).
+show_meats(Meats) :- findall(X, chosen_meats(X), Meats).
+show_veggies(Veggies) :- findall(X, chosen_veggies(X), Veggies).
+show_sauces(Sauces) :- findall(X, chosen_sauces(X), Sauces).
+show_topups(TopUps) :- findall(X, chosen_topups(X), TopUps).
+show_sides(Sides) :- findall(X, chosen_sides(X), Sides).
+
+%% GUI functions
+
 % create list item for GUI
 createListItem(H) :-                                    
 create(a, A),                                         
@@ -100,34 +174,4 @@ createDOMV2([[H|T]]) :-
 createButton(H),
 createListItem(H),
 createDOMV2([T]), !. % remove item in list and call the function again
-
-% options is used get the list based on current arguments and creates the relevant HTML DOMs for GUI
-options(meals) :- ask_meals(L), createDOMV1(L).
-options(sauces) :- ask_sauces(L), createDOMV2(L).
-options(breads) :- ask_breads(L), createDOMV1(L).
-options(meats) :- ask_meats(L), createDOMV2(L).
-options(veggies) :- ask_veggies(L), createDOMV1(L).
-options(topups) :- ask_topups(L), createDOMV2(L).
-options(sides) :- ask_sides(L), createDOMV1(L).
-
-% selected is used to assert facts based on the given argument
-selected(X,meals) :- asserta(chosen_meals(X)).
-selected(X,breads) :- asserta(chosen_breads(X)).
-selected(X,meats) :- asserta(chosen_meats(X)).
-selected(X,veggies) :- asserta(chosen_veggies(X)).
-selected(X,sauces) :- asserta(chosen_sauces(X)).
-selected(X,topups) :- asserta(chosen_topups(X)).
-selected(X,sides) :- asserta(chosen_sides(X)).
-
-selected(X,breads) :- asserta(bread(X)).
-
-% Get user corresponding choice
-% findall(X, pred(X), List) - Find possible values for predicate and add to the List
-show_meals(Meals) :- findall(X, chosen_meals(X), Meals).
-show_breads(Breads) :- findall(X, chosen_breads(X), Breads).
-show_meats(Meats) :- findall(X, chosen_meats(X), Meats).
-show_veggies(Veggies) :- findall(X, chosen_veggies(X), Veggies).
-show_sauces(Sauces) :- findall(X, chosen_sauces(X), Sauces).
-show_topups(TopUps) :- findall(X, chosen_topups(X), TopUps).
-show_sides(Sides) :- findall(X, chosen_sides(X), Sides).
 `
