@@ -161,6 +161,7 @@ function buttonClicked(fact) {
               }`
             )
             console.log('creating meat buttons')
+            console.log('setting next item to visible')
             $('#nextItem').show()
             session.query("options(meats).")
             session.answer()
