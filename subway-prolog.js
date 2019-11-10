@@ -78,9 +78,9 @@ append_child(Parent, BUTTON),
 createDOMV1(T), !. % remove the item then print it one by one
 
 % createDOMV2 is the same as createDOMV1 except it's for nested lists
-createDOMV2([]). % empty list
+createDOMV2([[]]). % empty list
 
-createDOMV2([H]) :- % last item in list
+createDOMV2([[H]]) :- % last item in list
 create(button, BUTTON),
 add_class(BUTTON, 'btn btn-secondary'), % Style
 set_attr(BUTTON,type, button),
@@ -89,7 +89,7 @@ html(BUTTON, H),
 get_by_id('btn-group', Parent),
 append_child(Parent, BUTTON). 
 
-createDOMV2([H|T]) :-  % List with items more than one
+createDOMV2([[H|T]]) :-  % List with items more than one
 create(button, BUTTON),
 add_class(BUTTON, 'btn btn-secondary'), % Style
 set_attr(BUTTON,type, button),
