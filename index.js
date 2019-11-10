@@ -196,7 +196,7 @@ function buttonClicked(fact) {
           currentProgress = 'veggies'
         })
       } else {
-        orderContents.meat = fact.toUpperCase()
+        orderContents.meat = orderContents.meat + ' , ' + fact.toUpperCase()
         session.query(`selected(${fact},meats).`)
       }
 
@@ -234,7 +234,7 @@ function buttonClicked(fact) {
         })
         currentProgress = 'sauces'
       } else {
-        orderContents.veggie = fact.toUpperCase()
+        orderContents.veggie = orderContents.veggie + ' , ' + fact.toUpperCase()
         session.query(`selected(${fact},veggies).`)
       }
 
@@ -256,7 +256,8 @@ function buttonClicked(fact) {
               $("#btn-group").empty()
               session.query("options(sides).")
               session.answer()
-              currentProgress = 'sauces'
+              $("#nextItem").attr('value', 'Confirm Order');
+              currentProgress = 'sides'
             } else if (result == '[[avocado, egg_mayo]]') {
               updateDialogueBox(
                 'staff',
@@ -280,7 +281,7 @@ function buttonClicked(fact) {
           }
         })
       } else {
-        orderContents.sauce = fact.toUpperCase()
+        orderContents.sauce = orderContents.sauce + ' , ' + fact.toUpperCase()
         session.query(`selected(${fact},sauces).`)
       }
 
@@ -301,9 +302,10 @@ function buttonClicked(fact) {
             session.answer()
           }
         })
+        $("#nextItem").attr('value', 'Confirm Order');
         currentProgress = 'sides'
       } else {
-        orderContents.topup = fact.toUpperCase()
+        orderContents.topup = orderContents.topup + ' , ' + fact.toUpperCase()
         session.query(`selected(${fact},topups).`)
       }
 
@@ -311,52 +313,57 @@ function buttonClicked(fact) {
 
       break
     case 'sides':
-      orderContents.side = fact.toUpperCase()
-      session.query(`selected(${fact},sides).`)
-      updateDialogueBox(
-        'staff',
-        `Okay! Your order
-          <br/>
-          <br/>
-          Meal
-          <br/>
-          <b>${orderContents.meal}</b>
-          <br/>
-          <br/>
-          Bread
-          <br/>
-          <b>${orderContents.bread}</b>
-          <br/>
-          <br/>
-          Meat
-          <br/>
-          <b>${orderContents.meat}</b>
-          <br/>
-          <br/>
-          Veggie
-          <br/>
-          <b>${orderContents.veggie}</b>
-          <br/>
-          <br/>
-          Sauce
-          <br/>
-          <b>${orderContents.sauce}</b> 
-          <br/>
-          <br/>
-          Topup
-          <br/>
-          <b>${orderContents.topup}</b>
-          <br/>
-          <br/>
-          Side
-          <br/>
-          <b>${orderContents.side}</b>
-          <br/>
-          <br/>
-          is being prepared.Thank you for choosing Subway!
-          If you would like to make new order, refresh the page 
-          `
-      )
+      if (nextItem) {
+        updateDialogueBox(
+          'staff',
+          `Okay! Your order
+              <br/>
+              <br/>
+              Meal
+              <br/>
+              <b>${orderContents.meal}</b>
+              <br/>
+              <br/>
+              Bread
+              <br/>
+              <b>${orderContents.bread}</b>
+              <br/>
+              <br/>
+              Meat
+              <br/>
+              <b>${orderContents.meat}</b>
+              <br/>
+              <br/>
+              Veggie
+              <br/>
+              <b>${orderContents.veggie}</b>
+              <br/>
+              <br/>
+              Sauce
+              <br/>
+              <b>${orderContents.sauce}</b> 
+              <br/>
+              <br/>
+              Topup
+              <br/>
+              <b>${orderContents.topup}</b>
+              <br/>
+              <br/>
+              Side
+              <br/>
+              <b>${orderContents.side}</b>
+              <br/>
+              <br/>
+              is being prepared.Thank you for choosing Subway!
+              If you would like to make new order, refresh the page 
+              `
+        )
+      } else {
+        orderContents.side = fact.toUpperCase()
+        session.query(`selected(${fact},sides).`)
+      }
+
+
       break
     case 'end':
       break
