@@ -50,262 +50,288 @@ function updateStaffDialogueBox(contents) {
 }
 
 // Listener for dynamically created buttons
+// Carry out logic whenever an item button is clicked
 $(document).click(function (e) {
+
   if ($(e.target).is("button")) {
 
-    if ($(e.target).text() == 'Next Ingredient' || $(e.target).text() == 'Confirm Order') {
+    // If next ingredient category has multiple selections available
+    if ($(e.target).text() == 'Next Ingredient' || $(e.target).text() == 'Confirm Order')
       nextItem = true
-      buttonClicked($(e.target).text())
-    } else {
-      buttonClicked($(e.target).text())
+
+
+    let selectedIngredient = $(e.target).text().toUpperCase()
+    let fact = $(e.target).text()
+
+    // Carry out functions based on current progress
+    switch (currentProgress) {
+
+      case 'meals':
+        updateMeal(selectedIngredient, fact)
+        break
+
+      case 'breads':
+        updateBread(selectedIngredient, fact)
+        break
+
+      case 'meats':
+        updateMeats(selectedIngredient, fact)
+        break
+
+      case 'veggies':
+        updateVeggies(selectedIngredient, fact)
+        break
+
+      case 'sauces':
+        updateSauces(selectedIngredient, fact)
+        break
+
+      case 'topups':
+        updateTopups(selectedIngredient, fact)
+        break
+
+      case 'sides':
+        updateSides(selectedIngredient, fact)
+        break
+
+      default:
+        break
     }
+
   }
+
 })
 
-// Carry out logic whenever an item button is clicked
-function buttonClicked(fact) {
+function updateMeal(selectedIngredient, fact) {
+  // Update Dialogue
+  updateUserDialogueBox(selectedIngredient)
+  updateStaffDialogueBox(selectedIngredient +
+    'has been selected!<br /> What would you like for your bread?')
 
-  let selectedIngredient = fact.toUpperCase()
+  // Call prolog to assert selected item 
+  session.query(`selected(${fact},meals).`)
+  session.answer()
 
-  // Carry out functions based on current progress
-  switch (currentProgress) {
+  //Call prolog to update menu items
+  $("#btn-group").empty()
+  session.query("options(breads).")
+  session.answer()
 
-    case 'meals':
-      // Update Dialogue
-      updateUserDialogueBox(selectedIngredient)
-      updateStaffDialogueBox(selectedIngredient +
-        'has been selected!<br /> What would you like for your bread?')
+  currentProgress = 'breads'
+}
 
-      // Call prolog to assert selected item 
-      session.query(`selected(${fact},meals).`)
-      session.answer()
+function updateBread(selectedIngredient, fact) {
+  // Update Dialogue
+  updateUserDialogueBox(selectedIngredient)
 
-      //Call prolog to update menu items
-      $("#btn-group").empty()
-      session.query("options(breads).")
-      session.answer()
+  // Call prolog to assert selected item 
+  session.query(`selected(${fact},breads).`)
+  session.answer()
 
-      currentProgress = 'breads'
-      break
-
-    case 'breads':
-      // Update Dialogue
-      updateUserDialogueBox(selectedIngredient)
-
-      // Call prolog to assert selected item 
-      session.query(`selected(${fact},breads).`)
-      session.answer()
-
-      // Call prolog to check if meat needs to be displayed 
-      session.query(`get_meats(X).`)
-      session.answer(answer => {
-        if (pl.type.is_substitution(answer)) {
-          // If result is empty, that means vegan or veggies was selected
-          if (answer.lookup('X') == '[]') {
-            // Update Dialogue
-            updateStaffDialogueBox(selectedIngredient +
-              'has been selected!<br /> What would you like for your veggies?')
-
-            //Call prolog to update menu items
-            $("#btn-group").empty()
-            session.query("options(veggies).")
-            session.answer()
-            currentProgress = 'veggies'
-          } else {
-            // Update Dialogue
-            updateStaffDialogueBox(selectedIngredient +
-              'has been selected!<br /> What would you like for your meat?')
-            $("#btn-group").empty()
-
-            //Call prolog to update menu items
-            session.query("options(meats).")
-            session.answer()
-            currentProgress = 'meats'
-          }
-        }
-      })
-
-      $('#nextItem').show()
-      break
-
-    case 'meats':
-      if (nextItem) {
+  // Call prolog to check if meat needs to be displayed 
+  session.query(`get_meats(X).`)
+  session.answer(answer => {
+    if (pl.type.is_substitution(answer)) {
+      // If result is empty, that means vegan or veggies was selected
+      if (answer.lookup('X') == '[]') {
         // Update Dialogue
-        updateUserDialogueBox(selectedIngredient)
-
-        // Call prolog to check if meat needs to be displayed 
-        session.query(`get_veggies(X).`)
-        session.answer(answer => {
-          if (pl.type.is_substitution(answer)) {
-            // Update Dialogue
-            updateStaffDialogueBox(selectedIngredient +
-              'has been selected!<br /> What would you like for your veggies?')
-
-            //Call prolog to update menu items
-            nextItem = false;
-            $("#btn-group").empty()
-            session.query("options(veggies).")
-            session.answer()
-          }
-
-          currentProgress = 'veggies'
-        })
-      } else {
-
-        orderContents.meat = orderContents.meat + (orderContents.meat != '' ? ' , ' : '') + selectedIngredient
-        // Call prolog to assert selected item 
-        session.query(`selected(${fact},meats).`)
-        session.answer()
-      }
-      break
-
-    case 'veggies':
-      if (nextItem) {
-        // Update Dialogue
-        updateUserDialogueBox(selectedIngredient)
-
-        // Call prolog to check what kind of sauces need to be displayed 
-        // non-fat sauces for healthy meals
-        session.query(`get_sauces(X).`)
-        session.answer(answer => {
-          if (pl.type.is_substitution(answer)) {
-            let result = answer.lookup('X')
-            if (result == '[[honey_mustard, sweet_onion]]') {
-              // Update Dialogue
-              updateStaffDialogueBox(selectedIngredient +
-                'has been selected!<br /> Since you wanted a healthy meal, what would you like for your non-fat sauces?')
-
-              //Call prolog to update menu items
-              $("#btn-group").empty()
-              session.query("options(sauces).")
-              session.answer()
-            } else {
-              // Update Dialogue
-              updateStaffDialogueBox(selectedIngredient +
-                'has been selected!<br /> What would you like for your sauces?')
-
-              //Call prolog to update menu items
-              $("#btn-group").empty()
-              session.query("options(sauces).")
-              session.answer()
-            }
-            nextItem = false
-          }
-        })
-        currentProgress = 'sauces'
-      } else {
-        orderContents.veggie = orderContents.veggie + (orderContents.veggie != '' ? ' , ' : '') + selectedIngredient
-        // Call prolog to assert selected item 
-        session.query(`selected(${fact},veggies).`)
-        session.answer()
-      }
-      break
-
-    case 'sauces':
-      if (nextItem) {
-        // Update Dialogue
-        updateUserDialogueBox(selectedIngredient)
-
-        // Call prolog to check if topups need to be displayed 
-        session.query(`get_topups(X).`)
-        session.answer(answer => {
-          if (pl.type.is_substitution(answer)) {
-            // If result is empty, that means value meal was selected
-            if (answer.lookup('X') == '[]') {
-              // Update Dialogue
-              updateStaffDialogueBox(selectedIngredient +
-                'has been selected!<br /> Since you wanted a value meal, there will be no topups. <br/> What would you like for your sides?')
-
-              //Call prolog to update menu items
-              $("#btn-group").empty()
-              session.query("options(sides).")
-              session.answer()
-              $("#nextItem").html('Confirm Order');
-              currentProgress = 'sides'
-            } else if (result == '[[avocado, egg_mayo]]') {
-              // Update Dialogue
-              updateStaffDialogueBox(selectedIngredient +
-                'has been selected!<br /> Since you wanted a vegan meal, there will only be non-cheese topups. <br/> What would you like for your topups?')
-
-              //Call prolog to update menu items
-              $("#btn-group").empty()
-              session.query("options(topups).")
-              session.answer()
-              currentProgress = 'topups'
-            } else {
-              // Update Dialogue
-              updateStaffDialogueBox(selectedIngredient +
-                'has been selected!<br /> What would you like for your topups?')
-
-              //Call prolog to update menu items
-              $("#btn-group").empty()
-              session.query("options(topups).")
-              session.answer()
-              currentProgress = 'topups'
-            }
-            nextItem = false
-          }
-        })
-      } else {
-        orderContents.sauce = orderContents.sauce + (orderContents.sauce != '' ? ' , ' : '') + selectedIngredient
-        // Call prolog to assert selected item 
-        session.query(`selected(${fact},sauces).`)
-        session.answer()
-      }
-      break
-
-    case 'topups':
-      if (nextItem) {
-        // Update Dialogue
-        updateUserDialogueBox(selectedIngredient)
         updateStaffDialogueBox(selectedIngredient +
-          'has been selected!<br /> What would you like for your sides?')
+          'has been selected!<br /> What would you like for your veggies?')
 
         //Call prolog to update menu items
-        nextItem = false
         $("#btn-group").empty()
-        session.query("options(sides).")
+        session.query("options(veggies).")
         session.answer()
-        $("#nextItem").html('Confirm Order');
-        currentProgress = 'sides'
+        currentProgress = 'veggies'
       } else {
-        orderContents.topup = orderContents.topup + (orderContents.topup != '' ? ' , ' : '') + selectedIngredient
-        // Call prolog to assert selected item 
-        session.query(`selected(${fact},topups).`)
-        session.answer()
-      }
-      break
-
-    case 'sides':
-      if (nextItem) {
-
-        $('#nextItem').hide()
-        $('#selection-area').hide()
-
         // Update Dialogue
-        updateUserDialogueBox(selectedIngredient)
-        updateStaffDialogueBox('Here is your order:')
+        updateStaffDialogueBox(selectedIngredient +
+          'has been selected!<br /> What would you like for your meat?')
+        $("#btn-group").empty()
 
-        // Call Prolog to display final order
-        session.query(`displaySelections(1).`)
+        //Call prolog to update menu items
+        session.query("options(meats).")
         session.answer()
-      } else {
-        orderContents.side = orderContents.side + (orderContents.side != '' ? ' , ' : '') + selectedIngredient
-        // Call prolog to assert selected item 
-        session.query(`selected(${fact},sides).`)
+        currentProgress = 'meats'
+      }
+    }
+  })
+
+  $('#nextItem').show()
+}
+
+function updateMeats(selectedIngredient, fact) {
+  if (nextItem) {
+    // Update Dialogue
+    updateUserDialogueBox(selectedIngredient)
+
+    // Call prolog to check if meat needs to be displayed 
+    session.query(`get_veggies(X).`)
+    session.answer(answer => {
+      if (pl.type.is_substitution(answer)) {
+        // Update Dialogue
+        updateStaffDialogueBox(selectedIngredient +
+          'has been selected!<br /> What would you like for your veggies?')
+
+        //Call prolog to update menu items
+        nextItem = false;
+        $("#btn-group").empty()
+        session.query("options(veggies).")
         session.answer()
       }
-      break
 
-    default:
-      break
+      currentProgress = 'veggies'
+    })
+  } else {
+
+    orderContents.meat = orderContents.meat + (orderContents.meat != '' ? ' , ' : '') + selectedIngredient
+    // Call prolog to assert selected item 
+    session.query(`selected(${fact},meats).`)
+    session.answer()
   }
+}
 
+function updateVeggies(selectedIngredient, fact) {
+  if (nextItem) {
+    // Update Dialogue
+    updateUserDialogueBox(selectedIngredient)
+
+    // Call prolog to check what kind of sauces need to be displayed 
+    // non-fat sauces for healthy meals
+    session.query(`get_sauces(X).`)
+    session.answer(answer => {
+      if (pl.type.is_substitution(answer)) {
+        let result = answer.lookup('X')
+        if (result == '[[honey_mustard, sweet_onion]]') {
+          // Update Dialogue
+          updateStaffDialogueBox(selectedIngredient +
+            'has been selected!<br /> Since you wanted a healthy meal, what would you like for your non-fat sauces?')
+
+          //Call prolog to update menu items
+          $("#btn-group").empty()
+          session.query("options(sauces).")
+          session.answer()
+        } else {
+          // Update Dialogue
+          updateStaffDialogueBox(selectedIngredient +
+            'has been selected!<br /> What would you like for your sauces?')
+
+          //Call prolog to update menu items
+          $("#btn-group").empty()
+          session.query("options(sauces).")
+          session.answer()
+        }
+        nextItem = false
+      }
+    })
+    currentProgress = 'sauces'
+  } else {
+    orderContents.veggie = orderContents.veggie + (orderContents.veggie != '' ? ' , ' : '') + selectedIngredient
+    // Call prolog to assert selected item 
+    session.query(`selected(${fact},veggies).`)
+    session.answer()
+  }
+}
+
+function updateSauces(selectedIngredient, fact) {
+  if (nextItem) {
+    // Update Dialogue
+    updateUserDialogueBox(selectedIngredient)
+
+    // Call prolog to check if topups need to be displayed 
+    session.query(`get_topups(X).`)
+    session.answer(answer => {
+      if (pl.type.is_substitution(answer)) {
+        // If result is empty, that means value meal was selected
+        if (answer.lookup('X') == '[]') {
+          // Update Dialogue
+          updateStaffDialogueBox(selectedIngredient +
+            'has been selected!<br /> Since you wanted a value meal, there will be no topups. <br/> What would you like for your sides?')
+
+          //Call prolog to update menu items
+          $("#btn-group").empty()
+          session.query("options(sides).")
+          session.answer()
+          $("#nextItem").html('Confirm Order');
+          currentProgress = 'sides'
+        } else if (result == '[[avocado, egg_mayo]]') {
+          // Update Dialogue
+          updateStaffDialogueBox(selectedIngredient +
+            'has been selected!<br /> Since you wanted a vegan meal, there will only be non-cheese topups. <br/> What would you like for your topups?')
+
+          //Call prolog to update menu items
+          $("#btn-group").empty()
+          session.query("options(topups).")
+          session.answer()
+          currentProgress = 'topups'
+        } else {
+          // Update Dialogue
+          updateStaffDialogueBox(selectedIngredient +
+            'has been selected!<br /> What would you like for your topups?')
+
+          //Call prolog to update menu items
+          $("#btn-group").empty()
+          session.query("options(topups).")
+          session.answer()
+          currentProgress = 'topups'
+        }
+        nextItem = false
+      }
+    })
+  } else {
+    orderContents.sauce = orderContents.sauce + (orderContents.sauce != '' ? ' , ' : '') + selectedIngredient
+    // Call prolog to assert selected item 
+    session.query(`selected(${fact},sauces).`)
+    session.answer()
+  }
+}
+
+function updateTopups(selectedIngredient, fact) {
+  if (nextItem) {
+    // Update Dialogue
+    updateUserDialogueBox(selectedIngredient)
+    updateStaffDialogueBox(selectedIngredient +
+      'has been selected!<br /> What would you like for your sides?')
+
+    //Call prolog to update menu items
+    nextItem = false
+    $("#btn-group").empty()
+    session.query("options(sides).")
+    session.answer()
+    $("#nextItem").html('Confirm Order');
+    currentProgress = 'sides'
+  } else {
+    orderContents.topup = orderContents.topup + (orderContents.topup != '' ? ' , ' : '') + selectedIngredient
+    // Call prolog to assert selected item 
+    session.query(`selected(${fact},topups).`)
+    session.answer()
+  }
+}
+
+function updateSides(selectedIngredient, fact) {
+  if (nextItem) {
+
+    $('#nextItem').hide()
+    $('#selection-area').hide()
+
+    // Update Dialogue
+    updateUserDialogueBox(selectedIngredient)
+    updateStaffDialogueBox('Here is your order:')
+
+    // Call Prolog to display final order
+    session.query(`displaySelections(1).`)
+    session.answer()
+  } else {
+    orderContents.side = orderContents.side + (orderContents.side != '' ? ' , ' : '') + selectedIngredient
+    // Call prolog to assert selected item 
+    session.query(`selected(${fact},sides).`)
+    session.answer()
+  }
 }
 
 // Init interaction for first ingredient
-updateStaffDialogueBox(' Welcome to Subway! What kind of meal would you like?')
+updateStaffDialogueBox('Welcome to Subway! What kind of meal would you like?')
 $("#btn-group").empty()
+$('#nextItem').hide()
 session.query("options(meals).")
 session.answer()
-$('#nextItem').hide()
