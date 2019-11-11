@@ -320,13 +320,13 @@ function buttonClicked(fact) {
       if (nextItem) {
         $('#nextItem').hide()
         $('#selection-area').hide()
-        session.query(`displayOrder(1).`)
         session.answer()
         updateDialogueBox(
           'staff',
           `Okay! Your order is:
               `
         )
+        session.query(`displayOrder(1).`)
         // updateDialogueBox(
         //   'staff',
         //   `Okay! Your order
@@ -389,7 +389,7 @@ function buttonClicked(fact) {
 
 // ---- Print Messages
 updateDialogueBox('staff', messages.greetings)
-console.log('V1')
+console.log('V2')
 $("#btn-group").empty()
 session.query("options(meals).")
 session.answer()
