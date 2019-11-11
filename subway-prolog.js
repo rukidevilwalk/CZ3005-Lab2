@@ -146,9 +146,6 @@ show_meats(Meats).
 
 %% GUI functions
 
-displayOrder():- % empty list
-write('Empty List2').
-
 displayOrder([[]]):- % empty list
 write('Empty List1').
 
