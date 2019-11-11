@@ -125,6 +125,7 @@ displayOrder([]). % empty list
 
 displayOrder([H]) :- % last item in list
 write(H),
+write('disPlayOrderLastItem'),
 create(a, A),                                         
     html(A, H),
 create(br, BR),                                     
