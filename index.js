@@ -126,7 +126,7 @@ function buttonClicked(fact) {
           $("#btn-group").empty()
           $("#user-header").html('I would like ')
           $("#user-contents").html('')
-          session.query("options(breads),setUserReply(Meals).")
+          session.query("options(breads),setUserReply(meals).")
           session.answer()
         }
         currentProgress = 'breads'
@@ -168,7 +168,7 @@ function buttonClicked(fact) {
             console.log('setting next item to visible')
             $('#nextItem').show()
             $("#btn-group").empty()
-            session.query("setUserReply(Breads).")
+            session.query("setUserReply(breads).")
             session.answer()
             session.query("options(meats).")
             session.answer()
