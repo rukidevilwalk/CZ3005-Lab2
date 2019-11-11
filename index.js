@@ -1,7 +1,7 @@
 import subway_interactor from './subway-core.js'
 
 
-console.log('Version' + ' 1')
+console.log('Version' + ' 2')
 // Init
 
 //Init prolog session
