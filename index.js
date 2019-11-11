@@ -58,8 +58,10 @@ $(document).click(function (e) {
   if ($(e.target).is("button")) {
 
     // If next ingredient category has multiple selections available
-    if ($(e.target).text() == 'Next Ingredient' || $(e.target).text() == 'Confirm Order')
+    if ($(e.target).text() == 'Next Ingredient' || $(e.target).text() == 'Confirm Order') {
       nextItem = true
+
+    }
 
 
     let selectedIngredient = $(e.target).text().toUpperCase()
