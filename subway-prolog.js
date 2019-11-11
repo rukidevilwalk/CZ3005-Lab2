@@ -136,7 +136,7 @@ displayOrder([H|T]) :-  % List with items more than one
 create(a, A),                                         
     html(A, H ),                                   
     get_by_id('subway-contents', Parent),
-    append_child(Parent, A).
+    append_child(Parent, A),
 displayOrder(T), !. % remove item in list and call the function again
 
 % create menu item for GUI
