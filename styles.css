@@ -64,6 +64,11 @@ body > div > div > div.msj-rta.macro {
   margin: auto;
   margin-left: 1%;
 }
+
+#subway-contents > a {
+    text-transform: capitalize;
+}
+
 ul {
   width: 100%;
   list-style-type: none;
