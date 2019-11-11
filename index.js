@@ -1,9 +1,23 @@
 import subway_interactor from './subway-core.js'
+
+
+console.log('Version' + ' 1')
+// Init
+
+//Init prolog session
 var session = pl.create()
 session.consult(subway_interactor)
-session.consult(":- use_module(library(dom)).");
-session.consult(":- use_module(library(js)).");
-session.consult(":- use_module(library(lists)).");
+session.consult(":- use_module(library(dom)).")
+session.consult(":- use_module(library(js)).")
+session.consult(":- use_module(library(lists)).")
+
+// Init interaction for first ingredient
+updateDialogueBox('staff', messages.greetings)
+$("#btn-group").empty()
+session.query("options(meals).")
+session.answer()
+$('#nextItem').hide()
+
 const messages = {
   greetings: `
   Welcome To Subway!
@@ -56,6 +70,7 @@ const messages = {
   <br/>
   `
 }
+// For ingredients with multiple selections
 let orderContents = {
   meat: ``,
   veggie: ``,
@@ -106,22 +121,17 @@ $(document).click(function (e) {
 // Carry out logic whenever an item button is clicked
 function buttonClicked(fact) {
 
+  let selectedIngredient = selectedIngredient
+
   // Carry out functions based on current progress
   switch (currentProgress) {
     case 'meals':
-      // Add user's response
-      orderContents.meal = fact.toUpperCase()
-      updateDialogueBox('user', orderContents.meal)
-      if (fact == 'vegan' || fact == 'veggie') {
-        orderContents.meat = 'NO MEAT'
-      } else if (fact == 'value') {
-        orderContents.topup = 'NO TOPUP'
-      }
+      updateDialogueBox('user', selectedIngredient)
       session.query(`selected(${fact},meals).`)
       session.answer()
       updateDialogueBox(
         'staff',
-        `Going for <b>${orderContents.meal}</b> meal alrighty! ${messages.bread_choices}`
+        `Going for <b>${selectedIngredient}</b> meal alrighty! ${messages.bread_choices}`
       )
 
       $("#btn-group").empty()
@@ -132,9 +142,6 @@ function buttonClicked(fact) {
       break
 
     case 'breads':
-      // Add user's response
-
-      orderContents.bread = fact.toUpperCase()
       updateDialogueBox('user', orderContents.bread)
       session.query(`selected(${fact},breads).`)
       session.answer()
@@ -145,14 +152,14 @@ function buttonClicked(fact) {
           if (result == '[]') {
             updateDialogueBox(
               'staff',
-              `<b>${orderContents.bread}</b> was just freshly baked by our chef Since you chose <b>${
+              `<b>${selectedIngredient}</b> was just freshly baked by our chef Since you chose <b>${
               orderContents.meal
               }</b> meal, no meat options for you. ${
               messages.veggie_choices
               }`
             )
-            $("#btn-group").empty()
 
+            $("#btn-group").empty()
             session.query("options(veggies).")
             session.answer()
             currentProgress = 'veggies'
@@ -160,7 +167,7 @@ function buttonClicked(fact) {
             // meat
             updateDialogueBox(
               'staff',
-              `<b>${orderContents.bread}</b> was just freshly baked by our chef${
+              `<b>${selectedIngredient}</b> was just freshly baked by our chef${
               messages.meat_choices
               }`
             )
@@ -176,9 +183,8 @@ function buttonClicked(fact) {
       })
       $('#nextItem').show()
       break
+
     case 'meats':
-
-
       if (nextItem) {
         // Add user's response
         updateDialogueBox('user', orderContents.meat)
@@ -199,14 +205,12 @@ function buttonClicked(fact) {
         })
       } else {
 
-        orderContents.meat = orderContents.meat + (orderContents.meat != '' ? ' , ' : '') + fact.toUpperCase()
-
+        orderContents.meat = orderContents.meat + (orderContents.meat != '' ? ' , ' : '') + selectedIngredient
         session.query(`selected(${fact},meats).`)
         session.answer()
       }
-
-
       break
+
     case 'veggies':
       if (nextItem) {
         // Add user's response
@@ -239,16 +243,14 @@ function buttonClicked(fact) {
         })
         currentProgress = 'sauces'
       } else {
-        orderContents.veggie = orderContents.veggie + (orderContents.veggie != '' ? ' , ' : '') + fact.toUpperCase()
+        orderContents.veggie = orderContents.veggie + (orderContents.veggie != '' ? ' , ' : '') + selectedIngredient
         session.query(`selected(${fact},veggies).`)
         session.answer()
       }
-
-
       break
+
     case 'sauces':
       if (nextItem) {
-        // Add user's response
         updateDialogueBox('user', orderContents.sauce)
         session.query(`get_topups(X).`)
         session.answer(answer => {
@@ -287,12 +289,12 @@ function buttonClicked(fact) {
           }
         })
       } else {
-        orderContents.sauce = orderContents.sauce + (orderContents.sauce != '' ? ' , ' : '') + fact.toUpperCase()
+        orderContents.sauce = orderContents.sauce + (orderContents.sauce != '' ? ' , ' : '') + selectedIngredient
         session.query(`selected(${fact},sauces).`)
         session.answer()
       }
-
       break
+
     case 'topups':
       if (nextItem) {
         updateDialogueBox('user', orderContents.topup)
@@ -312,90 +314,30 @@ function buttonClicked(fact) {
         $("#nextItem").html('Confirm Order');
         currentProgress = 'sides'
       } else {
-        orderContents.topup = orderContents.topup + (orderContents.topup != '' ? ' , ' : '') + fact.toUpperCase()
+        orderContents.topup = orderContents.topup + (orderContents.topup != '' ? ' , ' : '') + selectedIngredient
         session.query(`selected(${fact},topups).`)
         session.answer()
       }
-
-
-
       break
+
     case 'sides':
       if (nextItem) {
         $('#nextItem').hide()
         $('#selection-area').hide()
         updateDialogueBox(
-          'staff',
-          `Okay! Your order is:
-              `
-        )
-        console.log('Displaying Selections!')
+          'staff', 'Here is your order:')
         session.query(`displaySelections(1).`)
         session.answer()
-        // updateDialogueBox(
-        //   'staff',
-        //   `Okay! Your order
-        //       <br/>
-        //       <br/>
-        //       Meal
-        //       <br/>
-        //       <b>${orderContents.meal}</b>
-        //       <br/>
-        //       <br/>
-        //       Bread
-        //       <br/>
-        //       <b>${orderContents.bread}</b>
-        //       <br/>
-        //       <br/>
-        //       Meat
-        //       <br/>
-        //       <b>${orderContents.meat}</b>
-        //       <br/>
-        //       <br/>
-        //       Veggie
-        //       <br/>
-        //       <b>${orderContents.veggie}</b>
-        //       <br/>
-        //       <br/>
-        //       Sauce
-        //       <br/>
-        //       <b>${orderContents.sauce}</b> 
-        //       <br/>
-        //       <br/>
-        //       Topup
-        //       <br/>
-        //       <b>${orderContents.topup}</b>
-        //       <br/>
-        //       <br/>
-        //       Side
-        //       <br/>
-        //       <b>${orderContents.side}</b>
-        //       <br/>
-        //       <br/>
-        //       is being prepared.Thank you for choosing Subway!
-        //       If you would like to make new order, refresh the page 
-        //       `
-        // )
       } else {
-        orderContents.side = orderContents.side + (orderContents.side != '' ? ' , ' : '') + fact.toUpperCase()
+        orderContents.side = orderContents.side + (orderContents.side != '' ? ' , ' : '') + selectedIngredient
         session.query(`selected(${fact},sides).`)
         session.answer()
       }
-
-
       break
-    case 'end':
-      break
+
     default:
       break
   }
 
-
 }
 
-updateDialogueBox('staff', messages.greetings)
-console.log('Version' + ' 1')
-$("#btn-group").empty()
-session.query("options(meals).")
-session.answer()
-$('#nextItem').hide()
