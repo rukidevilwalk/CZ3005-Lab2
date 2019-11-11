@@ -66,7 +66,7 @@ body > div > div > div.msj-rta.macro {
 }
 
 #subway-contents > a {
-    text-transform: capitalize;
+  text-transform: capitalize;
 }
 
 ul {
@@ -82,5 +82,5 @@ ul {
 }
 
 #subway-contents {
-  font-weight: bold ;
+  font-weight: bold;
 }

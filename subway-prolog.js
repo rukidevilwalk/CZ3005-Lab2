@@ -142,16 +142,13 @@ show_sides(Sides).
 
 %% GUI functions
 
-displayOrder([[]]):- % empty list
-write('Empty List1').
-
 displayOrder([]):- % empty list
-write('Empty List').
 
 displayOrder([H]) :- % last item in list
 write(H),
-create(a, A),                                         
-    html(A, H),
+create(a, A),  
+atom_concat(H, '.', Y),                                       
+    html(A, Y),
 create(br, BR),                                     
     get_by_id('subway-contents', Parent),
     append_child(Parent, A),
@@ -159,8 +156,9 @@ create(br, BR),
     
 displayOrder([H|T]) :-  % List with items more than one
 write(H),
-create(a, A),                                         
-    html(A, H + ', ' ),                                   
+create(a, A),  
+atom_concat(H, ', ', Y),                                         
+    html(A, Y),                                   
     get_by_id('subway-contents', Parent),
     append_child(Parent, A),
 displayOrder(T), !. % remove item in list and call the function again
