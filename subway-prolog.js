@@ -12,10 +12,6 @@ export default `
 :- dynamic(member/2).
 :- dynamic(displayOrder/1).
 
-% Set up list methods for appending
-append([], Y, Y).
-append([H|X], Y, [H|Z]) :- append(X, Y, Z).
-
 % Checking conditions
 healthy_meal(healthy).
 value_meal(value).
