@@ -112,11 +112,6 @@ function buttonClicked(fact) {
       // Add user's response
       orderContents.meal = fact.toUpperCase()
       updateDialogueBox('user', orderContents.meal)
-      if (fact == 'vegan' || fact == 'veggie') {
-        orderContents.meat = 'NO MEAT'
-      } else if (fact == 'value') {
-        orderContents.topup = 'NO TOPUP'
-      }
       session.query(`selected(${fact},meals), show_meals(X).`)
       session.answer(answer => {
         if (pl.type.is_substitution(answer)) {
@@ -379,7 +374,7 @@ function buttonClicked(fact) {
 
 }
 
-// ---- Print Messages
+// Init
 updateDialogueBox('staff', messages.greetings)
 $("#btn-group").empty()
 session.query("options(meals).")
