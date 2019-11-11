@@ -325,7 +325,8 @@ function buttonClicked(fact) {
               `
         )
         console.log('Displaying Selections!')
-        session.query(`selected(${'normal'},meals).`)
+        session.query(`selected(${'veggie'},meals).`)
+        session.answer()
       //  session.query(`show_meals(Meals).`)
         session.query(`show_meals1(meals).`)
        // session.query(`displaySelections(1).`)
@@ -391,7 +392,7 @@ function buttonClicked(fact) {
 }
 
 updateDialogueBox('staff', messages.greetings)
-console.log('Version' + ' 2')
+console.log('Version' + ' 3')
 $("#btn-group").empty()
 session.query("options(meals).")
 session.answer()
