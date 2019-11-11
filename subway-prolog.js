@@ -9,6 +9,9 @@ export default `
 :- dynamic(options/1).
 :- dynamic(createDOMV2/1).
 :- dynamic(createDOMV1/1).
+:- dynamic(createUserReply/1).
+:- dynamic(member/2).
+
 % Set up list methods for appending
 append([], Y, Y).
 append([H|X], Y, [H|Z]) :- append(X, Y, Z).
