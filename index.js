@@ -196,7 +196,7 @@ function buttonClicked(fact) {
           currentProgress = 'veggies'
         })
       } else {
-
+console.log('new')
         orderContents.meat = orderContents.meat + (orderContents.meat == '' ? ' , ' : '') + fact.toUpperCase()
 
         session.query(`selected(${fact},meats).`)
