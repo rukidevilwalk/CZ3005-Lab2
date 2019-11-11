@@ -56,11 +56,11 @@ function updateStaffDialogueBox(contents) {
 $(document).click(function (e) {
 
   if ($(e.target).is("button")) {
-
+    console.log($(e.target).text())
     // If next ingredient category has multiple selections available
     if ($(e.target).text() == 'Next Ingredient' || $(e.target).text() == 'Confirm Order') {
       nextItem = true
-
+      console.log('set nextitem true')
     }
 
 
