@@ -117,7 +117,7 @@ function buttonClicked(fact) {
       } else if (fact == 'value') {
         orderContents.topup = 'NO TOPUP'
       }
-      session.query(`selected(${fact},meals)`)
+      session.query(`selected(${fact},meals).`)
       session.answer()
       updateDialogueBox(
         'staff',
