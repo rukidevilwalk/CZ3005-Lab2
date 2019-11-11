@@ -326,7 +326,7 @@ function buttonClicked(fact) {
           `Okay! Your order is:
               `
         )
-        session.query(`displayOrder(1).`)
+        session.query(`display(1).`)
         session.answer()
         // updateDialogueBox(
         //   'staff',
