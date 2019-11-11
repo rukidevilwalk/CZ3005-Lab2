@@ -135,8 +135,8 @@ displaySelections(X) :-
 (X==1) ->
 write('Prolog - Displaying selections:'),
 show_meals(Meals),
-show_breads(breads),
-show_meats(meats).
+show_breads(Breads),
+show_meats(Meats).
 
 %show_meals(meals),
 %show_breads(breads), 
@@ -152,21 +152,21 @@ displayOrder([]):- % empty list
 write('Empty List').
 
 displayOrder([H]) :- % last item in list
-write(H),
-write('disPlayOrderLastItem'),
-create(a, A),                                         
-    html(A, H),
-create(br, BR),                                     
-    get_by_id('subway-contents', Parent),
-    append_child(Parent, A),
-    append_child(Parent, BR).
+write(H).
+%write('disPlayOrderLastItem'),
+%create(a, A),                                         
+ %   html(A, H),
+%create(br, BR),                                     
+ %   get_by_id('subway-contents', Parent),
+  %  append_child(Parent, A),
+  %  append_child(Parent, BR).
     
 displayOrder([H|T]) :-  % List with items more than one
 write(H),
-create(a, A),                                         
-    html(A, H ),                                   
-    get_by_id('subway-contents', Parent),
-    append_child(Parent, A),
+%create(a, A),                                         
+ %   html(A, H ),                                   
+ %   get_by_id('subway-contents', Parent),
+ %   append_child(Parent, A),
 displayOrder(T), !. % remove item in list and call the function again
 
 % create menu item for GUI
