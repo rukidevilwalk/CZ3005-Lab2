@@ -125,6 +125,7 @@ show_breads(breads).
 displayOrder([]). % empty list
 
 displayOrder([H]) :- % last item in list
+write(H),
 create(a, A),                                         
     html(A, H),
 create(br, BR),                                     
@@ -133,6 +134,7 @@ create(br, BR),
     append_child(Parent, BR).
     
 displayOrder([H|T]) :-  % List with items more than one
+write(H),
 create(a, A),                                         
     html(A, H ),                                   
     get_by_id('subway-contents', Parent),
