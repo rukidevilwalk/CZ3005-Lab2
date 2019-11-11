@@ -12,7 +12,7 @@ session.consult(":- use_module(library(js)).")
 session.consult(":- use_module(library(lists)).")
 
 // Init interaction for first ingredient
-updateDialogueBox('staff', messages.greetings)
+updateDialogueBox('staff', ' Welcome to Subway! What kind of meal would you like?')
 $("#btn-group").empty()
 session.query("options(meals).")
 session.answer()
@@ -23,13 +23,6 @@ let currentProgress = 'meals'
 let nextItem = false
 
 const messages = {
-  greetings: `
-  Welcome To Subway!
-  <br/>
-  <br/>
-  What kind of meal would you like?
-  <br/>
-  `,
   bread_choices: `
   <br/>
   What about your bread?
@@ -85,8 +78,7 @@ let orderContents = {
 
 
 
-const updateDialogueBox = (type, contents) => {
-
+function updateDialogueBox(type, contents) {
   if (type == 'staff') {
     $('#subway-header')
       .empty()
