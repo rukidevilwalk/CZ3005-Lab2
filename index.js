@@ -168,14 +168,14 @@ function buttonClicked(fact) {
             console.log('setting next item to visible')
             $('#nextItem').show()
             $("#btn-group").empty()
-            session.query("setUserReply(breads).")
-            session.answer()
             session.query("options(meats).")
             session.answer()
             currentProgress = 'meats'
 
           }
-        
+          console.log('setting user reply for bread')
+          session.query("setUserReply(breads).")
+            session.answer()
         }
       })
       $('#nextItem').show()
