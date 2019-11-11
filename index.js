@@ -166,9 +166,7 @@ function updateBread(selectedIngredient, fact) {
 }
 
 function updateMeats(selectedIngredient, fact) {
-  console.log('nextitem: ' + nextItem)
   if (nextItem) {
-    console.log('meat next item')
     // Update Dialogue
     updateUserDialogueBox(orderContents.meat)
 
@@ -200,7 +198,6 @@ function updateMeats(selectedIngredient, fact) {
 
 function updateVeggies(selectedIngredient, fact) {
   if (nextItem) {
-    console.log('veggies next item')
     // Update Dialogue
     updateUserDialogueBox(orderContents.veggie)
 
