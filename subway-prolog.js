@@ -73,7 +73,7 @@ setUserReply(TopUps) :- show_topups(L), createUserReply(L).
 setUserReply(Sides) :- show_sides(L), createUserReply(L). 
 
 % selected is used to assert facts based on the given argument
-% only will assert if X is not already in chose list
+% only will assert if X is not already in chosen list
 selected(X,meals) :- \\+check_selection(X, meals) -> asserta(chosen_meals(X)).
 selected(X,breads) :- \\+check_selection(X, breads) -> asserta(chosen_breads(X)).
 selected(X,meats) :- \\+check_selection(X, meats) ->asserta(chosen_meats(X)).

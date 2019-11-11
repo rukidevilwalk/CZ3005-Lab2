@@ -111,7 +111,6 @@ function buttonClicked(fact) {
   switch (currentProgress) {
     case 'meals':
       // Add user's response
-      updateDialogueBox('user', fact)
       orderContents.meal = fact.toUpperCase()
       if (fact == 'vegan' || fact == 'veggie') {
         orderContents.meat = 'NO MEAT'
@@ -136,7 +135,6 @@ function buttonClicked(fact) {
       break
     case 'breads':
       // Add user's response
-      updateDialogueBox('user', fact)
       orderContents.bread = fact.toUpperCase()
       session.query(`selected(${fact},breads).`)
       session.query(`ask_meats(X).`)
@@ -185,7 +183,6 @@ function buttonClicked(fact) {
 
       if (nextItem) {
         // Add user's response
-        updateDialogueBox('user', orderContents.meat)
         session.query(`ask_veggies(X).`)
         session.answer(answer => {
           if (pl.type.is_substitution(answer)) {
