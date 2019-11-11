@@ -193,9 +193,9 @@ displayStaffGesture(B).
 % GUI functions
 
 % Display staff gesture
-displayStaffGesture(X) :-
+displayStaffGesture(B) :-
 create(a, A),  
-    atom_concat('<', X, Y),        
+    atom_concat('<', B, Y),        
     atom_concat(Y, '> Welcome to Subway, what kind of meal would you like?', Z),                                 
     html(A, Z),                                  
     get_by_id('subway-header', Parent),
