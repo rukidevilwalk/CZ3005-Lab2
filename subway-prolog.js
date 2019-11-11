@@ -133,8 +133,8 @@ displaySelections(X) :-
 (X==1) ->
 write('Prolog - Displaying selections:'),
 show_meals(Meals),
-show_breads(breads),
-show_meats(meats).
+show_breads(Breads),
+show_meats(Meats).
 
 %show_meals(meals),
 %show_breads(breads), 
