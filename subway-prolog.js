@@ -1,26 +1,18 @@
 export default `
-:- dynamic(chosen_meals/1).
-:- dynamic(chosen_meats/1).
-:- dynamic(chosen_sides/1).
-:- dynamic(chosen_topups/1).
-:- dynamic(chosen_veggies/1).
-:- dynamic(chosen_breads/1).
-:- dynamic(chosen_sauces/1).
+:- dynamic(selected_meals/1).
+:- dynamic(selected_meats/1).
+:- dynamic(selected_sides/1).
+:- dynamic(selected_topups/1).
+:- dynamic(selected_veggies/1).
+:- dynamic(selected_breads/1).
+:- dynamic(selected_sauces/1).
 :- dynamic(options/1).
 :- dynamic(createDOMV2/1).
 :- dynamic(createDOMV1/1).
 :- dynamic(member/2).
 :- dynamic(displayOrder/1).
 
-append([], Y, Y).
-append([H|X], Y, [H|Z]) :- append(X, Y, Z).
-
-% Checking conditions
-healthy_meal(healthy).
-value_meal(value).
-vegan_meal(vegan).
-veggie_meal(veggie).
-
+% Declare facts for the different types of ingredients
 meals([normal, healthy, veggie, vegan, value]).
 breads([wheat, honey_oat, italian, hearty_italian, flatbread]).
 meats([chicken, beef, ham, bacon, salmon, tuna, turkey]).
@@ -31,104 +23,101 @@ cheese_topups([american, monterey_jack, cheddar]).
 non_cheese_topups([avocado, egg_mayo]).
 sides([chips, cookies, hashbrowns, drinks]).
 
-% Get possible meals
-ask_meals(X) :- meals(X).
+% Check for meal types
+is_healthy_meal(healthy).
+is_value_meal(value).
+is_vegan_meal(vegan).
+is_veggie_meal(veggie).
 
-% Get possible breads
-ask_breads(X) :- breads(X).
+% Get the valid ingredients based on current arguments 
+% e.g get_meats(X) will return empty if the selected meal type is veggie
 
-% Get possible meats
-% Vegan and Veggie meals do not have meat options
-ask_meats(X) :- findall(X, (chosen_meals(Y), \\+vegan_meal(Y), \\+veggie_meal(Y), meats(X)), X).
+get_meals(X) :- meals(X).
 
-% Get possible veggies
-ask_veggies(X) :- veggies(X).
+get_breads(X) :- breads(X).
 
-% Get possible  sauces.
-% Healthy meals do not have fatty sauces
-ask_sauces(X) :- findall(X, (chosen_meals(Y), healthy_meal(Y) -> non_fatty_sauces(X);
+% No meat for vegan/veggie meal types
+get_meats(X) :- findall(X, (selected_meals(Y), \\+is_vegan_meal(Y), \\+is_veggie_meal(Y), meats(X)), X).
+
+get_veggies(X) :- veggies(X).
+
+% No sauces for healthy meal type
+get_sauces(X) :- findall(X, (selected_meals(Y), is_healthy_meal(Y) -> non_fatty_sauces(X);
                  fatty_sauces(L1), non_fatty_sauces(L2), append(L1, L2, X)), X).
 
-% Get possible topups
-% Value meal does not have topup and  Vegan meal does not have cheese topup.
-ask_topups(X) :- findall(X, (chosen_meals(Y), \\+value_meal(Y) -> (vegan_meal(Y) -> non_cheese_topups(X);
+% No topup for value meal type
+% No cheese topup for vegan meal type
+get_topups(X) :- findall(X, (selected_meals(Y), \\+is_value_meal(Y) -> (is_vegan_meal(Y) -> non_cheese_topups(X);
                  cheese_topups(L1), non_cheese_topups(L2), append(L1, L2, X))), X).
 
-% Get possible sides
-ask_sides(X) :- sides(X).
+get_sides(X) :- sides(X).
 
 % options is used get the list based on current arguments and creates the relevant HTML DOMs for GUI
-options(meals) :- ask_meals(L), createDOMV1(L).
-options(sauces) :- ask_sauces(L), createDOMV2(L).
-options(breads) :- ask_breads(L), createDOMV1(L).
-options(meats) :- ask_meats(L), createDOMV2(L).
-options(veggies) :- ask_veggies(L), createDOMV1(L).
-options(topups) :- ask_topups(L), createDOMV2(L).
-options(sides) :- ask_sides(L), createDOMV1(L).
+options(meals) :- get_meals(L), createDOMV1(L).
+options(sauces) :- get_sauces(L), createDOMV2(L).
+options(breads) :- get_breads(L), createDOMV1(L).
+options(meats) :- get_meats(L), createDOMV2(L).
+options(veggies) :- get_veggies(L), createDOMV1(L).
+options(topups) :- get_topups(L), createDOMV2(L).
+options(sides) :- get_sides(L), createDOMV1(L).
 
 % selected is used to assert facts based on the given argument
-% only will assert if X is not already in chose list
-selected(X,meals) :- \\+check_selection(X, meals) -> asserta(chosen_meals(X)).
-selected(X,breads) :- \\+check_selection(X, breads) -> asserta(chosen_breads(X)).
-selected(X,meats) :- \\+check_selection(X, meats) ->asserta(chosen_meats(X)).
-selected(X,veggies) :- \\+check_selection(X, veggies) ->asserta(chosen_veggies(X)).
-selected(X,sauces) :- \\+check_selection(X, sauces) ->asserta(chosen_sauces(X)).
-selected(X,topups) :- \\+check_selection(X, topups) ->asserta(chosen_topups(X)).
-selected(X,sides) :- \\+check_selection(X, sides) ->asserta(chosen_sides(X)).
+% only will assert if X is not in the selected list
+selected(X,meals) :- \\+check_selection(X, meals) -> asserta(selected_meals(X)).
+selected(X,breads) :- \\+check_selection(X, breads) -> asserta(selected_breads(X)).
+selected(X,meats) :- \\+check_selection(X, meats) ->asserta(selected_meats(X)).
+selected(X,veggies) :- \\+check_selection(X, veggies) ->asserta(selected_veggies(X)).
+selected(X,sauces) :- \\+check_selection(X, sauces) ->asserta(selected_sauces(X)).
+selected(X,topups) :- \\+check_selection(X, topups) ->asserta(selected_topups(X)).
+selected(X,sides) :- \\+check_selection(X, sides) ->asserta(selected_sides(X)).
 
-% Check if X is already in chosen list
+% Check if X is already in selected list
 check_selection(X, breads):- 
-chosen_breads(L), member(X,L),!. 
+selected_breads(L), member(X,L),!. 
 
 check_selection(X, meats):- 
-chosen_meats(L), member(X,L),!.
+selected_meats(L), member(X,L),!.
 
 check_selection(X, meals):- 
-chosen_meals(L), member(X,L),!.
+selected_meals(L), member(X,L),!.
 
 check_selection(X, veggies):- 
-chosen_veggies(L), member(X,L),!.
+selected_veggies(L), member(X,L),!.
 
 check_selection(X, sauces):-
-chosen_sauces(L), member(X,L),!.
+selected_sauces(L), member(X,L),!.
 
 check_selection(X, topups):- 
-chosen_topups(L), member(X,L),!.
+selected_topups(L), member(X,L),!.
 
 check_selection(X, sides):- 
-chosen_sides(L), member(X,L),!.
+selected_sides(L), member(X,L),!.
 
 % Get user corresponding choice
-% findall(X, pred(X), List) - Find possible values for predicate and add to the List
+% findall(X, pred(X), List) - Find possible values for predicate and display them on the GUI
 
 show_meals(Meals) :- 
-write('Displaying selected meal'),
-findall(X, chosen_meals(X), Meals), displayOrder(Meals).
+findall(X, selected_meals(X), Meals), displayOrder(Meals).
 
 show_breads(Breads) :-
-write('Displaying selected bread'),
-findall(X, chosen_breads(X), Breads), displayOrder(Breads).
+findall(X, selected_breads(X), Breads), displayOrder(Breads).
 
 show_meats(Meats) :- 
-write('Displaying selected meats'),
-findall(X, chosen_meats(X), Meats), displayOrder(Meats).
+findall(X, selected_meats(X), Meats), displayOrder(Meats).
 
 show_veggies(Veggies) :- 
-write('Displaying selected veggiess'),
-findall(X, chosen_veggies(X), Veggies), displayOrder(Veggies).
+findall(X, selected_veggies(X), Veggies), displayOrder(Veggies).
 
 show_sauces(Sauces) :- 
-write('Displaying selected sauces'),
-findall(X, chosen_sauces(X), Sauces), displayOrder(Sauces).
+findall(X, selected_sauces(X), Sauces), displayOrder(Sauces).
 
 show_topups(Topups) :- 
-write('Displaying selected topups'),
-findall(X, chosen_topups(X), Topups), displayOrder(Topups).
+findall(X, selected_topups(X), Topups), displayOrder(Topups).
 
 show_sides(Sides) :- 
-write('Displaying selected sides'),
-findall(X, chosen_sides(X), Sides), displayOrder(Sides).
+findall(X, selected_sides(X), Sides), displayOrder(Sides).
 
+% If X=1, display all the selected ingredient for the final order on the GUI
 displaySelections(X) :- 
 (X==1) ->
 write('Prolog - Displaying selections:'),
@@ -141,6 +130,9 @@ show_topups(Topups),
 show_sides(Sides).
 
 %% GUI functions
+
+% For displaying the final order
+% Used to add the selected ingredients to a <a></a> and appends to the GUI
 
 displayOrder([]). % empty list
 
@@ -163,7 +155,8 @@ atom_concat(H, ', ', Y),
     append_child(Parent, A),
 displayOrder(T), !. % remove item in list and call the function again
 
-% create menu item for GUI
+% Create menu items for each ingredient category in the GUI
+
 createMenuItems(H) :-                                    
 create(a, A),                                         
     html(A, H),
@@ -172,7 +165,8 @@ create(br, BR),
     append_child(Parent, BR),
     append_child(Parent, A).
 
-% Creating a GUI button for item
+% Create a button for each ingredient in each category in the GUI
+
 createButton(H) :-    
 create(button, BUTTON),           
 add_class(BUTTON, 'btn btn-outline-success btn-sm'), 
@@ -182,7 +176,8 @@ add_class(BUTTON, 'btn btn-outline-success btn-sm'),
     get_by_id('btn-group', Parent),
     append_child(Parent, BUTTON).
 
-% createDOMV1 is used to create the HTML DOM for the front end based on current list
+% CreateDOMV1 is used to create the HTML DOM for the front end based on current list
+% Uses createButton(H) and createMenuItems(H)
 
 createDOMV1([]). % empty list
 
