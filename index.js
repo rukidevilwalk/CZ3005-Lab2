@@ -195,6 +195,7 @@ function updateMeats(selectedIngredient, fact) {
 
 function updateVeggies(selectedIngredient, fact) {
   if (nextItem) {
+    console.log('veggies next item')
     // Update Dialogue
     updateUserDialogueBox(selectedIngredient)
 
