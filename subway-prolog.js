@@ -1,4 +1,5 @@
 export default `
+:-use_module(library(lists)).
 :- dynamic(chosen_meals/1).
 :- dynamic(chosen_meats/1).
 :- dynamic(chosen_sides/1).
@@ -107,27 +108,27 @@ show_meals(Meals) :-
 write('Displaying selected meal'),
 findall(X, chosen_meals(X), Meals), displayOrder(Meals).
 
-show_breads(breads) :-
+show_breads(Breads) :-
 write('Displaying selected bread'),
 findall(X, chosen_breads(X), Breads), displayOrder(Breads).
 
-show_meats(meats) :- 
+show_meats(Meats) :- 
 write('Displaying selected meats'),
 findall(X, chosen_meats(X), Meats), displayOrder(Meats).
 
-show_veggies(veggies) :- 
+show_veggies(Veggies) :- 
 write('Displaying selected veggiess'),
 findall(X, chosen_veggies(X), Veggies), displayOrder(Veggies).
 
-show_sauces(sauces) :- 
+show_sauces(Sauces) :- 
 write('Displaying selected sauces'),
 findall(X, chosen_sauces(X), Sauces), displayOrder(Sauces).
 
-show_topups(topups) :- 
+show_topups(Topups) :- 
 write('Displaying selected topups'),
 findall(X, chosen_topups(X), Topups), displayOrder(Topups).
 
-show_sides(sides) :- 
+show_sides(Sides) :- 
 write('Displaying selected sides'),
 findall(X, chosen_sides(X), Sides), displayOrder(Sides).
 
@@ -153,20 +154,9 @@ write('Empty List').
 
 displayOrder([H]) :- % last item in list
 write(H).
-%write('disPlayOrderLastItem'),
-%create(a, A),                                         
- %   html(A, H),
-%create(br, BR),                                     
- %   get_by_id('subway-contents', Parent),
-  %  append_child(Parent, A),
-  %  append_child(Parent, BR).
     
 displayOrder([H|T]) :-  % List with items more than one
 write(H),
-%create(a, A),                                         
- %   html(A, H ),                                   
- %   get_by_id('subway-contents', Parent),
- %   append_child(Parent, A),
 displayOrder(T), !. % remove item in list and call the function again
 
 % create menu item for GUI
