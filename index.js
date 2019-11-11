@@ -327,6 +327,7 @@ function buttonClicked(fact) {
               `
         )
         session.query(`displayOrder(1).`)
+        session.answer()
         // updateDialogueBox(
         //   'staff',
         //   `Okay! Your order
@@ -389,7 +390,7 @@ function buttonClicked(fact) {
 
 // ---- Print Messages
 updateDialogueBox('staff', messages.greetings)
-console.log('V2')
+console.log('1')
 $("#btn-group").empty()
 session.query("options(meals).")
 session.answer()
