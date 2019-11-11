@@ -129,7 +129,7 @@ show_sauces(Sauces),
 show_topups(Topups),
 show_sides(Sides).
 
-%% GUI functions
+% GUI functions
 
 % For displaying the final order
 % Used to add the selected ingredients to a <a></a> and appends to the GUI
