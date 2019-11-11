@@ -82,12 +82,12 @@ const updateDialogueBox = (type, contents) => {
       .end()
   }
 
-  // if (type == 'user') {
-  //   $('#user-contents')
-  //     .empty()
-  //     .append('I would like ' + contents)
-  //     .end()
-  // }
+  if (type == 'user') {
+    $('#user-contents')
+      .empty()
+      .append('I would like ' + contents)
+      .end()
+  }
 
 }
 
@@ -106,10 +106,12 @@ $(document).click(function (e) {
 
 // Carry out logic whenever an item button is clicked
 function buttonClicked(fact) {
+
   // Carry out functions based on current progress
   switch (currentProgress) {
     case 'meals':
       // Add user's response
+      updateDialogueBox('user', fact)
       orderContents.meal = fact.toUpperCase()
       if (fact == 'vegan' || fact == 'veggie') {
         orderContents.meat = 'NO MEAT'
@@ -124,9 +126,7 @@ function buttonClicked(fact) {
             `Going for <b>${orderContents.meal}</b> meal alrighty! ${messages.bread_choices}`
           )
           $("#btn-group").empty()
-          $("#user-header").html('I would like ')
-          $("#user-contents").html('')
-          session.query("options(breads),setUserReply(meals).")
+          session.query("options(breads).")
           session.answer()
         }
         currentProgress = 'breads'
@@ -134,8 +134,8 @@ function buttonClicked(fact) {
 
       break
     case 'breads':
-        $("#user-contents").html('')
       // Add user's response
+      updateDialogueBox('user', fact)
       orderContents.bread = fact.toUpperCase()
       session.query(`selected(${fact},breads).`)
       session.query(`ask_meats(X).`)
@@ -173,9 +173,7 @@ function buttonClicked(fact) {
             currentProgress = 'meats'
 
           }
-          console.log('setting user reply for bread')
-          session.query("setUserReply(breads).")
-            session.answer()
+
         }
       })
       $('#nextItem').show()
@@ -185,6 +183,7 @@ function buttonClicked(fact) {
 
       if (nextItem) {
         // Add user's response
+        updateDialogueBox('user', orderContents.meat)
         session.query(`ask_veggies(X).`)
         session.answer(answer => {
           if (pl.type.is_substitution(answer)) {
@@ -307,12 +306,15 @@ function buttonClicked(fact) {
             session.answer()
           }
         })
-        $("#nextItem").html('Confirm Order')
+        $("#nextItem").html('Confirm Order');
         currentProgress = 'sides'
       } else {
         orderContents.topup = orderContents.topup + ' , ' + fact.toUpperCase()
         session.query(`selected(${fact},topups).`)
       }
+
+
+
       break
     case 'sides':
       if (nextItem) {

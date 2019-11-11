@@ -1,5 +1,4 @@
 export default `
-:- use_module(library(lists)).
 :- dynamic(chosen_meals/1).
 :- dynamic(chosen_meats/1).
 :- dynamic(chosen_sides/1).
@@ -10,9 +9,6 @@ export default `
 :- dynamic(options/1).
 :- dynamic(createDOMV2/1).
 :- dynamic(createDOMV1/1).
-:- dynamic(createUserReply/1).
-:- dynamic(member/2).
-
 % Set up list methods for appending
 append([], Y, Y).
 append([H|X], Y, [H|Z]) :- append(X, Y, Z).
@@ -68,16 +64,8 @@ options(veggies) :- ask_veggies(L), createDOMV1(L).
 options(topups) :- ask_topups(L), createDOMV2(L).
 options(sides) :- ask_sides(L), createDOMV1(L).
 
-setUserReply(meals) :- show_meals(L), createUserReply(L). 
-setUserReply(breads) :- show_breads(L), createUserReply(L). 
-setUserReply(meats) :- show_meats(L), createUserReply(L). 
-setUserReply(veggies) :- show_veggies(L), createUserReply(L). 
-setUserReply(sauces) :- show_sauces(L), createUserReply(L). 
-setUserReply(topups) :- show_topups(L), createUserReply(L). 
-setUserReply(sides) :- show_sides(L), createUserReply(L). 
-
 % selected is used to assert facts based on the given argument
-% only will assert if X is not already in chosen list
+% only will assert if X is not already in chose list
 selected(X,meals) :- \\+check_selection(X, meals) -> asserta(chosen_meals(X)).
 selected(X,breads) :- \\+check_selection(X, breads) -> asserta(chosen_breads(X)).
 selected(X,meats) :- \\+check_selection(X, meats) ->asserta(chosen_meats(X)).
@@ -108,6 +96,28 @@ chosen_topups(L), member(X,L).
 check_selection(X, sides):- 
 chosen_sides(L), member(X,L).
 
+% Check if X is already in chosen list
+check_selection(X, breads):- 
+chosen_breads(L), member(X,L),!. 
+
+check_selection(X, meats):- 
+chosen_meats(L), member(X,L),!.
+
+check_selection(X, meals):- 
+chosen_meals(L), member(X,L),!.
+
+check_selection(X, veggies):- 
+chosen_veggies(L), member(X,L),!.
+
+check_selection(X, sauces):-
+chosen_sauces(L), member(X,L),!.
+
+check_selection(X, topups):- 
+chosen_topups(L), member(X,L),!.
+
+check_selection(X, sides):- 
+chosen_sides(L), member(X,L),!.
+
 % Get user corresponding choice
 % findall(X, pred(X), List) - Find possible values for predicate and add to the List
 show_meals(Meals) :- findall(X, chosen_meals(X), Meals).
@@ -120,28 +130,11 @@ show_sides(Sides) :- findall(X, chosen_sides(X), Sides).
 
 %% GUI functions
 
-% create user reply for GUI
-
-createUserReply([]). % empty list
-
-createUserReply([H]) :-                                    
-create(a, A),                                         
-    html(A,H),                
-    get_by_id('user-contents', Parent),
-    append_child(Parent, A).
-        
-createUserReply([[H|T]]) :-  % List with items more than one
-create(a, A),                                         
-    html(A,H),                
-    get_by_id('user-contents', Parent),
-    append_child(Parent, A),
-    createUserReply([T]), !. % remove item in list and call the function again
-
-% create menu item for GUI
-createMenuItems(H) :-                                    
+% create list item for GUI
+createListItem(H) :-                                    
 create(a, A),                                         
     html(A, H),
-create(br, BR),                                      
+create(br, BR), 'I would like '                                        
     get_by_id('subway-contents', Parent),
     append_child(Parent, BR),
     append_child(Parent, A).
@@ -162,12 +155,12 @@ createDOMV1([]). % empty list
 
 createDOMV1([H]) :- % last item in list
 createButton(H),
-createMenuItems(H).
+createListItem(H).
     
 createDOMV1([H|T]) :-  % List with items more than one
 createButton(H),
-createMenuItems(H),
-createDOMV1(T), !. % remove item in list and call the function again
+createDOMV1(T),
+createListItem(H), !. % remove item in list and call the function again
 
 % createDOMV2 is the same as createDOMV1 except it's for nested lists
 
@@ -175,11 +168,11 @@ createDOMV2([[]]). % empty list
 
 createDOMV2([[H]]) :- % last item in list
 createButton(H),
-createMenuItems(H).
+createListItem(H).
 
 % List contains more than 1 item
 createDOMV2([[H|T]]) :-  
 createButton(H),
-createMenuItems(H),
+createListItem(H),
 createDOMV2([T]), !. % remove item in list and call the function again
 `
