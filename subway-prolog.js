@@ -145,7 +145,7 @@ show_sides(Sides) :- findall(X, chosen_sides(X), Sides).
         html(A,H +', '),                
         get_by_id('user-contents', Parent),
         append_child(Parent, A),
-    createDOMV1(T), !. % remove item in list and call the function again
+        createUserReply(T), !. % remove item in list and call the function again
 
 % create menu item for GUI
 createMenuItems(H) :-                                    
