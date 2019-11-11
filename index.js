@@ -1,4 +1,4 @@
-import subway_interactor from './subway-core.js/index.js'
+import subway_interactor from './subway-core.js'
 var session = pl.create()
 session.consult(subway_interactor)
 session.consult(":- use_module(library(dom)).");
