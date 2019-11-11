@@ -56,9 +56,9 @@ ask_topups(X) :- findall(X, (chosen_meals(Y), \\+value_meal(Y) -> (vegan_meal(Y)
 ask_sides(X) :- sides(X).
 
 % options is used get the list based on current arguments and creates the relevant HTML DOMs for GUI
-options(meals) :- ask_meals(L), createDOMV1(L).
+options(meals) :- ask_meals(L), createDOMV1(L); chosen_meals(L1), createUserReply(L1).
 options(sauces) :- ask_sauces(L), createDOMV2(L).
-options(breads) :- ask_breads(L), createDOMV1(L).
+options(breads) :- ask_breads(L), createDOMV1(L); chosen_meals(L), .
 options(meats) :- ask_meats(L), createDOMV2(L).
 options(veggies) :- ask_veggies(L), createDOMV1(L).
 options(topups) :- ask_topups(L), createDOMV2(L).
@@ -130,11 +130,28 @@ show_sides(Sides) :- findall(X, chosen_sides(X), Sides).
 
 %% GUI functions
 
-% create list item for GUI
-createListItem(H) :-                                    
+% create menu item for GUI
+
+    createUserReply([]). % empty list
+
+    createUserReply(H) :-                                    
+    create(a, A),                                         
+        html(A,H),                
+        get_by_id('user-contents', Parent),
+        append_child(Parent, A).
+        
+        createUserReply([H|T]) :-  % List with items more than one
+        create(a, A),                                         
+        html(A,H +', '),                
+        get_by_id('user-contents', Parent),
+        append_child(Parent, A),
+    createDOMV1(T), !. % remove item in list and call the function again
+
+% create menu item for GUI
+createMenuItems(H) :-                                    
 create(a, A),                                         
     html(A, H),
-create(br, BR),                                         
+create(br, BR), 'I would like '                                        
     get_by_id('subway-contents', Parent),
     append_child(Parent, BR),
     append_child(Parent, A).
@@ -155,12 +172,12 @@ createDOMV1([]). % empty list
 
 createDOMV1([H]) :- % last item in list
 createButton(H),
-createListItem(H).
+createMenuItems(H).
     
 createDOMV1([H|T]) :-  % List with items more than one
 createButton(H),
-createDOMV1(T),
-createListItem(H), !. % remove item in list and call the function again
+createMenuItems(H),
+createDOMV1(T), !. % remove item in list and call the function again
 
 % createDOMV2 is the same as createDOMV1 except it's for nested lists
 
@@ -168,11 +185,11 @@ createDOMV2([[]]). % empty list
 
 createDOMV2([[H]]) :- % last item in list
 createButton(H),
-createListItem(H).
+createMenuItems(H).
 
 % List contains more than 1 item
 createDOMV2([[H|T]]) :-  
 createButton(H),
-createListItem(H),
+createMenuItems(H),
 createDOMV2([T]), !. % remove item in list and call the function again
 `
