@@ -51,7 +51,7 @@ function updateStaffDialogueBox(contents) {
     .end()
 }
 
-function nextItem() {
+function nextMenu() {
   nextItem = true
 }
 // Listener for dynamically created buttons
