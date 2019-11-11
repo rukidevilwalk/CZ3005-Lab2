@@ -184,6 +184,7 @@ show_sides(Sides).
 % Chooses a random behaviour
 % Then chooses a random gesture assigned to that selected behaviour
 setStaffBehaviour(List) :-
+write('set staff behaviour'),
 behaviour(List1),
 random_member(B1, List1),
 behaviour(B1, List2),
@@ -194,6 +195,7 @@ displayStaffGesture(B).
 
 % Display staff gesture
 displayStaffGesture(B) :-
+write('create staff behaviour'),
 create(a, A),  
     atom_concat('<', B, Y),        
     atom_concat(Y, '> Welcome to Subway, what kind of meal would you like?', Z),                                 
