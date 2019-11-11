@@ -12,6 +12,9 @@ export default `
 :- dynamic(member/2).
 :- dynamic(displayOrder/1).
 
+append([], Y, Y).
+append([H|X], Y, [H|Z]) :- append(X, Y, Z).
+
 % Checking conditions
 healthy_meal(healthy).
 value_meal(value).
