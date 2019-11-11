@@ -126,6 +126,7 @@ function buttonClicked(fact) {
             `Going for <b>${orderContents.meal}</b> meal alrighty! ${messages.bread_choices}`
           )
           $("#btn-group").empty()
+          $("#user-header").html('I would like ')
           session.query("options(breads).")
           session.answer()
         }
@@ -305,16 +306,13 @@ function buttonClicked(fact) {
             session.query("options(sides).")
             session.answer()
           }
-        })
-        $("#nextItem").html('Confirm Order');
+        }) 
+        $("#nextItem").html('Confirm Order')
         currentProgress = 'sides'
       } else {
         orderContents.topup = orderContents.topup + ' , ' + fact.toUpperCase()
         session.query(`selected(${fact},topups).`)
       }
-
-
-
       break
     case 'sides':
       if (nextItem) {

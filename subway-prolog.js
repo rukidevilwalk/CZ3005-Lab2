@@ -56,13 +56,13 @@ ask_topups(X) :- findall(X, (chosen_meals(Y), \\+value_meal(Y) -> (vegan_meal(Y)
 ask_sides(X) :- sides(X).
 
 % options is used get the list based on current arguments and creates the relevant HTML DOMs for GUI
-options(meals) :- ask_meals(L), createDOMV1(L).
-options(sauces) :- ask_sauces(L), createDOMV2(L).
-options(breads) :- ask_breads(L), createDOMV1(L), chosen_meals(L1), createUserReply(L1) .
-options(meats) :- ask_meats(L), createDOMV2(L).
-options(veggies) :- ask_veggies(L), createDOMV1(L).
-options(topups) :- ask_topups(L), createDOMV2(L).
-options(sides) :- ask_sides(L), createDOMV1(L).
+options(meals) :- ask_meals(L), createDOMV1(L), chosen_meals(L1), createUserReplyV1(L1) .
+options(sauces) :- ask_sauces(L), createDOMV2(L), chosen_sauces(L1), createUserReplyV1(L1) .
+options(breads) :- ask_breads(L), createDOMV1(L), chosen_breads(L1), createUserReplyV1(L1) .
+options(meats) :- ask_meats(L), createDOMV2(L), chosen_meats(L1), createUserReplyV1(L1) .
+options(veggies) :- ask_veggies(L), createDOMV1(L), chosen_veggies(L1), createUserReplyV1(L1) .
+options(topups) :- ask_topups(L), createDOMV2(L), chosen_topups(L1), createUserReplyV1(L1) .
+options(sides) :- ask_sides(L), createDOMV1(L), chosen_sides(L1), createUserReplyV1(L1) .
 
 % selected is used to assert facts based on the given argument
 % only will assert if X is not already in chose list
@@ -130,22 +130,37 @@ show_sides(Sides) :- findall(X, chosen_sides(X), Sides).
 
 %% GUI functions
 
-% create menu item for GUI
+% create user reply for GUI
 
-createUserReply([]). % empty list
+createUserReplyV2([]). % empty list
 
-createUserReply(H) :-                                    
+createUserReplyV2([H]) :-                                    
 create(a, A),                                         
     html(A,H),                
     get_by_id('user-contents', Parent),
     append_child(Parent, A).
         
-createUserReply([H|T]) :-  % List with items more than one
+createUserReplyV2([[H|T]]) :-  % List with items more than one
 create(a, A),                                         
     html(A,H + ', '),                
     get_by_id('user-contents', Parent),
     append_child(Parent, A),
-    createUserReply(T), !. % remove item in list and call the function again
+    createUserReplyV1([T]), !. % remove item in list and call the function again
+
+createUserReplyV1([]). % empty list
+
+createUserReplyV1(H) :-                                    
+create(a, A),                                         
+    html(A,H),                
+    get_by_id('user-contents', Parent),
+    append_child(Parent, A).
+        
+createUserReplyV1([H|T]) :-  % List with items more than one
+create(a, A),                                         
+    html(A,H + ', '),                
+    get_by_id('user-contents', Parent),
+    append_child(Parent, A),
+    createUserReplyV1(T), !. % remove item in list and call the function again
 
 % create menu item for GUI
 createMenuItems(H) :-                                    
