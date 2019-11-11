@@ -18,6 +18,10 @@ session.query("options(meals).")
 session.answer()
 $('#nextItem').hide()
 
+// Declare variables
+let currentProgress = 'meals'
+let nextItem = false
+
 const messages = {
   greetings: `
   Welcome To Subway!
@@ -79,9 +83,7 @@ let orderContents = {
   side: ``,
 }
 
-let currentProgress = 'meals'
 
-let nextItem = false
 
 const updateDialogueBox = (type, contents) => {
 
@@ -97,10 +99,18 @@ const updateDialogueBox = (type, contents) => {
   }
 
   if (type == 'user') {
-    $('#user-contents')
-      .empty()
-      .append('I would like ' + contents)
-      .end()
+    if (contents == '') {
+      $('#user-contents')
+        .empty()
+        .append('None for me')
+        .end()
+    } else {
+      $('#user-contents')
+        .empty()
+        .append('I would like ' + contents)
+        .end()
+    }
+
   }
 
 }
