@@ -136,12 +136,13 @@ show_sides(Sides).
 
 displayOrder(X,[]):- % empty list
 create(a, A),  
-atom_concat(X, 'None selected.', Y),                                       
+atom_concat(X, 'None.', Y),                                       
     html(A, Y),
 create(br, BR),                                     
     get_by_id('subway-contents', Parent),
     append_child(Parent, A),
     append_child(Parent, BR).
+    
 
 displayOrder(X,[H]) :- % last item in list
 write(H),
