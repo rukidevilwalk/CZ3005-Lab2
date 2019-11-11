@@ -339,7 +339,10 @@ function updateSides(selectedIngredient, fact) {
 }
 
 // Init interaction for first ingredient
-updateStaffDialogueBox('Welcome to Subway! What kind of meal would you like?')
+//updateStaffDialogueBox('Welcome to Subway! What kind of meal would you like?')
 $("#btn-group").empty()
+ // Call Prolog to display menu for meal selection
+ session.query("setStaffBehaviour(B).")
+ session.answer()
 session.query("options(meals).")
 session.answer()

@@ -24,6 +24,14 @@ non_vegan_topups([american, monterey_cheddar, processed_cheddar]).
 vegan_topups([avocado, egg_mayo]).
 sides([yogurt, chips, cookies, hashbrowns, drinks]).
 
+% Declare fact for different types of behaviours
+behaviour([tired_behaviour, energetic_behaviour, calm_behaviour]).
+
+% Declare facts for the different types of staff's behaviour
+behaviour(tired_behaviour, [closing_eyes, grouchy_look, listless_eyes]).
+behaviour(energetic_behaviour, [broad_smile, beaming_voice, whistling]).
+behaviour(calm_behaviour, [looking_composed, looking_attentive, light_smile]).
+
 % Declare facts for meal types
 is_healthy_meal(healthy).
 is_value_meal(value).
@@ -173,7 +181,24 @@ show_sauces(Sauces),
 show_topups(Topups),
 show_sides(Sides).
 
+% Chooses a random behaviour
+% Then chooses a random gesture assigned to that selected behaviour
+setStaffBehaviour(List) :-
+behaviour(List1),
+random_member(B1, List1),
+behaviour(B1, List2),
+random_member(B, List2),
+displayStaffGesture(B1,B).
+
 % GUI functions
+
+% Display staff gesture
+displayStaffGesture(X,Y) :-
+create(a, A),  
+atom_concat(X, Y, Z),                                       
+    html(A, Z),                                  
+    get_by_id('subway-header', Parent),
+    append_child(Parent, A).
 
 % For displaying the final order
 % Used to add the selected ingredients to a <a></a> and appends to the GUI
