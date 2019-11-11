@@ -112,7 +112,7 @@ show_sides(sides) :- findall(X, chosen_sides(X), Sides), displayOrder(Sides).
 
 displayOrder(X) :- 
 (X==1) ->
- show_meals(meals), 
+ %show_meals(meals), 
  show_breads(breads).
  %show_meats(meats),
  %show_veggies(veggies),
