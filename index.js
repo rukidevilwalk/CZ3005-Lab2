@@ -55,6 +55,10 @@ $('#nextItem').click(function () {
   nextItem = true
 })
 
+$('#newOrder').click(function () {
+  location.reload()
+})
+
 // Listener for dynamically created buttons
 // Carry out logic whenever an item button is clicked
 $(document).click(function (e) {
@@ -318,7 +322,7 @@ function updateSides(selectedIngredient, fact) {
 
     $('#nextItem').hide()
     $('#selection-area').hide()
-
+    $('#newOrder').show()
     // Update Dialogue
     updateUserDialogueBox(orderContents.topup)
     updateStaffDialogueBox(orderContents.topup + ' has been selected! <br/> Here is your order:')
@@ -338,5 +342,6 @@ function updateSides(selectedIngredient, fact) {
 updateStaffDialogueBox('Welcome to Subway! What kind of meal would you like?')
 $("#btn-group").empty()
 $('#nextItem').hide()
+$('#newOrder').hide()
 session.query("options(meals).")
 session.answer()
