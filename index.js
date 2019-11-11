@@ -51,18 +51,14 @@ function updateStaffDialogueBox(contents) {
     .end()
 }
 
+function nextItem() {
+  nextItem = true
+}
 // Listener for dynamically created buttons
 // Carry out logic whenever an item button is clicked
 $(document).click(function (e) {
 
   if ($(e.target).is("button")) {
-    console.log($(e.target).text())
-    // If next ingredient category has multiple selections available
-    if ($(e.target).val() == 'Next Ingredient' || $(e.target).val() == 'Confirm Order') {
-      nextItem = true
-      console.log('set nextitem true')
-    }
-
 
     let selectedIngredient = $(e.target).text().toUpperCase()
     let fact = $(e.target).text()
