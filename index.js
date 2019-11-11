@@ -3,7 +3,7 @@ var session = pl.create()
 session.consult(subway_interactor)
 session.consult(":- use_module(library(dom)).");
 session.consult(":- use_module(library(js)).");
-
+session.consult(":- use_module(library(lists)).");
 const messages = {
   greetings: `
   Welcome To Subway!
@@ -326,7 +326,7 @@ function buttonClicked(fact) {
           `Okay! Your order is:
               `
         )
-        session.query(`display(1).`)
+        session.query(`displaySelections(1).`)
         session.answer()
         // updateDialogueBox(
         //   'staff',
@@ -390,7 +390,7 @@ function buttonClicked(fact) {
 
 // ---- Print Messages
 updateDialogueBox('staff', messages.greetings)
-console.log('21')
+console.log('1')
 $("#btn-group").empty()
 session.query("options(meals).")
 session.answer()
