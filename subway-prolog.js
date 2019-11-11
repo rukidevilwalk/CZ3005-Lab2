@@ -109,11 +109,14 @@ show_sides(sides) :- findall(X, chosen_sides(X), Sides), displayOrder(Sides).
 
 displaySelections(X) :- 
 (X==1) ->
-show_breads(breads).
+write('Prolog - Displaying selections:)
+show_meals(meals),
+show_breads(breads),
+show_meats(meats).
 
 %show_meals(meals),
 %show_breads(breads), 
-show_meats(meats),
+%show_meats(meats),
 %show_veggies(veggies),
 %show_sauces(sauces), 
 %show_topups(topups),
