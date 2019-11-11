@@ -320,7 +320,6 @@ function buttonClicked(fact) {
       if (nextItem) {
         $('#nextItem').hide()
         $('#selection-area').hide()
-        session.answer()
         updateDialogueBox(
           'staff',
           `Okay! Your order is:
