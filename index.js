@@ -165,7 +165,7 @@ function updateBread(selectedIngredient, fact) {
 function updateMeats(selectedIngredient, fact) {
   if (nextItem) {
     // Update Dialogue
-    updateUserDialogueBox(selectedIngredient)
+    updateUserDialogueBox(orderContents.meat)
 
     // Call prolog to check if meat needs to be displayed 
     session.query(`get_veggies(X).`)
@@ -197,7 +197,7 @@ function updateVeggies(selectedIngredient, fact) {
   if (nextItem) {
     console.log('veggies next item')
     // Update Dialogue
-    updateUserDialogueBox(selectedIngredient)
+    updateUserDialogueBox(orderContents.veggie)
 
     // Call prolog to check what kind of sauces need to be displayed 
     // non-fat sauces for healthy meals
@@ -239,7 +239,7 @@ function updateVeggies(selectedIngredient, fact) {
 function updateSauces(selectedIngredient, fact) {
   if (nextItem) {
     // Update Dialogue
-    updateUserDialogueBox(selectedIngredient)
+    updateUserDialogueBox(orderContents.sauce)
 
     // Call prolog to check if topups need to be displayed 
     session.query(`get_topups(X).`)
@@ -292,7 +292,7 @@ function updateSauces(selectedIngredient, fact) {
 function updateTopups(selectedIngredient, fact) {
   if (nextItem) {
     // Update Dialogue
-    updateUserDialogueBox(selectedIngredient)
+    updateUserDialogueBox(orderContents.topup)
     updateStaffDialogueBox(selectedIngredient +
       ' has been selected!<br /> What would you like for your sides?')
 
@@ -318,7 +318,7 @@ function updateSides(selectedIngredient, fact) {
     $('#selection-area').hide()
 
     // Update Dialogue
-    updateUserDialogueBox(selectedIngredient)
+    updateUserDialogueBox(orderContents.side)
     updateStaffDialogueBox('Here is your order:')
 
     // Call Prolog to display final order
