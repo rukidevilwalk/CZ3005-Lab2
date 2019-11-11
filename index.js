@@ -314,6 +314,7 @@ function buttonClicked(fact) {
       if (nextItem) {
         $('#nextItem').hide()
         $('#selection-area').hide()
+
         updateDialogueBox(
           'staff',
           `Okay! Your order
