@@ -183,7 +183,7 @@ show_sides(Sides).
 
 % Chooses a random behaviour
 % Then chooses a random gesture assigned to that selected behaviour
-setStaffBehaviour(List) :-
+setStaffBehaviour(list) :-
 write('set staff behaviour'),
 behaviour(List1),
 random_member(B1, List1),
