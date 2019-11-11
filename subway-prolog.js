@@ -102,23 +102,23 @@ chosen_sides(L), member(X,L),!.
 
 % Get user corresponding choice
 % findall(X, pred(X), List) - Find possible values for predicate and add to the List
-show_meals(Meals) :- findall(X, chosen_meals(X), Meals), displayOrder(Meals).
-show_breads(Breads) :- findall(X, chosen_breads(X), Breads), displayOrder(Breads).
-show_meats(Meats) :- findall(X, chosen_meats(X), Meats), displayOrder(Meats).
-show_veggies(Veggies) :- findall(X, chosen_veggies(X), Veggies), displayOrder(Veggies).
-show_sauces(Sauces) :- findall(X, chosen_sauces(X), Sauces), displayOrder(Sauces).
-show_topups(Topups) :- findall(X, chosen_topups(X), Topups), displayOrder(Topups).
-show_sides(Sides) :- findall(X, chosen_sides(X), Sides), displayOrder(Sides).
+show_meals(meals) :- findall(X, chosen_meals(X), Meals), displayOrder(Meals).
+show_breads(breads) :- findall(X, chosen_breads(X), Breads), displayOrder(Breads).
+show_meats(meats) :- findall(X, chosen_meats(X), Meats), displayOrder(Meats).
+show_veggies(veggies) :- findall(X, chosen_veggies(X), Veggies), displayOrder(Veggies).
+show_sauces(sauces) :- findall(X, chosen_sauces(X), Sauces), displayOrder(Sauces).
+show_topups(topups) :- findall(X, chosen_topups(X), Topups), displayOrder(Topups).
+show_sides(sides) :- findall(X, chosen_sides(X), Sides), displayOrder(Sides).
 
 displayOrder(X) :- 
 (X==1) ->
- show_meals(Meals), 
- show_breads(Breads),
- show_meats(Meats),
- show_veggies(Veggies),
- show_sauces(Sauces),
- show_topups(Topups),
- show_sides(Sides).
+ show_meals(meals), 
+ show_breads(breads),
+ show_meats(meats),
+ show_veggies(veggies),
+ show_sauces(sauces),
+ show_topups(topups),
+ show_sides(sides).
 
 %% GUI functions
 
