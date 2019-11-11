@@ -142,7 +142,7 @@ create(a, A),
         
 createUserReply([H|T]) :-  % List with items more than one
 create(a, A),                                         
-    html(A,H),                
+    html(A,H + ', '),                
     get_by_id('user-contents', Parent),
     append_child(Parent, A),
     createUserReply(T), !. % remove item in list and call the function again
