@@ -388,7 +388,7 @@ function buttonClicked(fact) {
 }
 
 updateDialogueBox('staff', messages.greetings)
-console.log('Version' + ' 23')
+console.log('Version' + ' 24')
 $("#btn-group").empty()
 session.query("options(meals).")
 session.answer()
