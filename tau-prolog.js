@@ -19,7 +19,7 @@
  (function() {
 	
 	// VERSION
-	var version = { major: 0, minor: 2, patch: 78, status: "beta" };
+	var version = { major: 0, minor: 2, patch: 75, status: "beta" };
 
 
 
@@ -1079,7 +1079,6 @@
 		if( dcg.error )
 			return dcg.value;
 		rule.body = dcg.value;
-		// push-back lists
 		if(rule.head.indicator === ",/2") {
 			var terminals = rule.head.args[1];
 			rule.head = rule.head.args[0];
@@ -1101,19 +1100,13 @@
 				pointer.args[1] = dcg.variable;
 			}
 			rule.body = new Term(",", [rule.body, new Term("=", [last, terminals])]);
-			rule.head = new Term(rule.head.id, rule.head.args.concat([begin, last]));
+			rule.head.args = rule.head.args.concat([begin, last]);
+			rule.head = new Term(rule.head.id, rule.head.args);
 		} else {
-			// replace first assignment
-			var first_assign = rule.body;
-			if(pl.type.is_term(first_assign) && first_assign.indicator === ",/2")
-				first_assign = first_assign.args[0];
-			if(pl.type.is_term(first_assign) && first_assign.indicator === "=/2" &&
-			   pl.type.is_variable(first_assign.args[0]) && first_assign.args[0] === begin) {
-				begin = first_assign.args[1];
-				rule.body = rule.body.replace(null);
-			}
-			// add last variable
-			rule.head = new Term(rule.head.id, rule.head.args.concat([begin, dcg.variable]));
+			var last = thread.next_free_variable();
+			rule.head.args = rule.head.args.concat([begin, last]);
+			rule.head = new Term(rule.head.id, rule.head.args);
+			rule.body = new Term(",", [rule.body, new Term("=", [dcg.variable, last])]);
 		}
 		return rule;
 	}
@@ -1122,37 +1115,25 @@
 	function body_to_dcg(expr, last, thread) {
 		var free;
 		if( pl.type.is_term( expr ) && expr.indicator === "!/0" ) {
-			free = thread.next_free_variable();
 			return {
-				value: new Term(",", [expr, new Term("=", [last, free])]),
-				variable: free,
+				value: expr,
+				variable: last,
 				error: false
 			};
-		} else if( pl.type.is_term( expr ) && (expr.indicator === ",/2" || expr.indicator === "->/2") ) {
+		} else if( pl.type.is_term( expr ) && expr.indicator === ",/2" ) {
 			var left = body_to_dcg(expr.args[0], last, thread);
 			if( left.error ) return left;
 			var right = body_to_dcg(expr.args[1], left.variable, thread);
 			if( right.error ) return right;
 			return {
-				value: new Term(expr.id, [left.value, right.value]),
-				variable: right.variable,
-				error: false
-			};
-		} else if( pl.type.is_term( expr ) && expr.indicator === ";/2" ) {
-			var left = body_to_dcg(expr.args[0], last, thread);
-			if( left.error ) return left;
-			var right = body_to_dcg(expr.args[1], last, thread);
-			if( right.error ) return right;
-			return {
-				value: new Term(",", [new Term(";", [left.value, right.value]), new Term("=", [left.variable, right.variable])]),
+				value: new Term(',', [left.value, right.value]),
 				variable: right.variable,
 				error: false
 			};
 		} else if( pl.type.is_term( expr ) && expr.indicator === "{}/1" ) {
-			free = thread.next_free_variable();
 			return {
-				value: new Term(",", [expr.args[0], new Term("=", [last, free])]),
-				variable: free,
+				value: expr.args[0],
+				variable: last,
 				error: false
 			};
 		} else if( pl.type.is_empty_list( expr ) ) {
@@ -1191,7 +1172,8 @@
 			}
 		} else if( pl.type.is_callable( expr ) ) {
 			free = thread.next_free_variable();
-			expr = new Term( expr.id, expr.args.concat([last,free]) );
+			expr.args = expr.args.concat([last,free]);
+			expr = new Term( expr.id, expr.args );
 			return {
 				value: expr,
 				variable: free,
@@ -1298,8 +1280,7 @@
 	// Terms
 	var term_ref = 0;
 	function Term( id, args, ref ) {
-		term_ref++;
-		this.ref = ref || term_ref;
+		this.ref = ref || ++term_ref;
 		this.id = id;
 		this.args = args || [];
 		this.indicator = id + "/" + this.args.length;
@@ -1321,11 +1302,9 @@
 	}
 	
 	// Substitutions
-	function Substitution( links, attrs ) {
+	function Substitution( links ) {
 		links = links || {};
-		attrs = attrs || {};
 		this.links = links;
-		this.attrs = attrs;
 	}
 	
 	// States
@@ -1654,20 +1633,11 @@
 	// Substitutions
 	Substitution.prototype.clone = function() {
 		var links = {};
-		var attrs = {};
 		for( var link in this.links ) {
 			if(!this.links.hasOwnProperty(link)) continue;
 			links[link] = this.links[link].clone();
 		}
-		for( var attr in this.attrs ) {
-			if(!this.attrs.hasOwnProperty(attrs)) continue;
-			attrs[attr] = {};
-			for( var m in this.attrs[attr] ) {
-				if(!this.attrs[attr].hasOwnProperty(m)) continue;
-				attrs[attr][m] = this.attrs[attr][m].clone();
-			}
-		}
-		return new Substitution( links, attrs );
+		return new Substitution( links );
 	};
 	
 	// States
@@ -1749,6 +1719,8 @@
 	
 	// Variables
 	Var.prototype.rename = function( thread ) {
+		if( this.id === "_" )
+			return this;
 		return thread.get_free_variable( this );
 	};
 	
@@ -1759,46 +1731,9 @@
 	
 	// Terms
 	Term.prototype.rename = function( thread ) {
-		// atom
-		/*if(this.args.length === 0)
-			return this;*/
-		// list
-		if( this.indicator === "./2" ) {
-			var arr = [], pointer = this;
-			var last_neq = -1, pointer_neq = null, i = 0;
-			while( pointer.indicator === "./2" ) {
-				var app = pointer.args[0].rename(thread);
-				var cmp = app == pointer.args[0];
-				arr.push(app);
-				pointer = pointer.args[1];
-				if(!cmp) {
-					last_neq = i;
-					pointer_neq = pointer;
-				}
-				i++;
-			}
-			var list = pointer.rename(thread);
-			var cmp = list == pointer;
-			if(last_neq === -1 && cmp)
-				return this;
-			var start = cmp ? last_neq : arr.length-1;
-			var list = cmp ? pointer_neq : list;
-			for(var i = start; i >= 0; i--) {
-				list = new Term( ".", [arr[i], list] );
-			}
-			return list;
-		}
-		// compound term
-		var eq = true;
-		var args = [];
-		for(var i = 0; i < this.args.length; i++) {
-			var app = this.args[i].rename(thread);
-			eq = eq && this.args[i] == app;
-			args.push(app);
-		}
-		/*if(eq)
-			return this;*/
-		return new Term(this.id, args);
+		return new Term( this.id, map( this.args, function( arg ) {
+			return arg.rename( thread );
+		} ) );
 	};
 
 	// Streams
@@ -1813,7 +1748,7 @@
 	
 	
 	
-	// GET ID OF VARIABLES FROM PROLOG OBJECTS
+	// GET VARIABLES FROM PROLOG OBJECTS
 	
 	// Variables
 	Var.prototype.variables = function() {
@@ -1865,46 +1800,22 @@
 	
 	// Terms
 	Term.prototype.apply = function( subs ) {
-		// atom
-		if(this.args.length === 0)
-			return this;
-		// list
 		if( this.indicator === "./2" ) {
-			var arr = [], pointer = this;
-			var last_neq = -1, pointer_neq = null, i = 0;
+			var arr = [];
+			var pointer = this;
 			while( pointer.indicator === "./2" ) {
-				var app = pointer.args[0].apply(subs);
-				var cmp = app == pointer.args[0];
-				arr.push(app);
+				arr.push( pointer.args[0].apply( subs ) );
 				pointer = pointer.args[1];
-				if(!cmp) {
-					last_neq = i;
-					pointer_neq = pointer;
-				}
-				i++;
 			}
-			var list = pointer.apply(subs);
-			var cmp = list == pointer;
-			if(last_neq === -1 && cmp)
-				return this;
-			var start = cmp ? last_neq : arr.length-1;
-			var list = cmp ? pointer_neq : list;
-			for(var i = start; i >= 0; i--) {
+			var list = pointer.apply( subs );
+			for(var i = arr.length-1; i >= 0; i--) {
 				list = new Term( ".", [arr[i], list] );
 			}
 			return list;
 		}
-		// compound term
-		var eq = true;
-		var args = [];
-		for(var i = 0; i < this.args.length; i++) {
-			var app = this.args[i].apply(subs);
-			eq = eq && this.args[i] == app;
-			args.push(app);
-		}
-		if(eq)
-			return this;
-		return new Term(this.id, args, this.ref);
+		return new Term( this.id, map( this.args, function( arg ) {
+			return arg.apply( subs );
+		} ), this.ref );
 	};
 
 	// Streams
@@ -1919,20 +1830,12 @@
 	
 	// Substitutions
 	Substitution.prototype.apply = function( subs ) {
-		var link, links = {}, attr, attrs = {}, m;
+		var link, links = {};
 		for( link in this.links ) {
 			if(!this.links.hasOwnProperty(link)) continue;
 			links[link] = this.links[link].apply(subs);
 		}
-		for( attr in this.attrs ) {
-			if(!this.attrs.hasOwnProperty(attr)) continue;
-			attrs[attr] = {};
-			for( m in this.attrs[attr] ) {
-				if(!this.attrs[attr].hasOwnProperty(m)) continue;
-				attrs[attr][m] = this.attrs[attr][m].apply(subs);
-			}
-		}
-		return new Substitution( links, attrs );
+		return new Substitution( links );
 	};
 	
 	
@@ -1962,7 +1865,7 @@
 
 	// Search term
 	Term.prototype.search = function( expr ) {
-		if(this == expr || this.ref === expr.ref)
+		if( pl.type.is_term( expr ) && expr.ref !== undefined && this.ref === expr.ref )
 			return true;
 		for( var i = 0; i < this.args.length; i++ )
 			if( pl.type.is_term( this.args[i] ) && this.args[i].search( expr ) )
@@ -2000,7 +1903,7 @@
 
 	// Set current output
 	Session.prototype.set_current_output = function( output ) {
-		this.current_output = output;
+		this.current_input = output;
 	};
 	Thread.prototype.set_current_output = function( output ) {
 		return this.session.set_current_output( output);
@@ -2586,7 +2489,7 @@
 				links[id] = value;
 			}
 		}
-		return new Substitution( links, this.attrs );
+		return new Substitution( links );
 	};
 	
 	// Exclude variables
@@ -2598,7 +2501,7 @@
 				links[variable] = this.links[variable];
 			}
 		}
-		return new Substitution( links, this.attrs );
+		return new Substitution( links );
 	};
 	
 	// Add link
@@ -2614,37 +2517,6 @@
 			vars.push( f(x) );
 		return vars;
 	};
-
-	// Get an attribute
-	Substitution.prototype.get_attribute = function( variable, module ) {
-		if( this.attrs[variable] )
-			return this.attrs[variable][module];
-	}
-
-	// Set an attribute (in a new substitution)
-	Substitution.prototype.set_attribute = function( variable, module, value ) {
-		var subs = new Substitution( this.links );
-		for( var v in this.attrs ) {
-			if( v === variable ) {
-				subs.attrs[v] = {};
-				for( var m in this.attrs[v] ) {
-					subs.attrs[v][m] = this.attrs[v][m];
-				}
-			} else {
-				subs.attrs[v] = this.attrs[v];
-			}
-		}
-		if( !subs.attrs[variable] ) {
-			subs.attrs[variable] = {};
-		}
-		subs.attrs[variable][module] = value;
-		return subs;
-	}
-
-	// Check if a variables has attributes
-	Substitution.prototype.has_attributes = function( variable ) {
-		return this.attrs[variable] && this.attrs[variable] !== {};
-	}
 	
 	
 	
@@ -2749,7 +2621,7 @@
 
 	// NODEJS
 
-	var nodejs_flag = typeof module !== 'undefined' && module.exports !== undefined;
+	var nodejs_flag = typeof module !== 'undefined' && module.exports;
 
 	var nodejs_arguments = nodejs_flag ?
 		arrayToList( map(process.argv.slice(1), function(arg) { return new Term( arg ); })) :
@@ -3554,7 +3426,7 @@
 		// Built-in predicates
 		predicate: {
 
-			// TERM AND GOAL EXPANSION
+			// GOAL EXPANSION
 
 			"goal_expansion/2": [
 				new Rule(new Term("goal_expansion", [new Term(",", [new Var("X"),new Var("Y")]),new Term(",", [new Var("X_"),new Var("Y_")])]), new Term(";", [new Term(",", [new Term("goal_expansion", [new Var("X"),new Var("X_")]),new Term(";", [new Term("goal_expansion", [new Var("Y"),new Var("Y_")]),new Term("=", [new Var("Y_"),new Var("Y")])])]),new Term(",", [new Term("=", [new Var("X"),new Var("X_")]),new Term("goal_expansion", [new Var("Y"),new Var("Y_")])])])),
@@ -3575,42 +3447,6 @@
 				new Rule(new Term("goal_expansion", [new Term("call", [new Var("X"),new Var("A1"),new Var("A2"),new Var("A3"),new Var("A4"),new Var("A5"),new Var("A6")]),new Term("call", [new Var("F_")])]), new Term(",", [new Term("=..", [new Var("F"),new Term(".", [new Var("X"),new Term(".", [new Var("A1"),new Term(".", [new Var("A2"),new Term(".", [new Var("A3"),new Term(".", [new Var("A4"),new Term(".", [new Var("A5"),new Term(".", [new Var("A6"),new Term("[]", [])])])])])])])])]),new Term("goal_expansion", [new Var("F"),new Var("F_")])])),
 				new Rule(new Term("goal_expansion", [new Term("call", [new Var("X"),new Var("A1"),new Var("A2"),new Var("A3"),new Var("A4"),new Var("A5"),new Var("A6"),new Var("A7")]),new Term("call", [new Var("F_")])]), new Term(",", [new Term("=..", [new Var("F"),new Term(".", [new Var("X"),new Term(".", [new Var("A1"),new Term(".", [new Var("A2"),new Term(".", [new Var("A3"),new Term(".", [new Var("A4"),new Term(".", [new Var("A5"),new Term(".", [new Var("A6"),new Term(".", [new Var("A7"),new Term("[]", [])])])])])])])])])]),new Term("goal_expansion", [new Var("F"),new Var("F_")])]))
 			],
-
-
-
-			// ATTRIBUTED VARIABLES
-			
-			//put_attr/3
-			"put_attr/3": function( thread, point, atom ) {
-				var variable = atom.args[0], module = atom.args[1], value = atom.args[2];
-				if( !pl.type.is_variable(variable) ) {
-					thread.throw_error( pl.error.type( "variable", variable, atom.indicator ) );
-				} else if( !pl.type.is_atom(module) ) {
-					thread.throw_error( pl.error.type( "atom", module, atom.indicator ) );
-				} else {
-					var subs = point.substitution.set_attribute( variable.id, module, value );
-					thread.prepend( [new State( point.goal.replace(null), subs, point )] );
-				}
-			},
-
-			// get_attr/3
-			"get_attr/3": function( thread, point, atom ) {
-				var variable = atom.args[0], module = atom.args[1], value = atom.args[2];
-				if( !pl.type.is_variable(variable) ) {
-					thread.throw_error( pl.error.type( "variable", variable, atom.indicator ) );
-				} else if( !pl.type.is_atom(module) ) {
-					thread.throw_error( pl.error.type( "atom", module, atom.indicator ) );
-				} else {
-					var attr = point.substitution.get_attribute( variable.id, module );
-					if( attr ) {
-						thread.prepend( [new State(
-							point.goal.replace( new Term("=", [value, attr]) ),
-							point.substitution,
-							point
-						)] );
-					}
-				}
-			},
 
 
 			
@@ -6215,8 +6051,6 @@
 			
 			// halt/0
 			"halt/0": function( thread, point, _ ) {
-				if( nodejs_flag )
-					process.exit();
 				thread.points = [];
 			},
 			
@@ -6228,8 +6062,6 @@
 				} else if( !pl.type.is_integer( int ) ) {
 					thread.throw_error( pl.error.type( "integer", int, atom.indicator ) );
 				} else {
-					if( nodejs_flag )
-						process.exit(int.value);
 					thread.points = [];
 				}
 			},
@@ -6474,20 +6306,8 @@
 				if( pl.type.is_term(s) && pl.type.is_term(t) ) {
 					if( s.indicator !== t.indicator )
 						return null;
-					// list
-					if(s.indicator === "./2") {
-						var pointer_s = s, pointer_t = t;
-						while(pointer_s.indicator === "./2" && pointer_t.indicator === "./2") {
-							G.push( {left: pointer_s.args[0], right: pointer_t.args[0]} );
-							pointer_s = pointer_s.args[1];
-							pointer_t = pointer_t.args[1];
-						}
-						G.push( {left: pointer_s, right: pointer_t} );
-					// compound term
-					} else {
-						for( var i = 0; i < s.args.length; i++ )
-							G.push( {left: s.args[i], right: t.args[i]} );
-					}
+					for( var i = 0; i < s.args.length; i++ )
+						G.push( {left: s.args[i], right: t.args[i]} );
 				} else if( pl.type.is_number(s) && pl.type.is_number(t) ) {
 					if( s.value !== t.value || s.is_float !== t.is_float )
 						return null;
@@ -6496,7 +6316,7 @@
 					if( pl.type.is_variable(t) && s.id === t.id )
 						continue;
 					// Occurs check
-					if( occurs_check === true && indexOf( t.variables(), s.id ) !== -1 )
+					if( occurs_check === true && t.variables().indexOf( s.id ) !== -1 )
 						return null;
 					if( s.id !== "_" ) {
 						var subs = new Substitution();
@@ -6520,6 +6340,7 @@
 			}
 			return new Substitution( links );
 		},
+		
 		
 		// Compare
 		compare: function( obj1, obj2 ) {
@@ -6673,31 +6494,17 @@
 				if( pl.type.is_substitution( answer ) ) {
 					var dom = answer.domain( true );
 					answer = answer.filter( function( id, value ) {
-						return !pl.type.is_variable( value ) ||
-							pl.type.is_variable( value ) && answer.has_attributes( id ) ||
-							indexOf( dom, value.id ) !== -1 && id !== value.id;
+						return !pl.type.is_variable( value ) || dom.indexOf( value.id ) !== -1 && id !== value.id;
 					} );
 				}
 				for( var link in answer.links ) {
-					if(!answer.links.hasOwnProperty(link))
-						continue;
-					if( pl.type.is_variable( answer.links[link] ) && link === answer.links[link].id ) {
-						var attrs = answer.attrs[link];
-						for( var module in attrs ) {
-							if(!attrs.hasOwnProperty(module))
-								continue;
-							i++;
-							if( str !== "" )
-								str += ", ";
-							str += "put_attr(" + link + ", " + module + ", " + attrs[module].toString(options) + ")";
-						}
-					} else {
-						i++;
-						if( str !== "" )
-							str += ", ";
-						str += link.toString( options ) + " = " +
-							answer.links[link].toString( options, {priority: "700", class: "xfx", indicator: "=/2"}, "right" );
+					if(!answer.links.hasOwnProperty(link)) continue;
+					i++;
+					if( str !== "" ) {
+						str += ", ";
 					}
+					str += link.toString( options ) + " = " +
+						answer.links[link].toString( options, {priority: "700", class: "xfx", indicator: "=/2"}, "right" );
 				}
 				var delimiter = typeof thread === "undefined" || thread.points.length > 0 ? " ;" : "."; 
 				if( i === 0 ) {
@@ -7412,14 +7219,11 @@ var pl;
 			
 			// statistics/0
 			"statistics/0": function( thread, point, atom ) {
-				var stats = "% Tau Prolog statistics";
-				for(var x in statistics)
-					stats += "\n%%% " + x + ": " + statistics[x](thread).toString();
-				thread.prepend([new pl.type.State(
-					point.goal.replace(new pl.type.Term("write", [new pl.type.Term(stats)])),
-					point.substitution,
-					point
-				)]);
+				console.log( "% Tau Prolog statistics" );
+				for( var x in statistics ) {
+					console.log( "%%% " + x + ": " + statistics[x]( thread ).toString() );
+				}
+				thread.success( point );
 			},
 			
 			// statistics/2
