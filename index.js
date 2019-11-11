@@ -68,6 +68,13 @@ let currentProgress = 'meals'
 
 let nextItem = false
 
+const setItemString = (item, fact) => {
+  if (item == "") {
+    item = fact.toUpperCase()
+  } else {
+    item = item + ' , ' + fact.toUpperCase()
+  }
+}
 
 const updateDialogueBox = (type, contents) => {
 
@@ -151,7 +158,6 @@ function buttonClicked(fact) {
               messages.veggie_choices
               }`
             )
-            console.log('creating veggie buttons')
             $("#btn-group").empty()
             session.query("options(veggies).")
             session.answer()
@@ -164,8 +170,6 @@ function buttonClicked(fact) {
               messages.meat_choices
               }`
             )
-            console.log('creating meat buttons')
-            console.log('setting next item to visible')
             $('#nextItem').show()
             $("#btn-group").empty()
             session.query("options(meats).")
@@ -200,7 +204,8 @@ function buttonClicked(fact) {
           currentProgress = 'veggies'
         })
       } else {
-        orderContents.meat = orderContents.meat + ' , ' + fact.toUpperCase()
+        setItemString(orderContents.meat, fact)
+
         session.query(`selected(${fact},meats).`)
       }
 
