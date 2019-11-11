@@ -341,7 +341,5 @@ function updateSides(selectedIngredient, fact) {
 // Init interaction for first ingredient
 updateStaffDialogueBox('Welcome to Subway! What kind of meal would you like?')
 $("#btn-group").empty()
-$('#nextItem').hide()
-$('#newOrder').hide()
 session.query("options(meals).")
 session.answer()
