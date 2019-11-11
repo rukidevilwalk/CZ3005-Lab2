@@ -15,14 +15,14 @@ export default `
 
 % Declare facts for the different types of ingredients
 meals([normal, healthy, veggie, vegan, value]).
-breads([wheat, honey_oat, italian, hearty_italian, flatbread]).
-meats([chicken, beef, ham, bacon, salmon, tuna, turkey]).
-veggies([cucumber, green_peppers, lettuce, red_onions, tomatoes]).
+breads([multigrain, wheat, honey_oat, italian, parmesan_oregano, hearty_italian, flatbread]).
+meats([beefsteak, chicken, ham, bacon, beef, meatballs, salmon, tuna, turkey]).
+veggies([black_olives, jalapeno, pickles, cucumber, green_peppers, red_onions, tomatoes, lettuce]).
 fat_sauces([chipotle, bbq, ranch, sweet_chilli, mayo]).
-non_fat_sauces([honey_mustard, sweet_onion]).
-non_vegan_topups([american, monterey_jack, cheddar]).
+non_fat_sauces([honey_mustard, sweet_onion, yelow_mustard, deli_brown_mustard]).
+non_vegan_topups([american, monterey_cheddar, processed_cheddar]).
 vegan_topups([avocado, egg_mayo]).
-sides([chips, cookies, hashbrowns, drinks]).
+sides([yogurt, chips, cookies, hashbrowns, drinks]).
 
 % Declare facts for meal types
 is_healthy_meal(healthy).

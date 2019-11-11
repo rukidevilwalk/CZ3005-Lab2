@@ -206,7 +206,7 @@ function updateVeggies(selectedIngredient, fact) {
     session.answer(result => {
       if (pl.type.is_substitution(result)) {
         // Prolog replies with Non-fat sauces
-        if (answer.lookup('X') == '[[honey_mustard, sweet_onion]]') {
+        if (answer.lookup('X') == '[[honey_mustard, sweet_onion, yelow_mustard, deli_brown_mustard]]') {
           // Update Dialogue
           updateStaffDialogueBox(orderContents.veggie +
             ' has been selected!<br /> Since you wanted a healthy meal, what would you like for your non-fat sauces?')
