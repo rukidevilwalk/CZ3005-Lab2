@@ -41,18 +41,11 @@ function updateUserDialogueBox(contents) {
 
 // Update subway staff's dialogue box contents
 function updateStaffDialogueBox(contents) {
-  if (contents == '') {
-    $('#user-contents')
-      .empty()
-      .append('Nothing')
-      .end()
-  } else {
-    $('#subway-header')
-      .empty()
-      .append(contents)
-      .end()
-  }
-  
+  $('#subway-header')
+    .empty()
+    .append(contents)
+    .end()
+
   $('#subway-contents')
     .empty()
     .end()
@@ -176,7 +169,8 @@ function updateMeats(selectedIngredient, fact) {
   if (nextItem) {
     // Update Dialogue
     updateUserDialogueBox(orderContents.meat)
-
+    if (orderContents.meat == '')
+      orderContents.meat = 'No meat'
     // Call prolog to check if meat needs to be displayed 
     session.query(`get_veggies(X).`)
     session.answer(result => {
@@ -207,7 +201,8 @@ function updateVeggies(selectedIngredient, fact) {
   if (nextItem) {
     // Update Dialogue
     updateUserDialogueBox(orderContents.veggie)
-
+    if (orderContents.veggie == '')
+    orderContents.veggie = 'No veggie'
     // Call prolog to check what kind of sauces need to be displayed 
     // non-fat sauces for healthy meals
     session.query(`get_sauces(X).`)
@@ -249,7 +244,8 @@ function updateSauces(selectedIngredient, fact) {
   if (nextItem) {
     // Update Dialogue
     updateUserDialogueBox(orderContents.sauce)
-
+    if (orderContents.sauce == '')
+    orderContents.sauce = 'No sauce'
     // Call prolog to check if topups need to be displayed 
     session.query(`get_topups(X).`)
     session.answer(result => {
@@ -303,6 +299,8 @@ function updateTopups(selectedIngredient, fact) {
   if (nextItem) {
     // Update Dialogue
     updateUserDialogueBox(orderContents.topup)
+    if (orderContents.topup == '')
+    orderContents.topup = 'No topup'
     updateStaffDialogueBox(orderContents.topup +
       ' has been selected!<br /> What would you like for your sides?')
 
@@ -328,8 +326,10 @@ function updateSides(selectedIngredient, fact) {
     $('#selection-area').hide()
     $('#newOrder').show()
     // Update Dialogue
-    updateUserDialogueBox(orderContents.topup)
-    updateStaffDialogueBox(orderContents.topup + ' has been selected! <br/> Here is your order:')
+    updateUserDialogueBox(orderContents.side)
+    if (orderContents.side == '')
+    orderContents.side = 'No side'
+    updateStaffDialogueBox(orderContents.side + ' has been selected! <br/> Here is your order:')
 
     // Call Prolog to display final order
     session.query(`displaySelections(1).`)
