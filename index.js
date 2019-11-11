@@ -15,51 +15,6 @@ session.consult(":- use_module(library(lists)).")
 let currentProgress = 'meals'
 let nextItem = false
 
-let messages = {
-  bread_choices: `
-  <br/>
-  What about your bread?
-  <br/>
-  `,
-  meat_choices: `
-  <br/>
-  Meat meat? One meat
-  <br/>
-  `,
-  veggie_choices: `
-  <br/>
-  Time for some greens! One for now
-  <br/>
-  `,
-  all_sauce_choices: `
-  <br/>
-  Choose one of our tasty sauces
-  <br/>
-  `,
-  non_fat_sauce_choices: `
-  <br/>
-  Choose one of our fat-free sauces
-  <br/>
-  Honey_Mustard
-  <br/>
-  Sweet_Onion
-  `,
-  all_top_up_choices: `
-  <br/>
-  One of top-ups
-  <br/>
-  `,
-  non_cheese_topup_choices: `
-  <br/>
-  One of cheese free top-ups
-  <br/>
-  `,
-  side_choices: `
-  <br/>
-  Finally, choose one side
-  <br/>
-  `
-}
 // For ingredients with multiple selections
 let orderContents = {
   meat: ``,
@@ -110,7 +65,7 @@ $(document).click(function (e) {
 // Carry out logic whenever an item button is clicked
 function buttonClicked(fact) {
 
-  let selectedIngredient = selectedIngredient
+  let selectedIngredient = fact.toUpperCase()
 
   // Carry out functions based on current progress
   switch (currentProgress) {
