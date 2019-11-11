@@ -150,9 +150,9 @@ function buttonClicked(fact) {
               }</b> meal, no meat options for you. ${
               messages.veggie_choices
               }`
-            ) 
+            )
             $("#btn-group").empty()
-            console.log('setting to veggies')
+
             session.query("options(veggies).")
             session.answer()
             currentProgress = 'veggies'
@@ -165,7 +165,7 @@ function buttonClicked(fact) {
               }`
             )
             $("#btn-group").empty()
-            console.log('setting to meat')
+
             session.query("options(meats).")
             session.answer()
             currentProgress = 'meats'
@@ -219,7 +219,7 @@ function buttonClicked(fact) {
                 'staff',
                 `<b>${orderContents.veggie}</b> just arrived today morning from New Zealands! and  becuase you chose <b>${orderContents.meal}</b> ${messages.non_fat_sauce_choices}`
               )
-              console.log('generating non fat sauces')
+
               $("#btn-group").empty()
               session.query("options(sauces).")
               session.answer()
@@ -228,7 +228,7 @@ function buttonClicked(fact) {
                 'staff',
                 `<b>${orderContents.veggie}</b> just arrived today morning from New Zealands! ${messages.all_sauce_choices}</b>`
               )
-              console.log('generating all sauces')
+
               $("#btn-group").empty()
               session.query("options(sauces).")
               session.answer()
@@ -388,9 +388,8 @@ function buttonClicked(fact) {
 
 }
 
-// ---- Print Messages
 updateDialogueBox('staff', messages.greetings)
-console.log('2')
+console.log('Version' + '1')
 $("#btn-group").empty()
 session.query("options(meals).")
 session.answer()
