@@ -100,7 +100,7 @@ chosen_sides(L), member(X,L),!.
 % Get user corresponding choice
 % findall(X, pred(X), List) - Find possible values for predicate and add to the List
 
-show_meals(meals) :- 
+show_meals(Meals) :- 
 write('Displaying selected meal'),
 findall(X, chosen_meals(X), Meals), displayOrder(Meals).
 
