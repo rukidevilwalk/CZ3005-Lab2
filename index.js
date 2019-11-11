@@ -110,8 +110,8 @@ function buttonClicked(fact) {
   switch (currentProgress) {
     case 'meals':
       // Add user's response
-      updateDialogueBox('user', fact)
       orderContents.meal = fact.toUpperCase()
+      updateDialogueBox('user', orderContents.meal)
       if (fact == 'vegan' || fact == 'veggie') {
         orderContents.meat = 'NO MEAT'
       } else if (fact == 'value') {
@@ -134,8 +134,9 @@ function buttonClicked(fact) {
       break
     case 'breads':
       // Add user's response
-      updateDialogueBox('user', fact)
+
       orderContents.bread = fact.toUpperCase()
+      updateDialogueBox('user', orderContents.bread)
       session.query(`selected(${fact},breads).`)
       session.query(`ask_meats(X).`)
       session.answer(answer => {
@@ -196,7 +197,7 @@ function buttonClicked(fact) {
           currentProgress = 'veggies'
         })
       } else {
-console.log('new')
+
         orderContents.meat = orderContents.meat + (orderContents.meat != '' ? ' , ' : '') + fact.toUpperCase()
 
         session.query(`selected(${fact},meats).`)
@@ -236,7 +237,7 @@ console.log('new')
         })
         currentProgress = 'sauces'
       } else {
-        orderContents.veggie = orderContents.veggie + ' , ' + fact.toUpperCase()
+        orderContents.veggie = orderContents.veggie + (orderContents.veggie != '' ? ' , ' : '') + fact.toUpperCase()
         session.query(`selected(${fact},veggies).`)
       }
 
@@ -283,7 +284,7 @@ console.log('new')
           }
         })
       } else {
-        orderContents.sauce = orderContents.sauce + ' , ' + fact.toUpperCase()
+        orderContents.sauce = orderContents.sauce + (orderContents.sauce != '' ? ' , ' : '') + fact.toUpperCase()
         session.query(`selected(${fact},sauces).`)
       }
 
@@ -307,7 +308,7 @@ console.log('new')
         $("#nextItem").html('Confirm Order');
         currentProgress = 'sides'
       } else {
-        orderContents.topup = orderContents.topup + ' , ' + fact.toUpperCase()
+        orderContents.topup = orderContents.topup + (orderContents.topup != '' ? ' , ' : '') + fact.toUpperCase()
         session.query(`selected(${fact},topups).`)
       }
 
@@ -363,7 +364,7 @@ console.log('new')
               `
         )
       } else {
-        orderContents.side = orderContents.side + ' , ' + fact.toUpperCase()
+        orderContents.side = orderContents.side + (orderContents.side != '' ? ' , ' : '') + fact.toUpperCase()
         session.query(`selected(${fact},sides).`)
       }
 
