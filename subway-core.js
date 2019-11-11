@@ -188,14 +188,15 @@ behaviour(List1),
 random_member(B1, List1),
 behaviour(B1, List2),
 random_member(B, List2),
-displayStaffGesture(B1,B).
+displayStaffGesture(B).
 
 % GUI functions
 
 % Display staff gesture
-displayStaffGesture(X,Y) :-
+displayStaffGesture(X) :-
 create(a, A),  
-atom_concat(X, Y, Z),                                       
+    atom_concat('<', X, Y),        
+    atom_concat(Y, '> Welcome to Subway, what kind of meal would you like?', Z),                                 
     html(A, Z),                                  
     get_by_id('subway-header', Parent),
     append_child(Parent, A).
