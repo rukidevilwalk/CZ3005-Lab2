@@ -1,5 +1,4 @@
 export default `
-:-use_module(library(lists)).
 :- dynamic(chosen_meals/1).
 :- dynamic(chosen_meats/1).
 :- dynamic(chosen_sides/1).
@@ -77,8 +76,6 @@ selected(X,sauces) :- \\+check_selection(X, sauces) ->asserta(chosen_sauces(X)).
 selected(X,topups) :- \\+check_selection(X, topups) ->asserta(chosen_topups(X)).
 selected(X,sides) :- \\+check_selection(X, sides) ->asserta(chosen_sides(X)).
 
-
-
 % Check if X is already in chosen list
 check_selection(X, breads):- 
 chosen_breads(L), member(X,L),!. 
@@ -135,9 +132,9 @@ findall(X, chosen_sides(X), Sides), displayOrder(Sides).
 displaySelections(X) :- 
 (X==1) ->
 write('Prolog - Displaying selections:'),
-show_meals(Meals),
-show_breads(Breads),
-show_meats(Meats).
+show_meals(meals),
+show_breads(breads),
+show_meats(meats).
 
 %show_meals(meals),
 %show_breads(breads), 
@@ -153,10 +150,21 @@ displayOrder([]):- % empty list
 write('Empty List').
 
 displayOrder([H]) :- % last item in list
-write(H).
+write(H),
+write('disPlayOrderLastItem'),
+create(a, A),                                         
+    html(A, H),
+create(br, BR),                                     
+    get_by_id('subway-contents', Parent),
+    append_child(Parent, A),
+    append_child(Parent, BR).
     
 displayOrder([H|T]) :-  % List with items more than one
 write(H),
+create(a, A),                                         
+    html(A, H ),                                   
+    get_by_id('subway-contents', Parent),
+    append_child(Parent, A),
 displayOrder(T), !. % remove item in list and call the function again
 
 % create menu item for GUI
