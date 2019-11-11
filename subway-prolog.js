@@ -1,4 +1,5 @@
 export default `
+:- use_module(library(lists)).
 :- dynamic(chosen_meals/1).
 :- dynamic(chosen_meats/1).
 :- dynamic(chosen_sides/1).
@@ -9,6 +10,9 @@ export default `
 :- dynamic(options/1).
 :- dynamic(createDOMV2/1).
 :- dynamic(createDOMV1/1).
+:- dynamic(createUserReply/1).
+:- dynamic(member/2).
+
 % Set up list methods for appending
 append([], Y, Y).
 append([H|X], Y, [H|Z]) :- append(X, Y, Z).
@@ -126,7 +130,7 @@ create(a, A),
     get_by_id('user-contents', Parent),
     append_child(Parent, A).
         
-createUserReply([H|T]) :-  % List with items more than one
+createUserReply([[H|T]]) :-  % List with items more than one
 create(a, A),                                         
     html(A,H),                
     get_by_id('user-contents', Parent),
