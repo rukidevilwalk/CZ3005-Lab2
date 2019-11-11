@@ -99,28 +99,6 @@ chosen_topups(L), member(X,L).
 check_selection(X, sides):- 
 chosen_sides(L), member(X,L).
 
-% Check if X is already in chosen list
-check_selection(X, breads):- 
-chosen_breads(L), member(X,L),!. 
-
-check_selection(X, meats):- 
-chosen_meats(L), member(X,L),!.
-
-check_selection(X, meals):- 
-chosen_meals(L), member(X,L),!.
-
-check_selection(X, veggies):- 
-chosen_veggies(L), member(X,L),!.
-
-check_selection(X, sauces):-
-chosen_sauces(L), member(X,L),!.
-
-check_selection(X, topups):- 
-chosen_topups(L), member(X,L),!.
-
-check_selection(X, sides):- 
-chosen_sides(L), member(X,L),!.
-
 % Get user corresponding choice
 % findall(X, pred(X), List) - Find possible values for predicate and add to the List
 show_meals(Meals) :- findall(X, chosen_meals(X), Meals).
