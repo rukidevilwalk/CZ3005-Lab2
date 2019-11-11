@@ -134,7 +134,7 @@ show_sides(Sides).
 % For displaying the final order
 % Used to add the selected ingredients to a <a></a> and appends to the GUI
 
-displayOrder(X,[]). % empty list
+displayOrder(X,[]):- % empty list
 create(a, A),  
 atom_concat(X, 'None selected.', Y),                                       
     html(A, Y),
