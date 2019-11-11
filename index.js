@@ -1,7 +1,7 @@
 import subway_interactor from './subway-core.js'
 
 
-console.log('Version' + ' 2')
+console.log('Version' + ' 1')
 // Init
 
 //Init prolog session
@@ -163,7 +163,9 @@ function updateBread(selectedIngredient, fact) {
 }
 
 function updateMeats(selectedIngredient, fact) {
+  console.log('nextitem: ' + nextItem)
   if (nextItem) {
+    console.log('meat next item')
     // Update Dialogue
     updateUserDialogueBox(orderContents.meat)
 
