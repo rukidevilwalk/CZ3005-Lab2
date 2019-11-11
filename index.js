@@ -17,11 +17,11 @@ let nextItem = false
 
 // For ingredients with multiple selections
 let orderContents = {
-  meat: ``,
-  veggie: ``,
-  sauce: ``,
-  topup: ``,
-  side: ``,
+  meat: 'No meat',
+  veggie: 'No veggie',
+  sauce: 'No sauce',
+  topup: 'No topup',
+  side: 'No side'
 }
 
 // Update user's dialogue box contents
@@ -80,32 +80,22 @@ $(document).click(function (e) {
         break
 
       case 'meats':
-        if (orderContents.meat == '')
-        selectedIngredient = 'No meat'
         updateMeats(selectedIngredient, fact)
         break
 
       case 'veggies':
-          if (orderContents.veggie == '')
-          selectedIngredient = 'No veggies'
         updateVeggies(selectedIngredient, fact)
         break
 
       case 'sauces':
-          if (orderContents.sauce == '')
-          selectedIngredient = 'No sauce'
         updateSauces(selectedIngredient, fact)
         break
 
       case 'topups':
-          if (orderContents.topup == '')
-          selectedIngredient = 'No topup'
         updateTopups(selectedIngredient, fact)
         break
 
       case 'sides':
-          if (orderContents.side == '')
-          selectedIngredient = 'No side'
         updateSides(selectedIngredient, fact)
         break
 
