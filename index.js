@@ -152,6 +152,7 @@ function buttonClicked(fact) {
               }`
             )
             $("#btn-group").empty()
+            console.log('setting to meat')
             session.query("options(veggies).")
             session.answer()
             currentProgress = 'veggies'
@@ -163,8 +164,8 @@ function buttonClicked(fact) {
               messages.meat_choices
               }`
             )
-            $('#nextItem').show()
             $("#btn-group").empty()
+            console.log('setting to meat')
             session.query("options(meats).")
             session.answer()
             currentProgress = 'meats'
