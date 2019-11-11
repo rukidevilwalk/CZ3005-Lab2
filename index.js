@@ -87,7 +87,7 @@ const updateDialogueBox = (type, contents) => {
   //     .empty()
   //     .append('I would like ' + contents)
   //     .end()
-  }
+ // }
 
 }
 
