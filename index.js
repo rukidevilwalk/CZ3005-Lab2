@@ -68,14 +68,6 @@ let currentProgress = 'meals'
 
 let nextItem = false
 
-const setItemString = (item, fact) => {
-  if (item == "") {
-    item = fact.toUpperCase()
-  } else {
-    item = item + ' , ' + fact.toUpperCase()
-  }
-}
-
 const updateDialogueBox = (type, contents) => {
 
   if (type == 'staff') {
@@ -204,7 +196,8 @@ function buttonClicked(fact) {
           currentProgress = 'veggies'
         })
       } else {
-        setItemString(orderContents.meat, fact)
+
+        orderContents.meat = orderContents.meat + (orderContents.meat == '' ? ' , ' : '') + fact.toUpperCase()
 
         session.query(`selected(${fact},meats).`)
       }
