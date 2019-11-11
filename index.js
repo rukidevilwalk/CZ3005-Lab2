@@ -11,18 +11,11 @@ session.consult(":- use_module(library(dom)).")
 session.consult(":- use_module(library(js)).")
 session.consult(":- use_module(library(lists)).")
 
-// Init interaction for first ingredient
-updateDialogueBox('staff', ' Welcome to Subway! What kind of meal would you like?')
-$("#btn-group").empty()
-session.query("options(meals).")
-session.answer()
-$('#nextItem').hide()
-
 // Declare variables
 let currentProgress = 'meals'
 let nextItem = false
 
-const messages = {
+let messages = {
   bread_choices: `
   <br/>
   What about your bread?
@@ -76,35 +69,29 @@ let orderContents = {
   side: ``,
 }
 
-
-
-function updateDialogueBox(type, contents) {
-  if (type == 'staff') {
-    $('#subway-header')
+function updateUserDialogueBox(contents) {
+  if (contents == '') {
+    $('#user-contents')
       .empty()
-      .append(contents)
+      .append('None for me')
       .end()
-
-    $('#subway-contents')
+  } else {
+    $('#user-contents')
       .empty()
+      .append('I would like ' + contents)
       .end()
   }
+}
 
-  if (type == 'user') {
-    if (contents == '') {
-      $('#user-contents')
-        .empty()
-        .append('None for me')
-        .end()
-    } else {
-      $('#user-contents')
-        .empty()
-        .append('I would like ' + contents)
-        .end()
-    }
+function updateStaffDialogueBox(contents) {
+  $('#subway-header')
+    .empty()
+    .append(contents)
+    .end()
 
-  }
-
+  $('#subway-contents')
+    .empty()
+    .end()
 }
 
 // Listener for dynamically created buttons
@@ -128,11 +115,10 @@ function buttonClicked(fact) {
   // Carry out functions based on current progress
   switch (currentProgress) {
     case 'meals':
-      updateDialogueBox('user', selectedIngredient)
+      updateUserDialogueBox(selectedIngredient)
       session.query(`selected(${fact},meals).`)
       session.answer()
-      updateDialogueBox(
-        'staff',
+      updateStaffDialogueBox(
         `Going for <b>${selectedIngredient}</b> meal alrighty! ${messages.bread_choices}`
       )
 
@@ -144,7 +130,7 @@ function buttonClicked(fact) {
       break
 
     case 'breads':
-      updateDialogueBox('user', orderContents.bread)
+      updateUserDialogueBox(orderContents.bread)
       session.query(`selected(${fact},breads).`)
       session.answer()
       session.query(`get_meats(X).`)
@@ -152,8 +138,7 @@ function buttonClicked(fact) {
         if (pl.type.is_substitution(answer)) {
           let result = answer.lookup('X')
           if (result == '[]') {
-            updateDialogueBox(
-              'staff',
+            updateStaffDialogueBox(
               `<b>${selectedIngredient}</b> was just freshly baked by our chef Since you chose <b>${
               orderContents.meal
               }</b> meal, no meat options for you. ${
@@ -167,8 +152,7 @@ function buttonClicked(fact) {
             currentProgress = 'veggies'
           } else {
             // meat
-            updateDialogueBox(
-              'staff',
+            updateStaffDialogueBox(
               `<b>${selectedIngredient}</b> was just freshly baked by our chef${
               messages.meat_choices
               }`
@@ -189,12 +173,11 @@ function buttonClicked(fact) {
     case 'meats':
       if (nextItem) {
         // Add user's response
-        updateDialogueBox('user', orderContents.meat)
+        updateUserDialogueBox(orderContents.meat)
         session.query(`get_veggies(X).`)
         session.answer(answer => {
           if (pl.type.is_substitution(answer)) {
-            updateDialogueBox(
-              'staff',
+            updateStaffDialogueBox(
               `Juicy and tender <b>${orderContents.meat}</b>! ${messages.veggie_choices}`
             )
             nextItem = false;
@@ -216,14 +199,13 @@ function buttonClicked(fact) {
     case 'veggies':
       if (nextItem) {
         // Add user's response
-        updateDialogueBox('user', orderContents.veggie)
+        updateUserDialogueBox(orderContents.veggie)
         session.query(`get_sauces(X).`)
         session.answer(answer => {
           if (pl.type.is_substitution(answer)) {
             let result = answer.lookup('X')
             if (result == '[[honey_mustard, sweet_onion]]') {
-              updateDialogueBox(
-                'staff',
+              updateStaffDialogueBox(
                 `<b>${orderContents.veggie}</b> just arrived today morning from New Zealands! and  becuase you chose <b>${orderContents.meal}</b> ${messages.non_fat_sauce_choices}`
               )
 
@@ -231,8 +213,7 @@ function buttonClicked(fact) {
               session.query("options(sauces).")
               session.answer()
             } else {
-              updateDialogueBox(
-                'staff',
+              updateStaffDialogueBox(
                 `<b>${orderContents.veggie}</b> just arrived today morning from New Zealands! ${messages.all_sauce_choices}</b>`
               )
 
@@ -253,14 +234,13 @@ function buttonClicked(fact) {
 
     case 'sauces':
       if (nextItem) {
-        updateDialogueBox('user', orderContents.sauce)
+        updateUserDialogueBox(orderContents.sauce)
         session.query(`get_topups(X).`)
         session.answer(answer => {
           if (pl.type.is_substitution(answer)) {
             let result = answer.lookup('X')
             if (result == '[]') {
-              updateDialogueBox(
-                'staff',
+              updateStaffDialogueBox(
                 `<b>${orderContents.sauce}</b> is our crowd favourite <br/> Becuase you chose <b>${orderContents.meal}</b> meal, no top-up options for you ${messages.side_choices}`
               )
               $("#btn-group").empty()
@@ -269,8 +249,7 @@ function buttonClicked(fact) {
               $("#nextItem").html('Confirm Order');
               currentProgress = 'sides'
             } else if (result == '[[avocado, egg_mayo]]') {
-              updateDialogueBox(
-                'staff',
+              updateStaffDialogueBox(
                 `<b>${orderContents.sauce}</b> is our crowd favourite <br/> Becuase you chose <b>${orderContents.meal}</b> meal, no cheese top-up for you ${messages.non_cheese_topup_choices}`
               )
               $("#btn-group").empty()
@@ -278,8 +257,7 @@ function buttonClicked(fact) {
               session.answer()
               currentProgress = 'topups'
             } else {
-              updateDialogueBox(
-                'staff',
+              updateStaffDialogueBox(
                 `<b>${orderContents.sauce}</b> is our crowd favourite ${messages.all_top_up_choices}`
               )
               $("#btn-group").empty()
@@ -299,12 +277,11 @@ function buttonClicked(fact) {
 
     case 'topups':
       if (nextItem) {
-        updateDialogueBox('user', orderContents.topup)
+        updateUserDialogueBox(orderContents.topup)
         session.query(`get_sides(X).`)
         session.answer(answer => {
           if (pl.type.is_substitution(answer)) {
-            updateDialogueBox(
-              'staff',
+            updateStaffDialogueBox(
               ` <b>${orderContents.topup}</b>? Good choice ${messages.side_choices}`
             )
             nextItem = false
@@ -326,8 +303,7 @@ function buttonClicked(fact) {
       if (nextItem) {
         $('#nextItem').hide()
         $('#selection-area').hide()
-        updateDialogueBox(
-          'staff', 'Here is your order:')
+        updateStaffDialogueBox('Here is your order:')
         session.query(`displaySelections(1).`)
         session.answer()
       } else {
@@ -343,3 +319,9 @@ function buttonClicked(fact) {
 
 }
 
+// Init interaction for first ingredient
+updateStaffDialogueBox(' Welcome to Subway! What kind of meal would you like?')
+$("#btn-group").empty()
+session.query("options(meals).")
+session.answer()
+$('#nextItem').hide()
