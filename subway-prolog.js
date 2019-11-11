@@ -145,9 +145,9 @@ show_meats(meats).
 
 %% GUI functions
 
-displayOrder([]). % empty list
+displayOrder([[]]). % empty list
 
-displayOrder([H]) :- % last item in list
+displayOrder([[H]]) :- % last item in list
 write(H),
 write('disPlayOrderLastItem'),
 create(a, A),                                         
@@ -157,13 +157,13 @@ create(br, BR),
     append_child(Parent, A),
     append_child(Parent, BR).
     
-displayOrder([H|T]) :-  % List with items more than one
+displayOrder([[H|T]]) :-  % List with items more than one
 write(H),
 create(a, A),                                         
     html(A, H ),                                   
     get_by_id('subway-contents', Parent),
     append_child(Parent, A),
-displayOrder(T), !. % remove item in list and call the function again
+displayOrder([T]), !. % remove item in list and call the function again
 
 % create menu item for GUI
 createMenuItems(H) :-                                    
