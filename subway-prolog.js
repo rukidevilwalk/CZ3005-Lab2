@@ -144,6 +144,16 @@ show_meats(Meats).
 %show_topups(topups),
 %show_sides(sides).
 
+show_meals1(meals) :- 
+write('Displaying selected meal1'),
+chosen_meals(L), 
+displayOrder(L).
+
+
+
+
+
+
 %% GUI functions
 
 displayOrder([[]]):- % empty list
