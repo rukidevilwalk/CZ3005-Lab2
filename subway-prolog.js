@@ -102,18 +102,45 @@ chosen_sides(L), member(X,L),!.
 
 % Get user corresponding choice
 % findall(X, pred(X), List) - Find possible values for predicate and add to the List
-show_meals(Meals) :- findall(X, chosen_meals(X), Meals).
-show_breads(Breads) :- findall(X, chosen_breads(X), Breads).
-show_meats(Meats) :- findall(X, chosen_meats(X), Meats).
-show_veggies(Veggies) :- findall(X, chosen_veggies(X), Veggies).
-show_sauces(Sauces) :- findall(X, chosen_sauces(X), Sauces).
-show_topups(TopUps) :- findall(X, chosen_topups(X), TopUps).
-show_sides(Sides) :- findall(X, chosen_sides(X), Sides).
+show_meals(Meals) :- findall(X, chosen_meals(X), Meals), displayOrder(Meals).
+show_breads(Breads) :- findall(X, chosen_breads(X), Breads), displayOrder(Breads).
+show_meats(Meats) :- findall(X, chosen_meats(X), Meats), displayOrder(Meats).
+show_veggies(Veggies) :- findall(X, chosen_veggies(X), Veggies), displayOrder(Veggies).
+show_sauces(Sauces) :- findall(X, chosen_sauces(X), Sauces), displayOrder(Sauces).
+show_topups(Topups) :- findall(X, chosen_topups(X), Topups), displayOrder(Topups).
+show_sides(Sides) :- findall(X, chosen_sides(X), Sides), displayOrder(Sides).
+
+displayOrder(X) :- 
+(X==1) ->
+ show_meals(Meals), 
+ show_breads(Breads),
+ show_meats(Meats),
+ show_veggies(Veggies),
+ show_sauces(Sauces),
+ show_topups(Topups),
+ show_sides(Sides).
 
 %% GUI functions
 
-% create list item for GUI
-createListItem(H) :-                                    
+displayOrder([]). % empty list
+
+displayOrder([H]) :- % last item in list
+create(a, A),                                         
+    html(A, H),
+create(br, BR),                                     
+    get_by_id('subway-contents', Parent),
+    append_child(Parent, A),
+    append_child(Parent, BR).
+    
+displayOrder([H|T]) :-  % List with items more than one
+create(a, A),                                         
+    html(A, H ),                                   
+    get_by_id('subway-contents', Parent),
+    append_child(Parent, A).
+displayOrder(T), !. % remove item in list and call the function again
+
+% create menu item for GUI
+createMenuItems(H) :-                                    
 create(a, A),                                         
     html(A, H),
 create(br, BR),                                     
@@ -137,12 +164,12 @@ createDOMV1([]). % empty list
 
 createDOMV1([H]) :- % last item in list
 createButton(H),
-createListItem(H).
+createMenuItems(H).
     
 createDOMV1([H|T]) :-  % List with items more than one
 createButton(H),
-createDOMV1(T),
-createListItem(H), !. % remove item in list and call the function again
+createMenuItems(H),
+createDOMV1(T), !. % remove item in list and call the function again
 
 % createDOMV2 is the same as createDOMV1 except it's for nested lists
 
@@ -150,11 +177,11 @@ createDOMV2([[]]). % empty list
 
 createDOMV2([[H]]) :- % last item in list
 createButton(H),
-createListItem(H).
+createMenuItems(H).
 
 % List contains more than 1 item
 createDOMV2([[H|T]]) :-  
 createButton(H),
-createListItem(H),
+createMenuItems(H),
 createDOMV2([T]), !. % remove item in list and call the function again
 `

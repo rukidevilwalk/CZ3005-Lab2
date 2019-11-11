@@ -320,50 +320,57 @@ function buttonClicked(fact) {
       if (nextItem) {
         $('#nextItem').hide()
         $('#selection-area').hide()
+        session.query(`displayOrder(1).`)
+        session.answer()
         updateDialogueBox(
           'staff',
-          `Okay! Your order
-              <br/>
-              <br/>
-              Meal
-              <br/>
-              <b>${orderContents.meal}</b>
-              <br/>
-              <br/>
-              Bread
-              <br/>
-              <b>${orderContents.bread}</b>
-              <br/>
-              <br/>
-              Meat
-              <br/>
-              <b>${orderContents.meat}</b>
-              <br/>
-              <br/>
-              Veggie
-              <br/>
-              <b>${orderContents.veggie}</b>
-              <br/>
-              <br/>
-              Sauce
-              <br/>
-              <b>${orderContents.sauce}</b> 
-              <br/>
-              <br/>
-              Topup
-              <br/>
-              <b>${orderContents.topup}</b>
-              <br/>
-              <br/>
-              Side
-              <br/>
-              <b>${orderContents.side}</b>
-              <br/>
-              <br/>
-              is being prepared.Thank you for choosing Subway!
-              If you would like to make new order, refresh the page 
+          `Okay! Your order is:
               `
         )
+        // updateDialogueBox(
+        //   'staff',
+        //   `Okay! Your order
+        //       <br/>
+        //       <br/>
+        //       Meal
+        //       <br/>
+        //       <b>${orderContents.meal}</b>
+        //       <br/>
+        //       <br/>
+        //       Bread
+        //       <br/>
+        //       <b>${orderContents.bread}</b>
+        //       <br/>
+        //       <br/>
+        //       Meat
+        //       <br/>
+        //       <b>${orderContents.meat}</b>
+        //       <br/>
+        //       <br/>
+        //       Veggie
+        //       <br/>
+        //       <b>${orderContents.veggie}</b>
+        //       <br/>
+        //       <br/>
+        //       Sauce
+        //       <br/>
+        //       <b>${orderContents.sauce}</b> 
+        //       <br/>
+        //       <br/>
+        //       Topup
+        //       <br/>
+        //       <b>${orderContents.topup}</b>
+        //       <br/>
+        //       <br/>
+        //       Side
+        //       <br/>
+        //       <b>${orderContents.side}</b>
+        //       <br/>
+        //       <br/>
+        //       is being prepared.Thank you for choosing Subway!
+        //       If you would like to make new order, refresh the page 
+        //       `
+        // )
       } else {
         orderContents.side = orderContents.side + (orderContents.side != '' ? ' , ' : '') + fact.toUpperCase()
         session.query(`selected(${fact},sides).`)
