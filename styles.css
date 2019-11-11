@@ -1,12 +1,13 @@
 body > div > div > div:nth-child(2) > span {
   background: #008838;
-  padding: 10px;
   font-size: 21px;
   border-radius: 50%;
+  padding: 10px;
+  
 }
 body > div > div > div.msj-rta.macro {
-  margin: auto;
   margin-left: 1%;
+  margin: auto;
 }
 
 #subway-contents > a {
@@ -15,14 +16,14 @@ body > div > div > div.msj-rta.macro {
 
 ul {
   width: 100%;
-  list-style-type: none;
-  padding: 18px;
-  position: absolute;
-  bottom: 47px;
   display: flex;
   flex-direction: column;
-  top: 0;
+  list-style-type: none;
+  bottom: 47px;
+  padding: 18px;
+  position: absolute;
   overflow-y: hidden;
+  top: 0;
 }
 
 #subway-contents {
