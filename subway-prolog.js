@@ -99,13 +99,34 @@ chosen_sides(L), member(X,L),!.
 
 % Get user corresponding choice
 % findall(X, pred(X), List) - Find possible values for predicate and add to the List
-show_meals(meals) :- findall(X, chosen_meals(X), Meals), displayOrder(Meals).
-show_breads(breads) :- findall(X, chosen_breads(X), Breads), displayOrder(Breads).
-show_meats(meats) :- findall(X, chosen_meats(X), Meats), displayOrder(Meats).
-show_veggies(veggies) :- findall(X, chosen_veggies(X), Veggies), displayOrder(Veggies).
-show_sauces(sauces) :- findall(X, chosen_sauces(X), Sauces), displayOrder(Sauces).
-show_topups(topups) :- findall(X, chosen_topups(X), Topups), displayOrder(Topups).
-show_sides(sides) :- findall(X, chosen_sides(X), Sides), displayOrder(Sides).
+
+show_meals(meals) :- 
+write('Displaying selected meal'),
+findall(X, chosen_meals(X), Meals), displayOrder(Meals).
+
+show_breads(breads) :-
+write('Displaying selected bread'),
+findall(X, chosen_breads(X), Breads), displayOrder(Breads).
+
+show_meats(meats) :- 
+write('Displaying selected meats'),
+findall(X, chosen_meats(X), Meats), displayOrder(Meats).
+
+show_veggies(veggies) :- 
+write('Displaying selected veggies'),
+findall(X, chosen_veggies(X), Veggies), displayOrder(Veggies).
+
+show_sauces(sauces) :- 
+write('Displaying selected sauces'),
+findall(X, chosen_sauces(X), Sauces), displayOrder(Sauces).
+
+show_topups(topups) :- 
+write('Displaying selected topups'),
+findall(X, chosen_topups(X), Topups), displayOrder(Topups).
+
+show_sides(sides) :- 
+write('Displaying selected sides'),
+findall(X, chosen_sides(X), Sides), displayOrder(Sides).
 
 displaySelections(X) :- 
 (X==1) ->
