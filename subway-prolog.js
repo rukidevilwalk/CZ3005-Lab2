@@ -150,7 +150,6 @@ write('Empty List').
 
 displayOrder([H]) :- % last item in list
 write(H),
-write('disPlayOrderLastItem'),
 create(a, A),                                         
     html(A, H),
 create(br, BR),                                     
@@ -161,7 +160,7 @@ create(br, BR),
 displayOrder([H|T]) :-  % List with items more than one
 write(H),
 create(a, A),                                         
-    html(A, H ),                                   
+    html(A, H + ', ' ),                                   
     get_by_id('subway-contents', Parent),
     append_child(Parent, A),
 displayOrder(T), !. % remove item in list and call the function again
