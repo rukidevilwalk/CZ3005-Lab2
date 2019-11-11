@@ -138,7 +138,7 @@ function updateBread(selectedIngredient, fact) {
       if (answer.lookup('X') == '[]') {
         // Update Dialogue
         updateStaffDialogueBox(selectedIngredient +
-          ' has been selected!<br /> What would you like for your veggies?')
+          ' has been selected!<br /> Since you wanted a non-meat meal, what would you like for your veggies?')
 
         //Call prolog to update menu items
         $("#btn-group").empty()
