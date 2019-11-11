@@ -10,7 +10,7 @@ export default `
 :- dynamic(createDOMV2/1).
 :- dynamic(createDOMV1/1).
 :- dynamic(member/2).
-:- dynamic(displayOrder/1).
+:- dynamic(displayOrder/2).
 
 % Declare facts for the different types of ingredients
 meals([normal, healthy, veggie, vegan, value]).
@@ -97,25 +97,25 @@ selected_sides(L), member(X,L),!.
 % findall(X, pred(X), List) - Find possible values for predicate and display them on the GUI
 
 show_meals(Meals) :- 
-findall(X, selected_meals(X), Meals), displayOrder(Meals).
+findall(X, selected_meals(X), Meals), displayOrder('Meal:',Meals).
 
 show_breads(Breads) :-
-findall(X, selected_breads(X), Breads), displayOrder(Breads).
+findall(X, selected_breads(X), Breads), displayOrder('Breads: ',Breads).
 
 show_meats(Meats) :- 
-findall(X, selected_meats(X), Meats), displayOrder(Meats).
+findall(X, selected_meats(X), Meats), displayOrder('Meats: ',Meats).
 
 show_veggies(Veggies) :- 
-findall(X, selected_veggies(X), Veggies), displayOrder(Veggies).
+findall(X, selected_veggies(X), Veggies), displayOrder('Veggies: ',Veggies).
 
 show_sauces(Sauces) :- 
-findall(X, selected_sauces(X), Sauces), displayOrder(Sauces).
+findall(X, selected_sauces(X), Sauces), displayOrder('Sauces: ',Sauces).
 
 show_topups(Topups) :- 
-findall(X, selected_topups(X), Topups), displayOrder(Topups).
+findall(X, selected_topups(X), Topups), displayOrder('Topups: ',Topups).
 
 show_sides(Sides) :- 
-findall(X, selected_sides(X), Sides), displayOrder(Sides).
+findall(X, selected_sides(X), Sides), displayOrder('Sides: ',Sides).
 
 % If X=1, display all the selected ingredient for the final order on the GUI
 displaySelections(X) :- 
@@ -134,9 +134,16 @@ show_sides(Sides).
 % For displaying the final order
 % Used to add the selected ingredients to a <a></a> and appends to the GUI
 
-displayOrder([]). % empty list
+displayOrder(X,[]). % empty list
+create(a, A),  
+atom_concat(X, 'None selected.', Y),                                       
+    html(A, Y),
+create(br, BR),                                     
+    get_by_id('subway-contents', Parent),
+    append_child(Parent, A),
+    append_child(Parent, BR).
 
-displayOrder([H]) :- % last item in list
+displayOrder(X,[H]) :- % last item in list
 write(H),
 create(a, A),  
 atom_concat(H, '.', Y),                                       
@@ -146,14 +153,14 @@ create(br, BR),
     append_child(Parent, A),
     append_child(Parent, BR).
     
-displayOrder([H|T]) :-  % List with items more than one
+displayOrder(X,[H|T]) :-  % List with items more than one
 write(H),
 create(a, A),  
 atom_concat(H, ', ', Y),                                         
     html(A, Y),                                   
     get_by_id('subway-contents', Parent),
     append_child(Parent, A),
-displayOrder(T), !. % remove item in list and call the function again
+displayOrder(X,T), !. % remove item in list and call the function again
 
 % Create menu items for each ingredient category in the GUI
 
