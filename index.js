@@ -390,7 +390,7 @@ function buttonClicked(fact) {
 
 // ---- Print Messages
 updateDialogueBox('staff', messages.greetings)
-console.log('2')
+console.log('1')
 $("#btn-group").empty()
 session.query("options(meals).")
 session.answer()

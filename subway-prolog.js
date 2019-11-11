@@ -112,9 +112,10 @@ show_topups(topups) :- findall(X, chosen_topups(X), Topups), displayOrder(Topups
 show_sides(sides) :- findall(X, chosen_sides(X), Sides), displayOrder(Sides).
 
 display(X) :- 
-show_breads(breads).
+(X==1) ->
+show_meals(meals).
 
- %show_meals(meals), 
+ %show_breads(breads), 
  %show_meats(meats),
  %show_veggies(veggies),
  %show_sauces(sauces),
