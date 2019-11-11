@@ -69,14 +69,16 @@ function buttonClicked(fact) {
 
   // Carry out functions based on current progress
   switch (currentProgress) {
+
     case 'meals':
+      // Update Dialogue
       updateUserDialogueBox(selectedIngredient)
+      updateStaffDialogueBox(selectedIngredient + 'has been selected!<br /> What would you like for your bread?')
+      // Call prolog to assert selected item 
       session.query(`selected(${fact},meals).`)
       session.answer()
-      updateStaffDialogueBox(
-        `Going for <b>${selectedIngredient}</b> meal alrighty! ${messages.bread_choices}`
-      )
 
+      //Call prolog to update menu items
       $("#btn-group").empty()
       session.query("options(breads).")
       session.answer()
