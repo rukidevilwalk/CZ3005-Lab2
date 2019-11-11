@@ -106,7 +106,6 @@ $(document).click(function (e) {
 
 // Carry out logic whenever an item button is clicked
 function buttonClicked(fact) {
-  $("#user-contents").html('')
   // Carry out functions based on current progress
   switch (currentProgress) {
     case 'meals':
@@ -126,6 +125,7 @@ function buttonClicked(fact) {
           )
           $("#btn-group").empty()
           $("#user-header").html('I would like ')
+          $("#user-contents").html('')
           session.query("options(breads),setUserReply(Meals).")
           session.answer()
         }
@@ -134,6 +134,7 @@ function buttonClicked(fact) {
 
       break
     case 'breads':
+        $("#user-contents").html('')
       // Add user's response
       orderContents.bread = fact.toUpperCase()
       session.query(`selected(${fact},breads).`)
