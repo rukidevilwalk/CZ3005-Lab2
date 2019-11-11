@@ -131,8 +131,8 @@ function updateBread(selectedIngredient, fact) {
 
   // Call prolog to check if meat needs to be displayed 
   session.query(`get_meats(X).`)
-  session.answer(answer => {
-    if (pl.type.is_substitution(answer)) {
+  session.answer(result => {
+    if (pl.type.is_substitution(result)) {
       // If result is empty, that means vegan or veggies was selected
       if (answer.lookup('X') == '[]') {
         // Update Dialogue
@@ -170,8 +170,8 @@ function updateMeats(selectedIngredient, fact) {
 
     // Call prolog to check if meat needs to be displayed 
     session.query(`get_veggies(X).`)
-    session.answer(answer => {
-      if (pl.type.is_substitution(answer)) {
+    session.answer(result => {
+      if (pl.type.is_substitution(result)) {
         // Update Dialogue
         updateStaffDialogueBox(orderContents.meat +
           ' has been selected!<br /> What would you like for your veggies?')
@@ -203,8 +203,8 @@ function updateVeggies(selectedIngredient, fact) {
     // Call prolog to check what kind of sauces need to be displayed 
     // non-fat sauces for healthy meals
     session.query(`get_sauces(X).`)
-    session.answer(answer => {
-      if (pl.type.is_substitution(answer)) {
+    session.answer(result => {
+      if (pl.type.is_substitution(result)) {
         // Prolog replies with Non-fat sauces
         if (answer.lookup('X') == '[[honey_mustard, sweet_onion]]') {
           // Update Dialogue
@@ -244,8 +244,8 @@ function updateSauces(selectedIngredient, fact) {
 
     // Call prolog to check if topups need to be displayed 
     session.query(`get_topups(X).`)
-    session.answer(answer => {
-      if (pl.type.is_substitution(answer)) {
+    session.answer(result => {
+      if (pl.type.is_substitution(result)) {
         // If result is empty, that means value meal was selected
         let result = answer.lookup('X')
         if (result == '[]') {
