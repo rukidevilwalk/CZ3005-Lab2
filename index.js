@@ -24,6 +24,7 @@ let orderContents = {
   side: ``,
 }
 
+// Update user's dialogue box contents
 function updateUserDialogueBox(contents) {
   if (contents == '') {
     $('#user-contents')
@@ -38,6 +39,7 @@ function updateUserDialogueBox(contents) {
   }
 }
 
+// Update subway staff's dialogue box contents
 function updateStaffDialogueBox(contents) {
   $('#subway-header')
     .empty()
@@ -106,7 +108,7 @@ function updateMeal(selectedIngredient, fact) {
   // Update Dialogue
   updateUserDialogueBox(selectedIngredient)
   updateStaffDialogueBox(selectedIngredient +
-    'has been selected!<br /> What would you like for your bread?')
+    ' has been selected!<br /> What would you like for your bread?')
 
   // Call prolog to assert selected item 
   session.query(`selected(${fact},meals).`)
@@ -136,7 +138,7 @@ function updateBread(selectedIngredient, fact) {
       if (answer.lookup('X') == '[]') {
         // Update Dialogue
         updateStaffDialogueBox(selectedIngredient +
-          'has been selected!<br /> What would you like for your veggies?')
+          ' has been selected!<br /> What would you like for your veggies?')
 
         //Call prolog to update menu items
         $("#btn-group").empty()
@@ -146,7 +148,7 @@ function updateBread(selectedIngredient, fact) {
       } else {
         // Update Dialogue
         updateStaffDialogueBox(selectedIngredient +
-          'has been selected!<br /> What would you like for your meat?')
+          ' has been selected!<br /> What would you like for your meat?')
         $("#btn-group").empty()
 
         //Call prolog to update menu items
@@ -171,7 +173,7 @@ function updateMeats(selectedIngredient, fact) {
       if (pl.type.is_substitution(answer)) {
         // Update Dialogue
         updateStaffDialogueBox(selectedIngredient +
-          'has been selected!<br /> What would you like for your veggies?')
+          ' has been selected!<br /> What would you like for your veggies?')
 
         //Call prolog to update menu items
         nextItem = false;
@@ -205,7 +207,7 @@ function updateVeggies(selectedIngredient, fact) {
         if (result == '[[honey_mustard, sweet_onion]]') {
           // Update Dialogue
           updateStaffDialogueBox(selectedIngredient +
-            'has been selected!<br /> Since you wanted a healthy meal, what would you like for your non-fat sauces?')
+            ' has been selected!<br /> Since you wanted a healthy meal, what would you like for your non-fat sauces?')
 
           //Call prolog to update menu items
           $("#btn-group").empty()
@@ -214,7 +216,7 @@ function updateVeggies(selectedIngredient, fact) {
         } else {
           // Update Dialogue
           updateStaffDialogueBox(selectedIngredient +
-            'has been selected!<br /> What would you like for your sauces?')
+            ' has been selected!<br /> What would you like for your sauces?')
 
           //Call prolog to update menu items
           $("#btn-group").empty()
@@ -246,7 +248,7 @@ function updateSauces(selectedIngredient, fact) {
         if (answer.lookup('X') == '[]') {
           // Update Dialogue
           updateStaffDialogueBox(selectedIngredient +
-            'has been selected!<br /> Since you wanted a value meal, there will be no topups. <br/> What would you like for your sides?')
+            ' has been selected!<br /> Since you wanted a value meal, there will be no topups. <br/> What would you like for your sides?')
 
           //Call prolog to update menu items
           $("#btn-group").empty()
@@ -257,7 +259,7 @@ function updateSauces(selectedIngredient, fact) {
         } else if (result == '[[avocado, egg_mayo]]') {
           // Update Dialogue
           updateStaffDialogueBox(selectedIngredient +
-            'has been selected!<br /> Since you wanted a vegan meal, there will only be non-cheese topups. <br/> What would you like for your topups?')
+            ' has been selected!<br /> Since you wanted a vegan meal, there will only be non-cheese topups. <br/> What would you like for your topups?')
 
           //Call prolog to update menu items
           $("#btn-group").empty()
@@ -267,7 +269,7 @@ function updateSauces(selectedIngredient, fact) {
         } else {
           // Update Dialogue
           updateStaffDialogueBox(selectedIngredient +
-            'has been selected!<br /> What would you like for your topups?')
+            ' has been selected!<br /> What would you like for your topups?')
 
           //Call prolog to update menu items
           $("#btn-group").empty()
@@ -291,7 +293,7 @@ function updateTopups(selectedIngredient, fact) {
     // Update Dialogue
     updateUserDialogueBox(selectedIngredient)
     updateStaffDialogueBox(selectedIngredient +
-      'has been selected!<br /> What would you like for your sides?')
+      ' has been selected!<br /> What would you like for your sides?')
 
     //Call prolog to update menu items
     nextItem = false
