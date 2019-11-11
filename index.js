@@ -17,11 +17,11 @@ let nextItem = false
 
 // For ingredients with multiple selections
 let orderContents = {
-  meat: 'No meat',
-  veggie: 'No veggie',
-  sauce: 'No sauce',
-  topup: 'No topup',
-  side: 'No side'
+  meat: ``,
+  veggie: ``,
+  sauce: ``,
+  topup: ``,
+  side: ``,
 }
 
 // Update user's dialogue box contents
@@ -41,11 +41,18 @@ function updateUserDialogueBox(contents) {
 
 // Update subway staff's dialogue box contents
 function updateStaffDialogueBox(contents) {
-  $('#subway-header')
-    .empty()
-    .append(contents)
-    .end()
-
+  if (contents == '') {
+    $('#user-contents')
+      .empty()
+      .append('Nothing')
+      .end()
+  } else {
+    $('#subway-header')
+      .empty()
+      .append(contents)
+      .end()
+  }
+  
   $('#subway-contents')
     .empty()
     .end()
@@ -189,7 +196,7 @@ function updateMeats(selectedIngredient, fact) {
     })
   } else {
 
-    orderContents.meat = orderContents.meat + (orderContents.meat != 'No meat' ? ' , ' : '') + selectedIngredient
+    orderContents.meat = orderContents.meat + (orderContents.meat != '' ? ' , ' : '') + selectedIngredient
     // Call prolog to assert selected item 
     session.query(`selected(${fact},meats).`)
     session.answer()
@@ -231,7 +238,7 @@ function updateVeggies(selectedIngredient, fact) {
     })
     currentProgress = 'sauces'
   } else {
-    orderContents.veggie = orderContents.veggie + (orderContents.veggie != 'No veggie' ? ' , ' : '') + selectedIngredient
+    orderContents.veggie = orderContents.veggie + (orderContents.veggie != '' ? ' , ' : '') + selectedIngredient
     // Call prolog to assert selected item 
     session.query(`selected(${fact},veggies).`)
     session.answer()
@@ -285,7 +292,7 @@ function updateSauces(selectedIngredient, fact) {
       }
     })
   } else {
-    orderContents.sauce = orderContents.sauce + (orderContents.sauce != 'No sauce' ? ' , ' : '') + selectedIngredient
+    orderContents.sauce = orderContents.sauce + (orderContents.sauce != '' ? ' , ' : '') + selectedIngredient
     // Call prolog to assert selected item 
     session.query(`selected(${fact},sauces).`)
     session.answer()
@@ -307,7 +314,7 @@ function updateTopups(selectedIngredient, fact) {
     $("#nextItem").html('Confirm Order');
     currentProgress = 'sides'
   } else {
-    orderContents.topup = orderContents.topup + (orderContents.topup != 'No topup' ? ' , ' : '') + selectedIngredient
+    orderContents.topup = orderContents.topup + (orderContents.topup != '' ? ' , ' : '') + selectedIngredient
     // Call prolog to assert selected item 
     session.query(`selected(${fact},topups).`)
     session.answer()
@@ -328,7 +335,7 @@ function updateSides(selectedIngredient, fact) {
     session.query(`displaySelections(1).`)
     session.answer()
   } else {
-    orderContents.side = orderContents.side + (orderContents.side != 'No side' ? ' , ' : '') + selectedIngredient
+    orderContents.side = orderContents.side + (orderContents.side != '' ? ' , ' : '') + selectedIngredient
     // Call prolog to assert selected item 
     session.query(`selected(${fact},sides).`)
     session.answer()
@@ -338,8 +345,8 @@ function updateSides(selectedIngredient, fact) {
 // Init interaction for first ingredient
 //updateStaffDialogueBox('Welcome to Subway! What kind of meal would you like?')
 $("#btn-group").empty()
- // Call Prolog to display menu for meal selection
- session.query("setStaffBehaviour(list).")
- session.answer()
+// Call Prolog to display menu for meal selection
+session.query("setStaffBehaviour(list).")
+session.answer()
 session.query("options(meals).")
 session.answer()
