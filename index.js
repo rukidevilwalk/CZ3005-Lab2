@@ -81,31 +81,31 @@ $(document).click(function (e) {
 
       case 'meats':
         if (orderContents.meat == '')
-        selectedIngredient = 'Nothing'
+        selectedIngredient = 'No meat'
         updateMeats(selectedIngredient, fact)
         break
 
       case 'veggies':
           if (orderContents.veggie == '')
-          selectedIngredient = 'Nothing'
+          selectedIngredient = 'No veggies'
         updateVeggies(selectedIngredient, fact)
         break
 
       case 'sauces':
           if (orderContents.sauce == '')
-          selectedIngredient = 'Nothing'
+          selectedIngredient = 'No sauce'
         updateSauces(selectedIngredient, fact)
         break
 
       case 'topups':
           if (orderContents.topup == '')
-          selectedIngredient = 'Nothing'
+          selectedIngredient = 'No topup'
         updateTopups(selectedIngredient, fact)
         break
 
       case 'sides':
           if (orderContents.side == '')
-          selectedIngredient = 'Nothing'
+          selectedIngredient = 'No side'
         updateSides(selectedIngredient, fact)
         break
 
