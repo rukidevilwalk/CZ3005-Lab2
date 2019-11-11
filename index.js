@@ -150,7 +150,7 @@ function buttonClicked(fact) {
               }</b> meal, no meat options for you. ${
               messages.veggie_choices
               }`
-            )
+            ) 
             $("#btn-group").empty()
             console.log('setting to veggies')
             session.query("options(veggies).")
