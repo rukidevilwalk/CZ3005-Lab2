@@ -1,4 +1,4 @@
-import subway_interactor from './subway-core.js'
+import subway_interactor from './core.js/index.js'
 
 
 console.log('Version' + ' 1')
