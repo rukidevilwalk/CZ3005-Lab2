@@ -197,8 +197,8 @@ displayStaffGesture(B).
 displayStaffGesture(B) :-
 write('create staff behaviour'),
 create(a, A),  
-    atom_concat('<', B, Y),        
-    atom_concat(Y, '> Welcome to Subway, what kind of meal would you like?', Z),                                 
+    atom_concat('-', B, Y),        
+    atom_concat(Y, '- Welcome to Subway, what kind of meal would you like?', Z),                                 
     html(A, Z),                                  
     get_by_id('subway-header', Parent),
     append_child(Parent, A).
