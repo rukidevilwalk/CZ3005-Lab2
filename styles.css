@@ -84,3 +84,7 @@ ul {
 #subway-contents {
   font-weight: bold;
 }
+
+#btn-group > button {
+  text-transform: capitalize;
+}
