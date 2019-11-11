@@ -10,7 +10,7 @@ session.consult(subway_interactor)
 session.consult(":- use_module(library(dom)).")
 session.consult(":- use_module(library(js)).")
 session.consult(":- use_module(library(lists)).")
-
+session.consult(":- use_module(library(random)).")
 // Declare variables
 let currentProgress = 'meals'
 let nextItem = false
