@@ -51,9 +51,10 @@ function updateStaffDialogueBox(contents) {
     .end()
 }
 
-function nextMenu() {
+$('#nextItem').click(function () {
   nextItem = true
-}
+})
+
 // Listener for dynamically created buttons
 // Carry out logic whenever an item button is clicked
 $(document).click(function (e) {
