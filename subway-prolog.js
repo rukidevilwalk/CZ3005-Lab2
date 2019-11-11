@@ -113,7 +113,7 @@ write('Displaying selected meats'),
 findall(X, chosen_meats(X), Meats), displayOrder(Meats).
 
 show_veggies(veggies) :- 
-write('Displaying selected veggies'),
+write('Displaying selected veggiess'),
 findall(X, chosen_veggies(X), Veggies), displayOrder(Veggies).
 
 show_sauces(sauces) :- 
@@ -130,7 +130,7 @@ findall(X, chosen_sides(X), Sides), displayOrder(Sides).
 
 displaySelections(X) :- 
 (X==1) ->
-write('Prolog - Displaying selections:)
+write('Prolog - Displaying selections:),
 show_meals(meals),
 show_breads(breads),
 show_meats(meats).
