@@ -134,25 +134,11 @@ displaySelections(X) :-
 write('Prolog - Displaying selections:'),
 show_meals(Meals),
 show_breads(Breads),
-show_meats(Meats).
-
-%show_meals(meals),
-%show_breads(breads), 
-%show_meats(meats),
-%show_veggies(veggies),
-%show_sauces(sauces), 
-%show_topups(topups),
-%show_sides(sides).
-
-show_meals1(meals) :- 
-write('Displaying selected meal1'),
-chosen_meals(L),
-write(L).
-
-
-
-
-
+show_meats(Meats),
+show_veggies(Veggies),
+show_sauces(Sauces), 
+show_topups(Topups),
+show_sides(Sides).
 
 %% GUI functions
 
