@@ -17,11 +17,11 @@ let nextItem = false
 
 // For ingredients with multiple selections
 let orderContents = {
-  meat: ``,
-  veggie: ``,
-  sauce: ``,
-  topup: ``,
-  side: ``,
+  meat: '',
+  veggie: '',
+  sauce: '',
+  topup: '',
+  side: ''
 }
 
 // Update user's dialogue box contents
@@ -202,7 +202,7 @@ function updateVeggies(selectedIngredient, fact) {
     // Update Dialogue
     updateUserDialogueBox(orderContents.veggie)
     if (orderContents.veggie == '')
-    orderContents.veggie = 'No veggie'
+      orderContents.veggie = 'No veggie'
     // Call prolog to check what kind of sauces need to be displayed 
     // non-fat sauces for healthy meals
     session.query(`get_sauces(X).`)
@@ -245,7 +245,7 @@ function updateSauces(selectedIngredient, fact) {
     // Update Dialogue
     updateUserDialogueBox(orderContents.sauce)
     if (orderContents.sauce == '')
-    orderContents.sauce = 'No sauce'
+      orderContents.sauce = 'No sauce'
     // Call prolog to check if topups need to be displayed 
     session.query(`get_topups(X).`)
     session.answer(result => {
@@ -300,7 +300,7 @@ function updateTopups(selectedIngredient, fact) {
     // Update Dialogue
     updateUserDialogueBox(orderContents.topup)
     if (orderContents.topup == '')
-    orderContents.topup = 'No topup'
+      orderContents.topup = 'No topup'
     updateStaffDialogueBox(orderContents.topup +
       ' has been selected!<br /> What would you like for your sides?')
 
@@ -328,7 +328,7 @@ function updateSides(selectedIngredient, fact) {
     // Update Dialogue
     updateUserDialogueBox(orderContents.side)
     if (orderContents.side == '')
-    orderContents.side = 'No side'
+      orderContents.side = 'No side'
     updateStaffDialogueBox(orderContents.side + ' has been selected! <br/> Here is your order:')
 
     // Call Prolog to display final order
