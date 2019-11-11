@@ -111,7 +111,7 @@ show_sauces(sauces) :- findall(X, chosen_sauces(X), Sauces), displayOrder(Sauces
 show_topups(topups) :- findall(X, chosen_topups(X), Topups), displayOrder(Topups).
 show_sides(sides) :- findall(X, chosen_sides(X), Sides), displayOrder(Sides).
 
-displayOrder(X) :- 
+display(X) :- 
 show_breads(breads).
 
  %show_meals(meals), 
