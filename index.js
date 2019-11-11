@@ -130,7 +130,7 @@ function buttonClicked(fact) {
 
       currentProgress = 'breads'
       break
-      
+
     case 'breads':
       // Add user's response
 
@@ -324,6 +324,7 @@ function buttonClicked(fact) {
           `Okay! Your order is:
               `
         )
+        console.log('Displaying Selections!s')
         session.query(`displaySelections(1).`)
         session.answer()
         // updateDialogueBox(
@@ -387,7 +388,7 @@ function buttonClicked(fact) {
 }
 
 updateDialogueBox('staff', messages.greetings)
-console.log('Version' + ' s2')
+console.log('Version' + ' 1')
 $("#btn-group").empty()
 session.query("options(meals).")
 session.answer()
