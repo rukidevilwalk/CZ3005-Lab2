@@ -205,8 +205,8 @@ function updateVeggies(selectedIngredient, fact) {
     session.query(`get_sauces(X).`)
     session.answer(answer => {
       if (pl.type.is_substitution(answer)) {
-        let result = answer.lookup('X')
-        if (result == '[[honey_mustard, sweet_onion]]') {
+        // Prolog replies with Non-fat sauces
+        if (answer.lookup('X') == '[[honey_mustard, sweet_onion]]') {
           // Update Dialogue
           updateStaffDialogueBox(orderContents.veggie +
             ' has been selected!<br /> Since you wanted a healthy meal, what would you like for your non-fat sauces?')
@@ -247,7 +247,8 @@ function updateSauces(selectedIngredient, fact) {
     session.answer(answer => {
       if (pl.type.is_substitution(answer)) {
         // If result is empty, that means value meal was selected
-        if (answer.lookup('X') == '[]') {
+        let result = answer.lookup('X')
+        if (result == '[]') {
           // Update Dialogue
           updateStaffDialogueBox(orderContents.sauce +
             ' has been selected!<br /> Since you wanted a value meal, there will be no topups. <br/> What would you like for your sides?')
