@@ -82,11 +82,11 @@ const updateDialogueBox = (type, contents) => {
       .end()
   }
 
-  if (type == 'user') {
-    $('#user-contents')
-      .empty()
-      .append('I would like ' + contents)
-      .end()
+  // if (type == 'user') {
+  //   $('#user-contents')
+  //     .empty()
+  //     .append('I would like ' + contents)
+  //     .end()
   }
 
 }
