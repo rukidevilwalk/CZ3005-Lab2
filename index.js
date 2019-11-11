@@ -34,7 +34,7 @@ const messages = {
   `,
   non_fat_sauce_choices: `
   <br/>
-  Chose one of our fat-free sauces
+  Choose one of our fat-free sauces
   <br/>
   Honey_Mustard
   <br/>
@@ -138,7 +138,7 @@ function buttonClicked(fact) {
       updateDialogueBox('user', orderContents.bread)
       session.query(`selected(${fact},breads).`)
       session.answer()
-      session.query(`ask_meats(X).`)
+      session.query(`get_meats(X).`)
       session.answer(answer => {
         if (pl.type.is_substitution(answer)) {
           let result = answer.lookup('X')
@@ -182,7 +182,7 @@ function buttonClicked(fact) {
       if (nextItem) {
         // Add user's response
         updateDialogueBox('user', orderContents.meat)
-        session.query(`ask_veggies(X).`)
+        session.query(`get_veggies(X).`)
         session.answer(answer => {
           if (pl.type.is_substitution(answer)) {
             updateDialogueBox(
@@ -211,7 +211,7 @@ function buttonClicked(fact) {
       if (nextItem) {
         // Add user's response
         updateDialogueBox('user', orderContents.veggie)
-        session.query(`ask_sauces(X).`)
+        session.query(`get_sauces(X).`)
         session.answer(answer => {
           if (pl.type.is_substitution(answer)) {
             let result = answer.lookup('X')
@@ -250,7 +250,7 @@ function buttonClicked(fact) {
       if (nextItem) {
         // Add user's response
         updateDialogueBox('user', orderContents.sauce)
-        session.query(`ask_topups(X).`)
+        session.query(`get_topups(X).`)
         session.answer(answer => {
           if (pl.type.is_substitution(answer)) {
             let result = answer.lookup('X')
@@ -296,7 +296,7 @@ function buttonClicked(fact) {
     case 'topups':
       if (nextItem) {
         updateDialogueBox('user', orderContents.topup)
-        session.query(`ask_sides(X).`)
+        session.query(`get_sides(X).`)
         session.answer(answer => {
           if (pl.type.is_substitution(answer)) {
             updateDialogueBox(
