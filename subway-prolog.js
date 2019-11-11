@@ -10,6 +10,7 @@ export default `
 :- dynamic(createDOMV2/1).
 :- dynamic(createDOMV1/1).
 :- dynamic(member/2).
+:- dynamic(displayOrder/1).
 
 % Set up list methods for appending
 append([], Y, Y).
