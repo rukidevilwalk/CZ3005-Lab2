@@ -33,39 +33,39 @@ non_cheese_topups([avocado, egg_mayo]).
 sides([chips, cookies, hashbrowns, drinks]).
 
 % Get possible meals
-ask_meals(X) :- meals(X).
+get_meals(X) :- meals(X).
 
 % Get possible breads
-ask_breads(X) :- breads(X).
+get_breads(X) :- breads(X).
 
 % Get possible meats
 % Vegan and Veggie meals do not have meat options
-ask_meats(X) :- findall(X, (chosen_meals(Y), \\+vegan_meal(Y), \\+veggie_meal(Y), meats(X)), X).
+get_meats(X) :- findall(X, (chosen_meals(Y), \\+vegan_meal(Y), \\+veggie_meal(Y), meats(X)), X).
 
 % Get possible veggies
-ask_veggies(X) :- veggies(X).
+get_veggies(X) :- veggies(X).
 
 % Get possible  sauces.
 % Healthy meals do not have fatty sauces
-ask_sauces(X) :- findall(X, (chosen_meals(Y), healthy_meal(Y) -> non_fatty_sauces(X);
+get_sauces(X) :- findall(X, (chosen_meals(Y), healthy_meal(Y) -> non_fatty_sauces(X);
                  fatty_sauces(L1), non_fatty_sauces(L2), append(L1, L2, X)), X).
 
 % Get possible topups
 % Value meal does not have topup and  Vegan meal does not have cheese topup.
-ask_topups(X) :- findall(X, (chosen_meals(Y), \\+value_meal(Y) -> (vegan_meal(Y) -> non_cheese_topups(X);
+get_topups(X) :- findall(X, (chosen_meals(Y), \\+value_meal(Y) -> (vegan_meal(Y) -> non_cheese_topups(X);
                  cheese_topups(L1), non_cheese_topups(L2), append(L1, L2, X))), X).
 
 % Get possible sides
-ask_sides(X) :- sides(X).
+get_sides(X) :- sides(X).
 
 % options is used get the list based on current arguments and creates the relevant HTML DOMs for GUI
-options(meals) :- ask_meals(L), createDOMV1(L).
-options(sauces) :- ask_sauces(L), createDOMV2(L).
-options(breads) :- ask_breads(L), createDOMV1(L).
-options(meats) :- ask_meats(L), createDOMV2(L).
-options(veggies) :- ask_veggies(L), createDOMV1(L).
-options(topups) :- ask_topups(L), createDOMV2(L).
-options(sides) :- ask_sides(L), createDOMV1(L).
+options(meals) :- get_meals(L), createDOMV1(L).
+options(sauces) :- get_sauces(L), createDOMV2(L).
+options(breads) :- get_breads(L), createDOMV1(L).
+options(meats) :- get_meats(L), createDOMV2(L).
+options(veggies) :- get_veggies(L), createDOMV1(L).
+options(topups) :- get_topups(L), createDOMV2(L).
+options(sides) :- get_sides(L), createDOMV1(L).
 
 % selected is used to assert facts based on the given argument
 % only will assert if X is not already in chose list
