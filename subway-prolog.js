@@ -58,7 +58,7 @@ ask_sides(X) :- sides(X).
 % options is used get the list based on current arguments and creates the relevant HTML DOMs for GUI
 options(meals) :- ask_meals(L), createDOMV1(L).
 options(sauces) :- ask_sauces(L), createDOMV2(L).
-options(breads) :- ask_breads(L), createDOMV1(L); chosen_meals(L1), createUserReply(L1) .
+options(breads) :- ask_breads(L), createDOMV1(L), chosen_meals(L1), createUserReply(L1) .
 options(meats) :- ask_meats(L), createDOMV2(L).
 options(veggies) :- ask_veggies(L), createDOMV1(L).
 options(topups) :- ask_topups(L), createDOMV2(L).
