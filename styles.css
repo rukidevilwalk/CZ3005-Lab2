@@ -29,6 +29,10 @@ ul {
   font-weight: bold;
 }
 
+#subway-contents > a {
+  padding-bottom: 2px;
+}
+
 #btn-group > button {
   text-transform: capitalize;
 }
