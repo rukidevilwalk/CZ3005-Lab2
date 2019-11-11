@@ -117,21 +117,20 @@ function buttonClicked(fact) {
       } else if (fact == 'value') {
         orderContents.topup = 'NO TOPUP'
       }
-      session.query(`selected(${fact},meals), show_meals(X).`)
-      session.answer(answer => {
-        if (pl.type.is_substitution(answer)) {
-          updateDialogueBox(
-            'staff',
-            `Going for <b>${orderContents.meal}</b> meal alrighty! ${messages.bread_choices}`
-          )
-          $("#btn-group").empty()
-          session.query("options(breads).")
-          session.answer()
-        }
-        currentProgress = 'breads'
-      })
+      session.query(`selected(${fact},meals)`)
 
+      updateDialogueBox(
+        'staff',
+        `Going for <b>${orderContents.meal}</b> meal alrighty! ${messages.bread_choices}`
+      )
+
+      $("#btn-group").empty()
+      session.query("options(breads).")
+      session.answer()
+
+      currentProgress = 'breads'
       break
+      
     case 'breads':
       // Add user's response
 
@@ -388,7 +387,7 @@ function buttonClicked(fact) {
 }
 
 updateDialogueBox('staff', messages.greetings)
-console.log('Version' + '2')
+console.log('Version' + ' s2')
 $("#btn-group").empty()
 session.query("options(meals).")
 session.answer()
