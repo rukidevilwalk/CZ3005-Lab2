@@ -189,7 +189,7 @@ function updateMeats(selectedIngredient, fact) {
     })
   } else {
 
-    orderContents.meat = orderContents.meat + (orderContents.meat != '' ? ' , ' : '') + selectedIngredient
+    orderContents.meat = orderContents.meat + (orderContents.meat != 'No meat' ? ' , ' : '') + selectedIngredient
     // Call prolog to assert selected item 
     session.query(`selected(${fact},meats).`)
     session.answer()
@@ -231,7 +231,7 @@ function updateVeggies(selectedIngredient, fact) {
     })
     currentProgress = 'sauces'
   } else {
-    orderContents.veggie = orderContents.veggie + (orderContents.veggie != '' ? ' , ' : '') + selectedIngredient
+    orderContents.veggie = orderContents.veggie + (orderContents.veggie != 'No veggie' ? ' , ' : '') + selectedIngredient
     // Call prolog to assert selected item 
     session.query(`selected(${fact},veggies).`)
     session.answer()
@@ -285,7 +285,7 @@ function updateSauces(selectedIngredient, fact) {
       }
     })
   } else {
-    orderContents.sauce = orderContents.sauce + (orderContents.sauce != '' ? ' , ' : '') + selectedIngredient
+    orderContents.sauce = orderContents.sauce + (orderContents.sauce != 'No sauce' ? ' , ' : '') + selectedIngredient
     // Call prolog to assert selected item 
     session.query(`selected(${fact},sauces).`)
     session.answer()
@@ -307,7 +307,7 @@ function updateTopups(selectedIngredient, fact) {
     $("#nextItem").html('Confirm Order');
     currentProgress = 'sides'
   } else {
-    orderContents.topup = orderContents.topup + (orderContents.topup != '' ? ' , ' : '') + selectedIngredient
+    orderContents.topup = orderContents.topup + (orderContents.topup != 'No topup' ? ' , ' : '') + selectedIngredient
     // Call prolog to assert selected item 
     session.query(`selected(${fact},topups).`)
     session.answer()
@@ -328,7 +328,7 @@ function updateSides(selectedIngredient, fact) {
     session.query(`displaySelections(1).`)
     session.answer()
   } else {
-    orderContents.side = orderContents.side + (orderContents.side != '' ? ' , ' : '') + selectedIngredient
+    orderContents.side = orderContents.side + (orderContents.side != 'No side' ? ' , ' : '') + selectedIngredient
     // Call prolog to assert selected item 
     session.query(`selected(${fact},sides).`)
     session.answer()
