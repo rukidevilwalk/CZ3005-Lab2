@@ -134,7 +134,7 @@ function updateBread(selectedIngredient, fact) {
   session.answer(result => {
     if (pl.type.is_substitution(result)) {
       // If result is empty, that means vegan or veggies was selected
-      if (answer.lookup('X') == '[]') {
+      if (result.lookup('X') == '[]') {
         // Update Dialogue
         updateStaffDialogueBox(selectedIngredient +
           ' has been selected!<br /> Since you wanted a non-meat meal, what would you like for your veggies?')
@@ -206,7 +206,7 @@ function updateVeggies(selectedIngredient, fact) {
     session.answer(result => {
       if (pl.type.is_substitution(result)) {
         // Prolog replies with Non-fat sauces
-        if (answer.lookup('X') == '[[honey_mustard, sweet_onion, yelow_mustard, deli_brown_mustard]]') {
+        if (result.lookup('X') == '[[honey_mustard, sweet_onion, yelow_mustard, deli_brown_mustard]]') {
           // Update Dialogue
           updateStaffDialogueBox(orderContents.veggie +
             ' has been selected!<br /> Since you wanted a healthy meal, what would you like for your non-fat sauces?')
@@ -247,7 +247,7 @@ function updateSauces(selectedIngredient, fact) {
     session.answer(result => {
       if (pl.type.is_substitution(result)) {
         // If result is empty, that means value meal was selected
-        let result = answer.lookup('X')
+        let result = result.lookup('X')
         if (result == '[]') {
           // Update Dialogue
           updateStaffDialogueBox(orderContents.sauce +
