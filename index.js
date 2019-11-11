@@ -118,7 +118,7 @@ function buttonClicked(fact) {
         orderContents.topup = 'NO TOPUP'
       }
       session.query(`selected(${fact},meals)`)
-
+      session.answer()
       updateDialogueBox(
         'staff',
         `Going for <b>${orderContents.meal}</b> meal alrighty! ${messages.bread_choices}`
@@ -137,6 +137,7 @@ function buttonClicked(fact) {
       orderContents.bread = fact.toUpperCase()
       updateDialogueBox('user', orderContents.bread)
       session.query(`selected(${fact},breads).`)
+      session.answer()
       session.query(`ask_meats(X).`)
       session.answer(answer => {
         if (pl.type.is_substitution(answer)) {
@@ -201,6 +202,7 @@ function buttonClicked(fact) {
         orderContents.meat = orderContents.meat + (orderContents.meat != '' ? ' , ' : '') + fact.toUpperCase()
 
         session.query(`selected(${fact},meats).`)
+        session.answer()
       }
 
 
@@ -239,6 +241,7 @@ function buttonClicked(fact) {
       } else {
         orderContents.veggie = orderContents.veggie + (orderContents.veggie != '' ? ' , ' : '') + fact.toUpperCase()
         session.query(`selected(${fact},veggies).`)
+        session.answer()
       }
 
 
@@ -286,6 +289,7 @@ function buttonClicked(fact) {
       } else {
         orderContents.sauce = orderContents.sauce + (orderContents.sauce != '' ? ' , ' : '') + fact.toUpperCase()
         session.query(`selected(${fact},sauces).`)
+        session.answer()
       }
 
       break
@@ -310,6 +314,7 @@ function buttonClicked(fact) {
       } else {
         orderContents.topup = orderContents.topup + (orderContents.topup != '' ? ' , ' : '') + fact.toUpperCase()
         session.query(`selected(${fact},topups).`)
+        session.answer()
       }
 
 
@@ -325,8 +330,6 @@ function buttonClicked(fact) {
               `
         )
         console.log('Displaying Selections!')
-        session.query(`selected(${'veggie'},meals).`)
-        session.answer()
       //  session.query(`show_meals(Meals).`)
         session.query(`show_meals1(meals).`)
        // session.query(`displaySelections(1).`)
@@ -378,6 +381,7 @@ function buttonClicked(fact) {
       } else {
         orderContents.side = orderContents.side + (orderContents.side != '' ? ' , ' : '') + fact.toUpperCase()
         session.query(`selected(${fact},sides).`)
+        session.answer()
       }
 
 
@@ -392,7 +396,7 @@ function buttonClicked(fact) {
 }
 
 updateDialogueBox('staff', messages.greetings)
-console.log('Version' + ' 3')
+console.log('Version' + ' 1')
 $("#btn-group").empty()
 session.query("options(meals).")
 session.answer()

@@ -146,7 +146,7 @@ show_meats(Meats).
 
 show_meals1(meals) :- 
 write('Displaying selected meal1'),
-chosen_meals(L), 
+chosen_meals(L),
 write(L).
 
 
