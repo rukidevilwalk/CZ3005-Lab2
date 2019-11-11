@@ -145,7 +145,8 @@ show_meats(meats).
 
 %% GUI functions
 
-displayOrder([[]]). % empty list
+displayOrder([[]]):- % empty list
+write('Empty List').
 
 displayOrder([[H]]) :- % last item in list
 write(H),
