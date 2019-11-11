@@ -174,7 +174,8 @@ function buttonClicked(fact) {
             currentProgress = 'meats'
 
           }
-
+          session.query("setUserReply(Breads).")
+          session.answer()
         }
       })
       $('#nextItem').show()
