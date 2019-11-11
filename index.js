@@ -330,9 +330,7 @@ function buttonClicked(fact) {
               `
         )
         console.log('Displaying Selections!')
-      // session.query(`show_meals(Meals).`)
-        //session.query(`show_meals1(meals).`)
-       session.query(`displaySelections(1).`)
+        session.query(`displaySelections(1).`)
         session.answer()
         // updateDialogueBox(
         //   'staff',
