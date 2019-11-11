@@ -64,13 +64,13 @@ options(veggies) :- ask_veggies(L), createDOMV1(L).
 options(topups) :- ask_topups(L), createDOMV2(L).
 options(sides) :- ask_sides(L), createDOMV1(L).
 
-setUserReply(Meals) :- show_meals(L), createUserReply(L). 
-setUserReply(Breads) :- show_breads(L), createUserReply(L). 
-setUserReply(Meats) :- show_meats(L), createUserReply(L). 
-setUserReply(Veggies) :- show_veggies(L), createUserReply(L). 
-setUserReply(Sauces) :- show_sauces(L), createUserReply(L). 
-setUserReply(TopUps) :- show_topups(L), createUserReply(L). 
-setUserReply(Sides) :- show_sides(L), createUserReply(L). 
+setUserReply(meals) :- show_meals(L), createUserReply(L). 
+setUserReply(breads) :- show_breads(L), createUserReply(L). 
+setUserReply(meats) :- show_meats(L), createUserReply(L). 
+setUserReply(veggies) :- show_veggies(L), createUserReply(L). 
+setUserReply(sauces) :- show_sauces(L), createUserReply(L). 
+setUserReply(topups) :- show_topups(L), createUserReply(L). 
+setUserReply(sides) :- show_sides(L), createUserReply(L). 
 
 % selected is used to assert facts based on the given argument
 % only will assert if X is not already in chosen list
