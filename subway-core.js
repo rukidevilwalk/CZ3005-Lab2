@@ -172,7 +172,6 @@ displayOrder('Sides: ',Sides).
 % Declare predicate for displaying all the selected ingredients for the final order on the GUI if input X is 1
 displaySelections(X) :- 
 (X==1) ->
-write('Prolog - Displaying selections:'),
 show_meals(Meals),
 show_breads(Breads),
 show_meats(Meats),
@@ -184,7 +183,6 @@ show_sides(Sides).
 % Chooses a random behaviour
 % Then chooses a random gesture assigned to that selected behaviour
 setStaffBehaviour(list) :-
-write('set staff behaviour'),
 behaviour(List1),
 random_member(B1, List1),
 behaviour(B1, List2),
@@ -195,7 +193,6 @@ displayStaffGesture(B).
 
 % Display staff gesture
 displayStaffGesture(B) :-
-write('create staff behaviour'),
 create(a, A),  
     atom_concat('-', B, Y),        
     atom_concat(Y, '- Welcome to Subway, what kind of meal would you like?', Z),                                 
@@ -217,7 +214,6 @@ create(br, BR),
     
 
 displayOrder(X,[H]) :- % last item in list
-write(H),
 create(a, A),  
 atom_concat(H, '.', Y),                                       
     html(A, Y),
@@ -227,7 +223,6 @@ create(br, BR),
     append_child(Parent, BR).
     
 displayOrder(X,[H|T]) :-  % List with items more than one
-write(H),
 create(a, A),  
 atom_concat(H, ', ', Y),                                         
     html(A, Y),                                   
