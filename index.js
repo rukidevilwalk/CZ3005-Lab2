@@ -152,7 +152,7 @@ function buttonClicked(fact) {
               }`
             )
             $("#btn-group").empty()
-            console.log('setting to meat')
+            console.log('setting to veggies')
             session.query("options(veggies).")
             session.answer()
             currentProgress = 'veggies'
