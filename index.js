@@ -197,7 +197,7 @@ function buttonClicked(fact) {
         })
       } else {
 console.log('new')
-        orderContents.meat = orderContents.meat + (orderContents.meat == '' ? ' , ' : '') + fact.toUpperCase()
+        orderContents.meat = orderContents.meat + (orderContents.meat != '' ? ' , ' : '') + fact.toUpperCase()
 
         session.query(`selected(${fact},meats).`)
       }
