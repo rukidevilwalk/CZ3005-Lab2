@@ -80,22 +80,32 @@ $(document).click(function (e) {
         break
 
       case 'meats':
+        if (orderContents.meat == '')
+        selectedIngredient = 'Nothing'
         updateMeats(selectedIngredient, fact)
         break
 
       case 'veggies':
+          if (orderContents.veggie == '')
+          selectedIngredient = 'Nothing'
         updateVeggies(selectedIngredient, fact)
         break
 
       case 'sauces':
+          if (orderContents.sauce == '')
+          selectedIngredient = 'Nothing'
         updateSauces(selectedIngredient, fact)
         break
 
       case 'topups':
+          if (orderContents.topup == '')
+          selectedIngredient = 'Nothing'
         updateTopups(selectedIngredient, fact)
         break
 
       case 'sides':
+          if (orderContents.side == '')
+          selectedIngredient = 'Nothing'
         updateSides(selectedIngredient, fact)
         break
 
