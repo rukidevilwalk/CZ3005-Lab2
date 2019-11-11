@@ -87,7 +87,7 @@ const updateDialogueBox = (type, contents) => {
   //     .empty()
   //     .append('I would like ' + contents)
   //     .end()
- // }
+  // }
 
 }
 
@@ -127,7 +127,7 @@ function buttonClicked(fact) {
           )
           $("#btn-group").empty()
           $("#user-header").html('I would like ')
-          session.query("options(breads).")
+          session.query("options(breads),setUserReply(Meals).")
           session.answer()
         }
         currentProgress = 'breads'
@@ -306,7 +306,7 @@ function buttonClicked(fact) {
             session.query("options(sides).")
             session.answer()
           }
-        }) 
+        })
         $("#nextItem").html('Confirm Order')
         currentProgress = 'sides'
       } else {
