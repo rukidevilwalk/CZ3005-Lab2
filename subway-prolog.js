@@ -142,7 +142,7 @@ show_sides(Sides).
 
 %% GUI functions
 
-displayOrder([]):- % empty list
+displayOrder([]). % empty list
 
 displayOrder([H]) :- % last item in list
 write(H),
