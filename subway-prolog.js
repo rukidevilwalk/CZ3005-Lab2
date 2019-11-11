@@ -80,25 +80,25 @@ selected(X,sides) :- \\+check_selection(X, sides) ->asserta(chosen_sides(X)).
 % Check if X is already in chosen list
 % ! represents cut/1 where backtracking is stopped if its to be executed
 check_selection(X, breads):- 
-chosen_breads(L), member(X,L), !. 
+chosen_breads(L), member(X,L). 
 
 check_selection(X, meats):- 
-chosen_meats(L), member(X,L), !.
+chosen_meats(L), member(X,L).
 
 check_selection(X, meals):- 
-chosen_meal(L), member(X,L), !.
+chosen_meal(L), member(X,L).
 
 check_selection(X, veggies):- 
-chosen_veggies(L), member(X,L), !.
+chosen_veggies(L), member(X,L).
 
 check_selection(X, sauces):-
-chosen_sauces(L), member(X,L), !.
+chosen_sauces(L), member(X,L).
 
 check_selection(X, topups):- 
-chosen_topups(L), member(X,L), !.
+chosen_topups(L), member(X,L).
 
 check_selection(X, sides):- 
-chosen_sides(L), member(X,L), !.
+chosen_sides(L), member(X,L).
 
 % Get user corresponding choice
 % findall(X, pred(X), List) - Find possible values for predicate and add to the List
