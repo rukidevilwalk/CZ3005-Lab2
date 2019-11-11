@@ -325,7 +325,7 @@ function buttonClicked(fact) {
               `
         )
         console.log('Displaying Selections!')
-        session.query(`selected(${'normal'},meals)`)
+        session.query(`selected(${'normal'},meals).`)
         session.query(`displaySelections(1).`)
         session.answer()
         // updateDialogueBox(
