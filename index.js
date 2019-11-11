@@ -247,8 +247,8 @@ function updateSauces(selectedIngredient, fact) {
     session.answer(result => {
       if (pl.type.is_substitution(result)) {
         // If result is empty, that means value meal was selected
-        let result = result.lookup('X')
-        if (result == '[]') {
+        let result1 = result.lookup('X')
+        if (result1 == '[]') {
           // Update Dialogue
           updateStaffDialogueBox(orderContents.sauce +
             ' has been selected!<br /> Since you wanted a value meal, there will be no topups. <br/> What would you like for your sides?')
@@ -259,7 +259,7 @@ function updateSauces(selectedIngredient, fact) {
           session.answer()
           $("#nextItem").html('Confirm Order');
           currentProgress = 'sides'
-        } else if (result == '[[avocado, egg_mayo]]') {
+        } else if (result1 == '[[avocado, egg_mayo]]') {
           // Update Dialogue
           updateStaffDialogueBox(orderContents.sauce +
             ' has been selected!<br /> Since you wanted a vegan meal, there will only be non-cheese topups. <br/> What would you like for your topups?')
