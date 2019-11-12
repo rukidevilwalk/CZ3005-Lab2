@@ -1,2 +1,1 @@
-# 
-https://rukidevilwalk.github.io/test/
+https://rukidevilwalk.github.io/CZ3005-Lab2/
