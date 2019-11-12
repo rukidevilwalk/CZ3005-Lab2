@@ -202,7 +202,7 @@ create(a, A),
 
 % For displaying the final order
 % Used to add the selected ingredients to a <a></a> and appends to the GUI
-
+% displayOrder is called recursively until the list is exhausted
 displayOrder(X,[]):- % empty list
 create(a, A),  
 atom_concat(X, 'None.', Y),                                       
@@ -253,7 +253,7 @@ add_class(BUTTON, 'btn btn-outline-success btn-sm'),
 
 % CreateDOMV1 is used to create the HTML DOM for the front end based on current list
 % Uses createButton(H) and createMenuItems(H)
-
+% createDOMV1 and createDOMV2 is called recursively until the list is exhausted
 createDOMV1([]). % empty list
 
 createDOMV1([H]) :- % last item in list

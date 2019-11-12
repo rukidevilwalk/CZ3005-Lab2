@@ -31,7 +31,7 @@ behaviour(tired_behaviour, [closing_eyes, grouchy_look, listless_eyes]).
 behaviour(energetic_behaviour, [broad_smile, beaming_voice, whistling]).
 behaviour(calm_behaviour, [looking_composed, looking_attentive, light_smile]).
 
-% Declare facts for meal types
+% Declare facts for meal types, used for checking the valid choices
 is_healthy_meal(healthy).
 is_value_meal(value).
 is_vegan_meal(vegan).
@@ -192,42 +192,26 @@ displayStaffGesture(B).
 
 % Display staff gesture
 displayStaffGesture(B) :-
-create(a, A),  
     atom_concat('-', B, Y),        
     atom_concat(Y, '- Welcome to Subway, what kind of meal would you like?', Z),                                 
-    html(A, Z),                                  
-    get_by_id('subway-header', Parent),
-    append_child(Parent, A).
+write(Z).
 
 % For displaying the final order
 % Used to add the selected ingredients to a <a></a> and appends to the GUI
-
+% displayOrder is called recursively until the list is exhausted
 displayOrder(X,[]):- % empty list
-create(a, A),  
 atom_concat(X, 'None.', Y),                                       
-    html(A, Y),
-create(br, BR),                                     
-    get_by_id('subway-contents', Parent),
-    append_child(Parent, A),
-    append_child(Parent, BR).
+write(Y).
     
 
 displayOrder(X,[H]) :- % last item in list
-create(a, A),  
 atom_concat(H, '.', Y),                                       
-    html(A, Y),
-create(br, BR),                                     
-    get_by_id('subway-contents', Parent),
-    append_child(Parent, A),
-    append_child(Parent, BR).
+write(H).
     
 displayOrder(X,[H|T]) :-  % List with items more than one
-create(a, A),  
 atom_concat(H, ', ', Y),                                         
-    html(A, Y),                                   
-    get_by_id('subway-contents', Parent),
-    append_child(Parent, A),
-displayOrder(X,T), !. % remove item in list and call the function again
+write(Y),
+displayOrder(X,T), !.  
 
 % Create menu items for each ingredient category in the GUI
 
@@ -252,28 +236,24 @@ add_class(BUTTON, 'btn btn-outline-success btn-sm'),
 
 % CreateDOMV1 is used to create the HTML DOM for the front end based on current list
 % Uses createButton(H) and createMenuItems(H)
-
+% createDOMV1 and createDOMV2 is called recursively until the list is exhausted
 createDOMV1([]). % empty list
 
 createDOMV1([H]) :- % last item in list
-createButton(H),
-createMenuItems(H).
+write(H).
     
 createDOMV1([H|T]) :-  % List with items more than one
-createButton(H),
-createMenuItems(H),
-createDOMV1(T), !. % remove item in list and call the function again
+write(H),
+createDOMV1(T), !.  
 
 % createDOMV2 is the same as createDOMV1 except it's for nested lists
 
 createDOMV2([[]]). % empty list
 
 createDOMV2([[H]]) :- % last item in list
-createButton(H),
-createMenuItems(H).
+write(H).
 
 % List contains more than 1 item
 createDOMV2([[H|T]]) :-  
-createButton(H),
-createMenuItems(H),
-createDOMV2([T]), !. % remove item in list and call the function again
+write(H),
+createDOMV2([T]), !.  
