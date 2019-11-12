@@ -32,7 +32,7 @@ behaviour(tired_behaviour, [closing_eyes, grouchy_look, listless_eyes]).
 behaviour(energetic_behaviour, [broad_smile, beaming_voice, whistling]).
 behaviour(calm_behaviour, [looking_composed, looking_attentive, light_smile]).
 
-% Declare facts for meal types
+% Declare facts for meal types, used for checking the valid choices
 is_healthy_meal(healthy).
 is_value_meal(value).
 is_vegan_meal(vegan).
@@ -228,7 +228,7 @@ atom_concat(H, ', ', Y),
     html(A, Y),                                   
     get_by_id('subway-contents', Parent),
     append_child(Parent, A),
-displayOrder(X,T), !. % remove item in list and call the function again
+displayOrder(X,T), !.  
 
 % Create menu items for each ingredient category in the GUI
 
@@ -263,7 +263,7 @@ createMenuItems(H).
 createDOMV1([H|T]) :-  % List with items more than one
 createButton(H),
 createMenuItems(H),
-createDOMV1(T), !. % remove item in list and call the function again
+createDOMV1(T), !.  
 
 % createDOMV2 is the same as createDOMV1 except it's for nested lists
 
@@ -277,5 +277,5 @@ createMenuItems(H).
 createDOMV2([[H|T]]) :-  
 createButton(H),
 createMenuItems(H),
-createDOMV2([T]), !. % remove item in list and call the function again
+createDOMV2([T]), !.  
 `
