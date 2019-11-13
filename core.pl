@@ -1,3 +1,4 @@
+% CLI version of core.js. Not optimized for readability
 % Declare dynamic predicates for storing results
 :- dynamic(selected_meals/1).
 :- dynamic(selected_meats/1).
@@ -212,27 +213,6 @@ displayOrder(X,[H|T]) :-  % List with items more than one
 atom_concat(H, ', ', Y),                                         
 write(Y),
 displayOrder(X,T), !.  
-
-% Create menu items for each ingredient category in the GUI
-
-createMenuItems(H) :-                                    
-create(a, A),                                         
-    html(A, H),
-create(br, BR),                                     
-    get_by_id('subway-contents', Parent),
-    append_child(Parent, BR),
-    append_child(Parent, A).
-
-% Create a button for each ingredient in each category in the GUI
-
-createButton(H) :-    
-create(button, BUTTON),           
-add_class(BUTTON, 'btn btn-outline-success btn-sm'), 
-    set_attr(BUTTON,type, button),
-    set_attr(BUTTON,value, H),
-    html(BUTTON, H),
-    get_by_id('btn-group', Parent),
-    append_child(Parent, BUTTON).
 
 % CreateDOMV1 is used to create the HTML DOM for the front end based on current list
 % Uses createButton(H) and createMenuItems(H)
